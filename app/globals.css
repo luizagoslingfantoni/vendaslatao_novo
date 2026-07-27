@@ -95,7 +95,7 @@ button { font: inherit; }
 
 .teacher { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(55px, 10vw, 160px); align-items: center; background: var(--sand-light); overflow: hidden; }
 .teacher-photo-wrap { position: relative; }
-.teacher-photo { aspect-ratio: .78; background: url("https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1200&q=85") center / cover no-repeat; transform: translateY(calc(var(--scroll) * -.012)); }
+.teacher-photo { aspect-ratio: .78; background: url("https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=1200&q=85") 72% center / cover no-repeat; transform: translateY(calc(var(--scroll) * -.012)); }
 .photo-caption { display: flex; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--line); margin-top: 14px; color: #81796e; font-size: 9px; text-transform: uppercase; letter-spacing: .12em; }
 .teacher-copy { max-width: 550px; }
 .teacher-lead { margin: 0 0 40px; color: var(--clay); font: italic 400 clamp(25px, 3vw, 40px)/1.2 var(--font-display); }
@@ -142,6 +142,9 @@ button { font: inherit; }
 .testimonial-person div { display: flex; flex-direction: column; gap: 4px; }
 .testimonial-person strong { font: 500 14px var(--font-display); }
 .testimonial-person span { color: #81796e; font-size: 9px; text-transform: uppercase; letter-spacing: .1em; }
+.result-list { display: grid; gap: 0; margin-top: 42px; border-top: 1px solid var(--line); }
+.result-list p { position: relative; margin: 0; padding: 18px 0 18px 28px; border-bottom: 1px solid var(--line); color: #6e675e; font-size: 12px; line-height: 1.65; }
+.result-list p::before { content: ""; position: absolute; left: 2px; top: 24px; width: 8px; height: 8px; border: 1px solid var(--clay); border-radius: 50%; }
 .testimonial-nav { display: flex; gap: 18px; align-items: center; justify-content: flex-end; margin-top: 65px; color: #81796e; font-size: 9px; }
 .testimonial-nav button { width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 50%; background: transparent; transition: .2s ease; }
 .testimonial-nav button:hover { background: var(--clay); border-color: var(--clay); color: white; }
@@ -159,6 +162,7 @@ button { font: inherit; }
 .price { display: flex; align-items: flex-start; margin: 9px 0 0; font-family: var(--font-display); color: var(--clay-dark); }
 .price small { margin: 16px 10px 0 0; font-size: 18px; }
 .price strong { font-size: clamp(65px, 7vw, 98px); font-weight: 500; line-height: .8; letter-spacing: -.05em; }
+.price-single strong { font-size: clamp(62px, 6vw, 86px); }
 .price sup { margin-top: 5px; font-size: 25px; }
 .cash { display: block; margin: 20px 0 37px; color: #766f66; font-size: 11px; }
 .primary-button { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 21px 24px; background: var(--clay); color: white; font-size: 11px; text-transform: uppercase; letter-spacing: .12em; transition: .25s ease; }
@@ -178,6 +182,13 @@ button { font: inherit; }
 .faq-list summary i { color: var(--clay); font: 300 28px var(--font-sans); font-style: normal; transition: transform .25s; }
 .faq-list details[open] summary i { transform: rotate(45deg); }
 .faq-list details > p { max-width: 560px; margin: -8px 30px 32px 50px; color: #766f66; font-size: 12px; line-height: 1.8; }
+
+.final-cta { display: flex; flex-direction: column; align-items: center; text-align: center; background: var(--clay); color: white; }
+.final-cta h2 { max-width: 1050px; margin: 0; font-size: clamp(50px, 7.5vw, 112px); line-height: .86; }
+.final-cta h2 em { color: #e9b9a7; }
+.final-cta > p { max-width: 600px; margin: 42px auto 34px; color: rgba(255,255,255,.72); font-size: 13px; line-height: 1.75; }
+.final-button { width: min(390px, 100%); background: var(--sand-light); color: var(--clay-dark); }
+.final-button:hover { background: var(--ink); color: white; }
 
 footer { padding: 75px clamp(22px, 6vw, 95px) 30px; background: #24221e; color: white; }
 .footer-top { display: grid; grid-template-columns: 1fr auto auto; gap: 8vw; align-items: end; padding-bottom: 60px; }
