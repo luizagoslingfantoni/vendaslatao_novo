@@ -1,28 +1,48 @@
 "use client";
 
 import { useEffect } from "react";
+import {
+  BookOpenText,
+  ChartNoAxesCombined,
+  Check,
+  ChevronDown,
+  CircleGauge,
+  Clock3,
+  Download,
+  Flame,
+  FolderOpen,
+  HandHelping,
+  MessagesSquare,
+  NotebookTabs,
+  PlayCircle,
+  Route,
+  ShieldCheck,
+  Sparkles,
+  Wrench,
+} from "lucide-react";
 
 const checkoutUrl = "https://pay.hotmart.com/H103127357T?off=3xgl76hj";
 const whatsappUrl = "https://wa.me/?text=Olá%2C%20quero%20saber%20mais%20sobre%20a%20Mentoria%20Forno%20de%20Latão";
 const presencialUrl = "https://www.oficina.cc/event-details/queimas-poeticas-com-kuara-ceramicas-2";
 
 const quickHighlights = [
-  "27 horas de aulas ao vivo",
-  "3 meses de acompanhamento e suporte via WhatsApp",
-  "E-book e materiais de estudo para download",
-  "Aulas gravadas por 1 ano na Hotmart",
-  "Acompanhamento ao vivo das queimas de biscoito e esmalte",
-  "Projeto técnico, fornecedores e curvas de queima",
-  "Vendas de 3 a 14 de agosto de 2026",
+  { icon: Clock3, text: "27 horas de aulas ao vivo" },
+  { icon: MessagesSquare, text: "3 meses de acompanhamento e suporte via WhatsApp" },
+  { icon: Download, text: "E-book e materiais de estudo para download" },
+  { icon: PlayCircle, text: "Aulas gravadas por 1 ano na Hotmart" },
+  { icon: Flame, text: "Queimas de biscoito e esmalte acompanhadas ao vivo" },
+  { icon: Wrench, text: "Projeto técnico, fornecedores e curvas de queima" },
+  { icon: NotebookTabs, text: "Planilhas de orçamento e curvas em Excel e PDF" },
+  { icon: ChartNoAxesCombined, text: "Análise final de resultados e estudos de caso" },
 ];
 
 const pillars = [
-  ["01", "Projeto técnico testado", "Acesso ao projeto do forno utilizado na Kûara, desenvolvido e aprimorado na prática."],
-  ["02", "Construção possível", "Lista de materiais, equipamentos, fornecedores, orçamento e adaptações para diferentes regiões."],
-  ["03", "Manejo com segurança", "Maçarico, termopar, manômetro, EPIs, montagem de carga e leitura da atmosfera do forno."],
-  ["04", "Curvas essenciais", "Biscoito, esmalte, monoqueima e raku com controle de tempo, temperatura e resfriamento."],
-  ["05", "Queimas poéticas", "Raku nu, obvara, saggar, carbonizações, reduções e iridescências como repertório criativo."],
-  ["06", "Acompanhamento próximo", "Aulas ao vivo, grupo da turma, suporte direto com Amanda e análise dos resultados."],
+  ["01", "Estudando o projeto técnico"],
+  ["02", "Organizando compras e fornecedores"],
+  ["03", "Tirando dúvidas de montagem"],
+  ["04", "Aprendendo curvas de queima"],
+  ["05", "Acompanhando uma queima coletiva em tempo real"],
+  ["06", "Analisando resultados, registros e ajustes possíveis"],
 ];
 
 const modules = [
@@ -82,27 +102,29 @@ const notFitItems = [
 ];
 
 const outcomes = [
-  "Um Forno de Latão a gás funcional, construído por você ou em processo avançado, pronto para queimas até 1245 °C.",
-  "Economia significativa em relação a fornos elétricos semelhantes, com investimento médio de R$ 3.000 na estrutura.",
-  "Conhecimento para conduzir biscoito, esmalte, monoqueima e diferentes queimas poéticas.",
-  "E-book, planilhas, curvas, fornecedores, registros e gravações para consultar sempre que precisar.",
-  "Mais autonomia, segurança e liberdade para seguir seu caminho na cerâmica.",
+  { icon: Flame, text: "Um Forno de Latão a gás funcional, construído por você ou em processo avançado, pronto para queimas até 1245 °C." },
+  { icon: CircleGauge, text: "Economia significativa em relação a fornos elétricos semelhantes, com investimento médio de R$ 3.000 na estrutura." },
+  { icon: Sparkles, text: "Conhecimento para conduzir biscoito, esmalte, monoqueima e diferentes queimas poéticas." },
+  { icon: FolderOpen, text: "E-book, planilhas, curvas, fornecedores, registros e gravações para consultar sempre que precisar." },
+  { icon: Route, text: "Mais autonomia, segurança e liberdade para seguir seu caminho na cerâmica." },
 ];
 
-const included = [
-  "27 horas de aulas ao vivo",
-  "Gravação de todas as aulas",
-  "Acesso por 1 ano aos conteúdos na Hotmart",
-  "E-book ilustrado para download",
-  "Projeto técnico do forno utilizado na Kûara",
-  "Lista de materiais, equipamentos e fornecedores",
-  "Planilha de orçamento",
-  "Curvas de queima em Excel e PDF",
-  "Materiais complementares de estudo",
-  "Grupo de estudos da turma no WhatsApp",
-  "Suporte direto com Amanda por 3 meses",
-  "Queimas de biscoito e esmalte acompanhadas ao vivo",
-  "Análise final de resultados e estudos de caso",
+const includedGroups = [
+  {
+    icon: PlayCircle,
+    title: "Aulas e acesso",
+    items: ["27 horas de aulas ao vivo", "Gravação de todas as aulas", "Acesso por 1 ano aos conteúdos na Hotmart"],
+  },
+  {
+    icon: BookOpenText,
+    title: "Projeto e materiais",
+    items: ["E-book ilustrado para download", "Projeto técnico do forno utilizado na Kûara", "Lista de materiais, equipamentos e fornecedores", "Planilha de orçamento", "Curvas de queima em Excel e PDF", "Materiais complementares de estudo"],
+  },
+  {
+    icon: HandHelping,
+    title: "Acompanhamento",
+    items: ["Grupo de estudos da turma no WhatsApp", "Suporte direto com Amanda por 3 meses", "Queimas de biscoito e esmalte acompanhadas ao vivo", "Análise final de resultados e estudos de caso"],
+  },
 ];
 
 const faqs = [
@@ -178,7 +200,7 @@ export default function Home() {
           <div className="hero-bottom" data-reveal>
             <div>
               <p>Aprenda com Amanda Maciel a construir e manejar um forno de latão a gás para queima de cerâmica: acessível, versátil e capaz de atingir até 1245 °C.</p>
-              <a className="text-cta light-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Inscreva-se <span>⟶</span></a>
+              <a className="text-cta light-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Inscreva-se <span aria-hidden="true">⟶</span></a>
             </div>
           </div>
         </div>
@@ -186,13 +208,11 @@ export default function Home() {
       </section>
 
       <section className="manifesto section-pad" id="manifesto">
-        <div className="eyebrow" data-reveal><span /> Em poucas palavras</div>
-        <p className="statement" data-reveal>
-          Uma mentoria coletiva para ceramistas que querem <em>autonomia, conhecimento técnico e repertório poético</em> para queimar suas cerâmicas.
-        </p>
+        <h2 className="manifesto-title" data-reveal>Para ceramistas que buscam <em>autonomia.</em></h2>
+        <p className="manifesto-copy" data-reveal>Uma mentoria coletiva para quem quer autonomia, conhecimento técnico e repertório para queimar suas cerâmicas.</p>
         <div className="quick-highlights" data-reveal>
-          {quickHighlights.map((item, index) => (
-            <div className="quick-highlight" key={item}><span>{String(index + 1).padStart(2, "0")}</span><strong>{item}</strong></div>
+          {quickHighlights.map(({ icon: Icon, text }) => (
+            <div className="quick-highlight" key={text}><Icon aria-hidden="true" /><strong>{text}</strong></div>
           ))}
         </div>
       </section>
@@ -201,8 +221,11 @@ export default function Home() {
         <div className="problem-copy" data-reveal>
           <div className="eyebrow"><span /> O problema</div>
           <h2>E se a queima não dependesse de <em>fornos inacessíveis?</em></h2>
-          <p>Muita gente chega à cerâmica com uma potência criativa enorme, mas encontra um gargalo justamente na etapa da queima. A dificuldade de acesso a fornos limita a produção, a experimentação e a liberdade de desenvolver um trabalho autoral.</p>
-          <p>O Forno de Latão apresenta um caminho possível: artesanal, manual e capaz de devolver autonomia. Você acompanha a chama, lê a atmosfera e entende o comportamento do forno com o corpo inteiro atento ao processo.</p>
+          <p>Muita gente chega à cerâmica com uma potência criativa enorme, mas encontra <mark>um gargalo justamente na etapa da queima.</mark> A dificuldade de acesso a fornos acaba limitando a produção, a experimentação e a liberdade de desenvolver um trabalho autoral.</p>
+          <p>Para quem mora <mark>fora dos grandes centros</mark>, esse desafio costuma ser ainda maior. Nem sempre há fornos disponíveis para aluguel, nem sempre o tipo de queima desejado está ao alcance, nem sempre a agenda, ou o bolso, permitem o acesso a esse tipo de serviço. E, assim, muitos ceramistas permanecem distantes de uma das etapas mais importantes e transformadoras da cerâmica: acompanhar o fogo, compreender seu comportamento e construir, com ele, parte do resultado final de cada peça.</p>
+          <p className="problem-emphasis">O Forno de Latão vem para te apresentar um caminho possível.</p>
+          <p>Ele é <mark>artesanal, manual e exige presença.</mark> Você acompanha a chama, observa a curva de queima, aprende a ler sua atmosfera, ajustar equipamentos e entende o comportamento do forno com o corpo inteiro atento ao processo.</p>
+          <p className="problem-closing">E justamente por isso ele também devolve autonomia.</p>
           <a className="outline-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Quero construir meu forno <span>⟶</span></a>
         </div>
         <div className="problem-visual" data-reveal>
@@ -214,33 +237,41 @@ export default function Home() {
       <section className="promise section-pad">
         <div className="promise-copy" data-reveal>
           <h2>Da construção do forno às primeiras queimas <em>com segurança.</em></h2>
-          <p>Na Mentoria Forno de Latão, acompanhamos você durante todo o processo: do projeto técnico ao manejo dos equipamentos, da compra dos materiais às curvas de biscoito, esmalte e queimas poéticas.</p>
-          <p>Você não recebe apenas um passo a passo. Cada etapa é orientada para que você desenvolva autonomia, segurança e repertório para continuar pesquisando e experimentando.</p>
+          <p>Na mentoria Forno de Latão para cerâmica: da construção às queimas, a gente te acompanha durante todo o processo: do projeto técnico do forno ao manejo dos equipamentos, da compra dos materiais ao manejo durante as queimas, das curvas de biscoito e esmalte às queimas poéticas.</p>
+          <p className="promise-lead">Ao final da mentoria, a proposta é que você tenha:</p>
         </div>
-        <div className="promise-steps" data-reveal>
-          <div><span>01</span><strong>Projetar</strong><small>materiais, fornecedores e construção</small></div>
-          <div><span>02</span><strong>Manejar</strong><small>equipamentos, curvas e atmosferas</small></div>
-          <div><span>03</span><strong>Queimar</strong><small>biscoito, esmalte e processos poéticos</small></div>
-        </div>
+        <ul className="promise-results" data-reveal>
+          <li><Flame aria-hidden="true" /><span>Um Forno de Latão a gás funcional e versátil, construído por você, pronto para diferentes tipos de queima cerâmica.</span></li>
+          <li><CircleGauge aria-hidden="true" /><span>Conhecimento sobre manejo e condução das queimas de biscoito, esmalte, monoqueima e várias queimas poéticas — raku nu, obvara, saggar, carbonizações, reduções e iridescências.</span></li>
+          <li><BookOpenText aria-hidden="true" /><span>E-book ilustrado, aulas gravadas e outros materiais de estudo personalizados, reunindo conteúdo técnico, referências e registros do processo.</span></li>
+        </ul>
       </section>
 
       <section className="pillars section-pad" id="metodo">
         <div className="section-heading" data-reveal>
           <div>
             <div className="eyebrow light"><span /> Mais do que um curso</div>
-            <h2>Uma mentoria.<br /><em>Um forno seu.</em></h2>
+            <h2>Mais do que um curso, <em>uma mentoria.</em></h2>
           </div>
-          <p>Durante três meses, a turma caminha junta: estuda o projeto, organiza compras, tira dúvidas de montagem, aprende curvas de queima e analisa resultados.</p>
+          <div className="section-heading-copy">
+            <p>O que torna esta formação diferente é o tipo de acompanhamento que ela oferece.</p>
+            <p>Construir um forno artesanal envolve decisões técnicas, adaptações regionais, cuidados de segurança e leitura de processos. Por isso, a mentoria combina aulas ao vivo, e-book técnico, materiais de apoio, grupo da turma e suporte direto com Amanda.</p>
+            <p>Você vai ter acesso ao projeto do forno usado na Kûara, desenvolvido e aprimorado na prática, e também ao acompanhamento para entender como esse projeto se comporta nas queimas.</p>
+          </div>
         </div>
-        <span className="swipe-hint">Deslize para conhecer os 6 fatores <b>⟶</b></span>
+        <p className="journey-label" data-reveal>Durante 3 meses, a turma caminha junta:</p>
+        <span className="swipe-hint">Deslize para acompanhar o percurso <b>⟶</b></span>
         <div className="pillar-grid">
-          {pillars.map(([number, title, copy]) => (
+          {pillars.map(([number, title]) => (
             <article className="pillar-card" data-reveal key={number}>
               <span className="pillar-number">{number}</span>
               <h3>{title}</h3>
-              <p>{copy}</p>
             </article>
           ))}
+        </div>
+        <div className="pillars-close" data-reveal>
+          <a className="outline-cta dark-outline" href={checkoutUrl} target="_blank" rel="noreferrer">Quero construir meu forno <span>⟶</span></a>
+          <p>Ao longo da mentoria, vamos orientar você em cada etapa para que desenvolva autonomia, segurança e repertório para seguir construindo, pesquisando e experimentando.</p>
         </div>
       </section>
 
@@ -290,7 +321,7 @@ export default function Home() {
                 <span>{module.number}</span>
                 <h3>{module.title}</h3>
                 <small>{module.meta}</small>
-                <i aria-hidden="true">+</i>
+                <ChevronDown aria-hidden="true" />
               </summary>
               <div className="module-detail">
                 <p>{module.intro}</p>
@@ -309,8 +340,8 @@ export default function Home() {
         </div>
         <span className="swipe-hint outcome-hint">Deslize para ver os resultados <b>⟶</b></span>
         <div className="outcome-track">
-          {outcomes.map((item, index) => (
-            <article className="outcome-card" data-reveal key={item}><span>{String(index + 1).padStart(2, "0")}</span><p>{item}</p></article>
+          {outcomes.map(({ icon: Icon, text }) => (
+            <article className="outcome-card" data-reveal key={text}><Icon aria-hidden="true" /><p>{text}</p></article>
           ))}
         </div>
       </section>
@@ -349,9 +380,14 @@ export default function Home() {
           <h2>Da construção<br /><em>às queimas.</em></h2>
           <p>Mentoria online, ao vivo e com acompanhamento, de 17 de agosto a 17 de novembro de 2026.</p>
           <h3 className="included-title">Tudo o que você recebe</h3>
-          <ul className="included-list">
-            {included.map((item) => <li key={item}><span>✓</span>{item}</li>)}
-          </ul>
+          <div className="included-groups">
+            {includedGroups.map(({ icon: Icon, title, items }) => (
+              <article className="included-group" key={title}>
+                <div className="included-group-head"><Icon aria-hidden="true" /><h4>{title}</h4></div>
+                <ul>{items.map((item) => <li key={item}><Check aria-hidden="true" /><span>{item}</span></li>)}</ul>
+              </article>
+            ))}
+          </div>
         </div>
         <div className="price-card" data-reveal>
           <span className="price-label">Invista na sua prática</span>
@@ -390,7 +426,7 @@ export default function Home() {
         <div className="faq-list" data-reveal>
           {faqs.map(([question, answer], index) => (
             <details key={question} open={index === 0}>
-              <summary><span>{String(index + 1).padStart(2, "0")}</span>{question}<i aria-hidden="true">+</i></summary>
+              <summary><span>{String(index + 1).padStart(2, "0")}</span>{question}<ChevronDown aria-hidden="true" /></summary>
               <p>{answer}</p>
             </details>
           ))}
