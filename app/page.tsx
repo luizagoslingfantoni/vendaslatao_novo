@@ -81,9 +81,9 @@ export default function Home() {
         <nav aria-label="Navegação principal">
           <a href="#metodo">Mentoria</a>
           <a href="#conteudo">Aulas</a>
-          <a href="#sobre">Amanda</a>
+          <a className="nav-enroll" href={checkoutUrl} target="_blank" rel="noreferrer">Inscreva-se</a>
+          <a href="#faq">FAQ</a>
         </nav>
-        <a className="header-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Garantir vaga <span>↗</span></a>
         <div className="nav-progress" aria-hidden="true"><span /></div>
       </header>
 
