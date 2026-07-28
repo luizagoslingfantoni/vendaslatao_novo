@@ -4,6 +4,17 @@ import { useEffect } from "react";
 
 const checkoutUrl = "https://pay.hotmart.com/H103127357T?off=3xgl76hj";
 const whatsappUrl = "https://wa.me/?text=Olá%2C%20quero%20saber%20mais%20sobre%20a%20Mentoria%20Forno%20de%20Latão";
+const presencialUrl = "https://www.oficina.cc/event-details/queimas-poeticas-com-kuara-ceramicas-2";
+
+const quickHighlights = [
+  "27 horas de aulas ao vivo",
+  "3 meses de acompanhamento e suporte via WhatsApp",
+  "E-book e materiais de estudo para download",
+  "Aulas gravadas por 1 ano na Hotmart",
+  "Acompanhamento ao vivo das queimas de biscoito e esmalte",
+  "Projeto técnico, fornecedores e curvas de queima",
+  "Vendas de 3 a 14 de agosto de 2026",
+];
 
 const pillars = [
   ["01", "Projeto técnico testado", "Acesso ao projeto do forno utilizado na Kûara, desenvolvido e aprimorado na prática."],
@@ -15,12 +26,83 @@ const pillars = [
 ];
 
 const modules = [
-  ["Aula 01", "Projeto técnico do forno", "22 ago · 9h às 12h"],
-  ["Aula 02", "Curvas e manejo das queimas", "02 set · 19h às 21h30"],
-  ["Aula 03", "Queimas poéticas", "23 set · 19h às 21h30"],
-  ["Aula 04", "Queima coletiva de biscoito", "24 out · 8h30 às 17h30"],
-  ["Aula 05", "Queima coletiva de esmalte", "07 nov · 8h30 às 15h30"],
-  ["Aula 06", "Estudos de caso da turma", "11 nov · 18h30 às 21h30"],
+  {
+    number: "Aula 01", title: "Projeto técnico do forno", meta: "22 ago · 9h às 12h",
+    intro: "Amanda apresenta a mentoria, o e-book e o projeto técnico do Forno de Latão utilizado na Kûara.",
+    items: ["Passo a passo da construção", "Arquitetura e comportamento térmico", "Materiais, equipamentos e fornecedores", "Especificações e cuidados de segurança", "Adaptações conforme cada região", "Cronograma individual de construção", "Canais de suporte e acompanhamento"],
+    objective: "Sair sabendo o que comprar, onde buscar e como planejar a construção do seu forno.",
+  },
+  {
+    number: "Aula 02", title: "Curvas e manejo das queimas", meta: "02 set · 19h às 21h30",
+    intro: "Uma aula para compreender a montagem de carga e o manejo das principais queimas realizadas no forno de latão.",
+    items: ["Montagem de carga para diferentes objetivos", "Curvas de biscoito, esmalte, raku e monoqueima", "Manejo inicial dos equipamentos", "Cuidados com temperatura, tempo e atmosfera", "Ajustes e dúvidas sobre a construção"],
+    objective: "Chegar ao final desta etapa com clareza para deixar o forno pronto para iniciar as queimas.",
+  },
+  {
+    number: "Aula 03", title: "Queimas poéticas", meta: "23 set · 19h às 21h30",
+    intro: "Uma aula teórica dedicada às queimas em que o fogo participa da criação.",
+    items: ["Saggar com impressões botânicas, sais e metais", "Carbonizações com matérias orgânicas", "Raku iridescente e efeitos do cobre", "Raku nu e desenhos da fumaça", "Raku esmaltado, craquelados e metalizados", "Obvara e padrões orgânicos"],
+    objective: "Compreender o fogo como parte do processo criativo e ampliar seu repertório técnico.",
+  },
+  {
+    number: "Aula 04", title: "Queima coletiva de biscoito", meta: "24 out · 8h30 às 17h30",
+    intro: "A vivência central da mentoria: uma queima de biscoito acompanhada em tempo real pelo Google Meet.",
+    items: ["Montagem das mobílias e da carga", "Registro e controle da curva", "Manejo de maçarico, termopar e manômetro", "Cuidados de segurança", "Leitura da atmosfera", "Finalização e resfriamento controlado"],
+    objective: "Desenvolver autonomia, segurança e confiança para conduzir queimas de baixa temperatura.",
+  },
+  {
+    number: "Aula 05", title: "Queima coletiva de esmalte", meta: "07 nov · 8h30 às 15h30",
+    intro: "Uma queima de esmalte acompanhada em tempo real, com orientação coletiva para ajustes, decisões e leitura do forno.",
+    items: ["Acompanhamento ao vivo pelo Google Meet", "Ajustes e tomadas de decisão durante a queima", "Leitura do comportamento do forno em alta temperatura"],
+    objective: "Desenvolver autonomia, segurança e confiança para conduzir queimas de alta temperatura.",
+  },
+  {
+    number: "Aula 06", title: "Estudos de caso da turma", meta: "11 nov · 18h30 às 21h30",
+    intro: "O último encontro é dedicado à análise coletiva dos resultados da turma.",
+    items: ["Apresentação de peças, registros e anotações", "Leitura dos processos e pontos de aprimoramento", "Caminhos para a continuidade da pesquisa"],
+    objective: "Consolidar a autonomia técnica para conduzir novas queimas com segurança, senso crítico e confiança.",
+  },
+];
+
+const fitItems = [
+  "Já tem experiência com modelagem e quer autonomia na queima",
+  "Quer um forno artesanal a gás capaz de atingir até 1245 °C",
+  "Busca uma alternativa mais acessível para ter o próprio forno",
+  "Quer manejar maçarico, termopar, manômetro, curvas e atmosferas",
+  "Deseja explorar biscoito, esmalte, monoqueima e queimas poéticas",
+  "Já possui um forno de latão e quer aperfeiçoar seus resultados",
+  "Valoriza aprendizagem acompanhada, troca e análise dos processos",
+];
+
+const notFitItems = [
+  "Está buscando aprender modelagem ou esmaltação do zero",
+  "Procura produção padronizada, automatizada e em grande volume",
+  "Não tem acesso a um espaço aberto e bem ventilado",
+  "Quer apenas assistir sem colocar o processo em prática",
+];
+
+const outcomes = [
+  "Um Forno de Latão a gás funcional, construído por você ou em processo avançado, pronto para queimas até 1245 °C.",
+  "Economia significativa em relação a fornos elétricos semelhantes, com investimento médio de R$ 3.000 na estrutura.",
+  "Conhecimento para conduzir biscoito, esmalte, monoqueima e diferentes queimas poéticas.",
+  "E-book, planilhas, curvas, fornecedores, registros e gravações para consultar sempre que precisar.",
+  "Mais autonomia, segurança e liberdade para seguir seu caminho na cerâmica.",
+];
+
+const included = [
+  "27 horas de aulas ao vivo",
+  "Gravação de todas as aulas",
+  "Acesso por 1 ano aos conteúdos na Hotmart",
+  "E-book ilustrado para download",
+  "Projeto técnico do forno utilizado na Kûara",
+  "Lista de materiais, equipamentos e fornecedores",
+  "Planilha de orçamento",
+  "Curvas de queima em Excel e PDF",
+  "Materiais complementares de estudo",
+  "Grupo de estudos da turma no WhatsApp",
+  "Suporte direto com Amanda por 3 meses",
+  "Queimas de biscoito e esmalte acompanhadas ao vivo",
+  "Análise final de resultados e estudos de caso",
 ];
 
 const faqs = [
@@ -75,8 +157,8 @@ export default function Home() {
     <main>
       <header className="site-header">
         <a className="brand" href="#inicio" aria-label="Kûara - início">
-          <span className="brand-mark">K</span>
-          <span>kûara</span>
+          <img className="brand-light" src="/assets/logo-kuara.svg" alt="" />
+          <img className="brand-dark" src="/assets/logo-escuro.svg" alt="" />
         </a>
         <nav aria-label="Navegação principal">
           <a href="#metodo">Mentoria</a>
@@ -98,7 +180,6 @@ export default function Home() {
               <p>Aprenda com Amanda Maciel a construir e manejar um forno de latão a gás para queima de cerâmica: acessível, versátil e capaz de atingir até 1245 °C.</p>
               <a className="text-cta light-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Inscreva-se <span>⟶</span></a>
             </div>
-            <a className="circle-link" href="#manifesto" aria-label="Conhecer a mentoria"><span>↓</span></a>
           </div>
         </div>
         <div className="hero-index">03 <span>/</span> 14 AGO</div>
@@ -109,10 +190,10 @@ export default function Home() {
         <p className="statement" data-reveal>
           Uma mentoria coletiva para ceramistas que querem <em>autonomia, conhecimento técnico e repertório poético</em> para queimar suas cerâmicas.
         </p>
-        <div className="signature" data-reveal>
-          <span>Da construção</span>
-          <strong>27 horas</strong>
-          <span>às primeiras queimas</span>
+        <div className="quick-highlights" data-reveal>
+          {quickHighlights.map((item, index) => (
+            <div className="quick-highlight" key={item}><span>{String(index + 1).padStart(2, "0")}</span><strong>{item}</strong></div>
+          ))}
         </div>
       </section>
 
@@ -127,6 +208,19 @@ export default function Home() {
         <div className="problem-visual" data-reveal>
           <div className="arch-image parallax-slow" role="img" aria-label="Mãos trabalhando com argila em um ateliê" />
           <span className="orbit-note">técnica · fogo · autonomia ·</span>
+        </div>
+      </section>
+
+      <section className="promise section-pad">
+        <div className="promise-copy" data-reveal>
+          <h2>Da construção do forno às primeiras queimas <em>com segurança.</em></h2>
+          <p>Na Mentoria Forno de Latão, acompanhamos você durante todo o processo: do projeto técnico ao manejo dos equipamentos, da compra dos materiais às curvas de biscoito, esmalte e queimas poéticas.</p>
+          <p>Você não recebe apenas um passo a passo. Cada etapa é orientada para que você desenvolva autonomia, segurança e repertório para continuar pesquisando e experimentando.</p>
+        </div>
+        <div className="promise-steps" data-reveal>
+          <div><span>01</span><strong>Projetar</strong><small>materiais, fornecedores e construção</small></div>
+          <div><span>02</span><strong>Manejar</strong><small>equipamentos, curvas e atmosferas</small></div>
+          <div><span>03</span><strong>Queimar</strong><small>biscoito, esmalte e processos poéticos</small></div>
         </div>
       </section>
 
@@ -152,8 +246,8 @@ export default function Home() {
 
       <section className="teacher section-pad" id="sobre">
         <div className="teacher-photo-wrap" data-reveal>
-          <div className="teacher-photo parallax-medium" role="img" aria-label="Imagem de referência para a foto de Amanda no ateliê" />
-          <div className="photo-caption"><span>Imagem de referência</span> Amanda no ateliê</div>
+          <div className="teacher-photo parallax-medium" role="img" aria-label="Amanda Maciel segurando uma peça de cerâmica" />
+          <div className="photo-caption"><span>Amanda Maciel</span> Kûara Cerâmicas</div>
         </div>
         <div className="teacher-copy" data-reveal>
           <div className="eyebrow"><span /> Quem conduz</div>
@@ -167,30 +261,18 @@ export default function Home() {
       <section className="audience section-pad">
         <div className="audience-title" data-reveal>
           <div className="eyebrow"><span /> Para quem é</div>
-          <h2>Essa jornada é<br /><em>para você?</em></h2>
+          <h2>Veja se esta jornada<br /><em>combina com você.</em></h2>
         </div>
-        <div className="audience-columns">
-          <div className="audience-col yes" data-reveal>
-            <span className="audience-icon">+</span>
-            <h3>É para você se...</h3>
-            <ul>
-              <li>Já tem experiência com modelagem e quer autonomia na queima</li>
-              <li>Busca um forno artesanal a gás que alcance até 1245 °C</li>
-              <li>Quer aprender a manejar equipamentos, curvas e atmosferas</li>
-              <li>Deseja explorar biscoito, esmalte, monoqueima e queimas poéticas</li>
-              <li>Já possui um forno de latão e quer aprimorar seus resultados</li>
-            </ul>
-          </div>
-          <div className="audience-col no" data-reveal>
-            <span className="audience-icon">−</span>
-            <h3>Não é para você se...</h3>
-            <ul>
-              <li>Está buscando aprender modelagem ou esmaltação do zero</li>
-              <li>Precisa de produção padronizada e automatizada em grande volume</li>
-              <li>Não tem acesso a um espaço aberto e bem ventilado</li>
-              <li>Quer apenas assistir sem colocar o processo em prática</li>
-            </ul>
-          </div>
+        <span className="audience-hint">Deslize para comparar <b>⟶</b></span>
+        <div className="audience-track">
+          <article className="audience-card fit" data-reveal>
+            <div className="audience-card-head"><span>SIM</span><h3>É para você se...</h3></div>
+            <ul>{fitItems.map((item) => <li key={item}>{item}</li>)}</ul>
+          </article>
+          <article className="audience-card not-fit" data-reveal>
+            <div className="audience-card-head"><span>NÃO</span><h3>Talvez não seja para você se...</h3></div>
+            <ul>{notFitItems.map((item) => <li key={item}>{item}</li>)}</ul>
+          </article>
         </div>
       </section>
 
@@ -202,12 +284,33 @@ export default function Home() {
           <a className="outline-cta dark-outline" href={checkoutUrl} target="_blank" rel="noreferrer">Ver detalhes e inscrever-se <span>⟶</span></a>
         </div>
         <div className="module-list" data-reveal>
-          {modules.map(([number, title, meta]) => (
-            <div className="module-row" key={number}>
-              <span>{number}</span>
-              <h3>{title}</h3>
-              <small>{meta}</small>
-            </div>
+          {modules.map((module) => (
+            <details className="module-row" key={module.number}>
+              <summary>
+                <span>{module.number}</span>
+                <h3>{module.title}</h3>
+                <small>{module.meta}</small>
+                <i aria-hidden="true">+</i>
+              </summary>
+              <div className="module-detail">
+                <p>{module.intro}</p>
+                <ul>{module.items.map((item) => <li key={item}>{item}</li>)}</ul>
+                <p className="module-objective"><strong>Objetivo:</strong> {module.objective}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section className="outcomes section-pad">
+        <div className="outcomes-heading" data-reveal>
+          <div className="eyebrow"><span /> Resultados esperados</div>
+          <h2>Ao final da mentoria, <em>você terá</em></h2>
+        </div>
+        <span className="swipe-hint outcome-hint">Deslize para ver os resultados <b>⟶</b></span>
+        <div className="outcome-track">
+          {outcomes.map((item, index) => (
+            <article className="outcome-card" data-reveal key={item}><span>{String(index + 1).padStart(2, "0")}</span><p>{item}</p></article>
           ))}
         </div>
       </section>
@@ -245,13 +348,9 @@ export default function Home() {
           <div className="eyebrow light"><span /> A oferta</div>
           <h2>Da construção<br /><em>às queimas.</em></h2>
           <p>Mentoria online, ao vivo e com acompanhamento, de 17 de agosto a 17 de novembro de 2026.</p>
-          <ul>
-            <li><span>✓</span> 27 horas de aulas ao vivo e todas as gravações</li>
-            <li><span>✓</span> Acesso por 1 ano aos conteúdos na Hotmart</li>
-            <li><span>✓</span> E-book ilustrado e projeto técnico do forno</li>
-            <li><span>✓</span> Materiais, fornecedores, orçamento e curvas de queima</li>
-            <li><span>✓</span> Grupo de estudos e suporte por 3 meses</li>
-            <li><span>✓</span> Duas queimas coletivas e análise final dos resultados</li>
+          <h3 className="included-title">Tudo o que você recebe</h3>
+          <ul className="included-list">
+            {included.map((item) => <li key={item}><span>✓</span>{item}</li>)}
           </ul>
         </div>
         <div className="price-card" data-reveal>
@@ -267,6 +366,18 @@ export default function Home() {
             <span>Se perceber que este não é o momento certo, você pode solicitar reembolso dentro do prazo diretamente pela Hotmart.</span>
           </div>
           <a href={checkoutUrl} target="_blank" rel="noreferrer" className="primary-button">Garantir minha vaga <span>↗</span></a>
+        </div>
+      </section>
+
+      <section className="in-person section-pad" id="presencial">
+        <div className="in-person-image" role="img" aria-label="Peças de cerâmica reunidas após uma queima" />
+        <div className="in-person-copy" data-reveal>
+          <div className="eyebrow light"><span /> Condição especial</div>
+          <h2>Uma experiência presencial para ampliar seu repertório <em>na prática.</em></h2>
+          <p>Ao se matricular na Mentoria Forno de Latão, você recebe uma condição especial para participar do curso presencial Queimas Poéticas, em Belo Horizonte.</p>
+          <p>Após a confirmação da matrícula, você receberá por e-mail um cupom exclusivo de 20% de desconto.</p>
+          <div className="in-person-price"><small>de R$ 750 por</small><strong>R$ 600</strong></div>
+          <a className="outline-cta dark-outline" href={presencialUrl} target="_blank" rel="noreferrer">Conhecer o curso presencial <span>↗</span></a>
         </div>
       </section>
 
@@ -289,17 +400,18 @@ export default function Home() {
       <section className="final-cta section-pad">
         <div className="eyebrow light" data-reveal><span /> Sua próxima queima</div>
         <h2 data-reveal>Construa seu forno, aprenda a ler o fogo e conduza suas queimas <em>com mais autonomia.</em></h2>
-        <p data-reveal>As inscrições ficam abertas de 3 a 14 de agosto de 2026, ou enquanto houver lugares disponíveis na turma.</p>
+        <p data-reveal>Se você quer aprofundar sua pesquisa cerâmica, deixar de depender exclusivamente de estruturas externas e construir uma relação mais próxima com o fogo, esta mentoria foi pensada para acompanhar você nesse caminho, desenvolvendo técnica, segurança e autonomia para conduzir suas próprias queimas.</p>
+        <p className="final-dates" data-reveal>As inscrições ficam abertas de 3 a 14 de agosto de 2026, ou enquanto houver lugares disponíveis na turma.</p>
         <a href={checkoutUrl} target="_blank" rel="noreferrer" className="primary-button final-button" data-reveal>Quero construir meu forno <span>↗</span></a>
       </section>
 
       <a className="back-to-top" href="#inicio" aria-label="Voltar ao topo">Voltar ao topo <span>↑</span></a>
-      <a className="whatsapp-float" href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="Falar pelo WhatsApp"><span>WA</span><b>WhatsApp</b></a>
+      <a className="whatsapp-float" href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="Falar pelo WhatsApp"><img src="https://cdn.simpleicons.org/whatsapp/FFFFFF" alt="" /></a>
 
       <footer>
         <div className="footer-main">
           <div className="footer-intro">
-            <div className="footer-logo">K Û A R A</div>
+            <img className="footer-logo" src="/assets/logo-kuara.svg" alt="Kûara Cerâmicas" />
             <p>Arte e pesquisa em cerâmica artesanal a partir da terra, do território e dos saberes tradicionais.</p>
           </div>
           <div className="footer-column">

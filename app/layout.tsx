@@ -19,7 +19,14 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://forma-curso-online.luizagosling.chatgpt.site"),
   title: "Forno de Latão — Mentoria com Amanda Maciel",
   description: "Construa seu próprio Forno de Latão e aprenda a conduzir queimas artesanais de cerâmica com autonomia e segurança.",
-  icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
+  icons: {
+    icon: [
+      { url: "/assets/favicon.png", sizes: "512x512", type: "image/png" },
+      { url: "/assets/favicon-32.png", sizes: "32x32", type: "image/png" },
+    ],
+    shortcut: "/assets/favicon-32.png",
+    apple: "/assets/apple-touch-icon.png",
+  },
   openGraph: {
     title: "Forno de Latão — Mentoria com Amanda Maciel",
     description: "Da construção às primeiras queimas, com acompanhamento ao vivo.",
