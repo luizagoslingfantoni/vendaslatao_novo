@@ -151,7 +151,7 @@ export default function Home() {
     setWaitlistStatus("sending");
 
     try {
-      const response = await fetch("/", {
+      const response = await fetch("/__forms.html", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: body.toString(),
@@ -479,8 +479,6 @@ export default function Home() {
           className="waitlist-form"
           name="lista-proxima-turma"
           method="POST"
-          data-netlify="true"
-          data-netlify-honeypot="empresa"
           onSubmit={handleWaitlistSubmit}
           data-reveal
         >

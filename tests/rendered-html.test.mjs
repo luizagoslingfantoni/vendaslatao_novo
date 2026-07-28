@@ -23,12 +23,13 @@ test("Next.js prerenders the Forno de Latão sales page", async () => {
 });
 
 test("keeps the mobile-first sales interactions and Netlify config in source", async () => {
-  const [page, css, layout, packageJson, netlify] = await Promise.all([
+  const [page, css, layout, packageJson, netlify, forms] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../netlify.toml", import.meta.url), "utf8"),
+    readFile(new URL("../public/__forms.html", import.meta.url), "utf8"),
   ]);
 
   assert.match(page, /<details className="module-row"/);
@@ -54,4 +55,7 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.match(layout, /apple-touch-icon\.png/);
   assert.match(packageJson, /"build": "next build"/);
   assert.match(netlify, /publish = "\.next"/);
+  assert.match(page, /fetch\("\/__forms\.html"/);
+  assert.match(forms, /name="lista-proxima-turma"/);
+  assert.match(forms, /data-netlify="true"/);
 });
