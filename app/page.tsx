@@ -1,22 +1,20 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import {
   ArrowRight,
   ArrowUp,
   ArrowUpRight,
   BookOpenText,
-  ChartNoAxesCombined,
   Check,
   ChevronDown,
   CircleGauge,
   Clock3,
-  Download,
   Flame,
   FolderOpen,
   HandHelping,
+  Mail,
   MessagesSquare,
-  NotebookTabs,
   PlayCircle,
   Route,
   Sparkles,
@@ -29,14 +27,11 @@ const whatsappUrl = "https://wa.me/?text=Olá%2C%20quero%20saber%20mais%20sobre%
 const presencialUrl = "https://www.oficina.cc/event-details/queimas-poeticas-com-kuara-ceramicas-2";
 
 const quickHighlights = [
-  { icon: Clock3, text: "27 horas de aulas ao vivo" },
-  { icon: MessagesSquare, text: "3 meses de acompanhamento e suporte via WhatsApp" },
-  { icon: Download, text: "E-book e materiais de estudo para download" },
-  { icon: PlayCircle, text: "Aulas gravadas por 1 ano na Hotmart" },
-  { icon: Flame, text: "Queimas de biscoito e esmalte acompanhadas ao vivo" },
+  { icon: Clock3, text: "27h de aulas ao vivo" },
+  { icon: PlayCircle, text: "Aulas gravadas disponíveis por 1 ano" },
+  { icon: Flame, text: "Queimas de biscoito e esmalte ao vivo" },
+  { icon: MessagesSquare, text: "Suporte via WhatsApp" },
   { icon: Wrench, text: "Projeto técnico, fornecedores e curvas de queima" },
-  { icon: NotebookTabs, text: "Planilhas de orçamento e curvas em Excel e PDF" },
-  { icon: ChartNoAxesCombined, text: "Análise final de resultados e estudos de caso" },
 ];
 
 const pillars = [
@@ -145,6 +140,30 @@ const faqs = [
 ];
 
 export default function Home() {
+  const [waitlistStatus, setWaitlistStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+  async function handleWaitlistSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const body = new URLSearchParams();
+    formData.forEach((value, key) => body.append(key, String(value)));
+    setWaitlistStatus("sending");
+
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
+      });
+      if (!response.ok) throw new Error("Falha no envio");
+      form.reset();
+      setWaitlistStatus("success");
+    } catch {
+      setWaitlistStatus("error");
+    }
+  }
+
   useEffect(() => {
     const root = document.documentElement;
     const revealItems = document.querySelectorAll<HTMLElement>("[data-reveal]");
@@ -198,26 +217,23 @@ export default function Home() {
         <div className="hero-image" aria-hidden="true" />
         <div className="hero-wash" aria-hidden="true" />
         <div className="hero-content">
-          <div className="eyebrow light" data-reveal><span /> Mentoria online · agosto a novembro de 2026</div>
-          <h1 data-reveal>Construa seu próprio<br /><em>Forno de Latão.</em></h1>
-          <div className="hero-bottom" data-reveal>
-            <div>
-              <p>Aprenda com Amanda Maciel a construir e manejar um forno de latão a gás para queima de cerâmica: acessível, versátil e capaz de atingir até 1245 °C.</p>
-              <a className="text-cta light-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Inscreva-se <ArrowRight aria-hidden="true" /></a>
+          <div className="hero-main">
+            <div className="eyebrow light" data-reveal><span /> Mentoria online · agosto a novembro de 2026</div>
+            <h1 data-reveal>Construa seu próprio<br /><em>Forno de Latão.</em></h1>
+            <div className="hero-bottom" data-reveal>
+              <div>
+                <p>Aprenda com Amanda Maciel a construir e manejar um forno de latão a gás para queima de cerâmica: acessível, versátil e capaz de atingir até 1245 °C.</p>
+                <a className="text-cta light-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Inscreva-se <ArrowRight aria-hidden="true" /></a>
+              </div>
             </div>
+          </div>
+          <div className="hero-highlights" data-reveal aria-label="Destaques da mentoria">
+            {quickHighlights.map(({ icon: Icon, text }) => (
+              <article className="hero-highlight" key={text}><Icon aria-hidden="true" /><strong>{text}</strong></article>
+            ))}
           </div>
         </div>
         <div className="hero-index">03 <span>/</span> 14 AGO</div>
-      </section>
-
-      <section className="manifesto section-pad" id="manifesto">
-        <h2 className="manifesto-title" data-reveal>Para ceramistas que buscam <em>autonomia.</em></h2>
-        <p className="manifesto-copy" data-reveal>Uma mentoria coletiva para quem quer autonomia, conhecimento técnico e repertório para queimar suas cerâmicas.</p>
-        <div className="quick-highlights" data-reveal>
-          {quickHighlights.map(({ icon: Icon, text }) => (
-            <div className="quick-highlight" key={text}><Icon aria-hidden="true" /><strong>{text}</strong></div>
-          ))}
-        </div>
       </section>
 
       <section className="problem section-pad">
@@ -229,25 +245,12 @@ export default function Home() {
           <p className="problem-emphasis">O Forno de Latão vem para te apresentar um caminho possível.</p>
           <p>Ele é <mark>artesanal, manual e exige presença.</mark> Você acompanha a chama, observa a curva de queima, aprende a ler sua atmosfera, ajustar equipamentos e entende o comportamento do forno com o corpo inteiro atento ao processo.</p>
           <p className="problem-closing">E justamente por isso ele também devolve autonomia.</p>
-          <a className="outline-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Quero construir meu forno <ArrowRight aria-hidden="true" /></a>
+          <a className="problem-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Quero construir meu forno <ArrowRight aria-hidden="true" /></a>
         </div>
         <div className="problem-visual" data-reveal>
           <div className="arch-image parallax-slow" role="img" aria-label="Mãos trabalhando com argila em um ateliê" />
           <span className="orbit-note">técnica · fogo · autonomia ·</span>
         </div>
-      </section>
-
-      <section className="promise section-pad">
-        <div className="promise-copy" data-reveal>
-          <h2>Da construção do forno às primeiras queimas <em>com segurança.</em></h2>
-          <p>Na mentoria Forno de Latão para cerâmica: da construção às queimas, a gente te acompanha durante todo o processo: do projeto técnico do forno ao manejo dos equipamentos, da compra dos materiais ao manejo durante as queimas, das curvas de biscoito e esmalte às queimas poéticas.</p>
-          <p className="promise-lead">Ao final da mentoria, a proposta é que você tenha:</p>
-        </div>
-        <ul className="promise-results" data-reveal>
-          <li><Flame aria-hidden="true" /><span>Um Forno de Latão a gás funcional e versátil, construído por você, pronto para diferentes tipos de queima cerâmica.</span></li>
-          <li><CircleGauge aria-hidden="true" /><span>Conhecimento sobre manejo e condução das queimas de biscoito, esmalte, monoqueima e várias queimas poéticas — raku nu, obvara, saggar, carbonizações, reduções e iridescências.</span></li>
-          <li><BookOpenText aria-hidden="true" /><span>E-book ilustrado, aulas gravadas e outros materiais de estudo personalizados, reunindo conteúdo técnico, referências e registros do processo.</span></li>
-        </ul>
       </section>
 
       <section className="pillars section-pad" id="metodo">
@@ -278,6 +281,19 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="promise section-pad">
+        <div className="promise-copy" data-reveal>
+          <h2>Da construção do forno às primeiras queimas <em>com segurança.</em></h2>
+          <p>Na mentoria Forno de Latão para cerâmica: da construção às queimas, a gente te acompanha durante todo o processo: do projeto técnico do forno ao manejo dos equipamentos, da compra dos materiais ao manejo durante as queimas, das curvas de biscoito e esmalte às queimas poéticas.</p>
+          <p className="promise-lead">Ao final da mentoria, a proposta é que você tenha:</p>
+        </div>
+        <ul className="promise-results" data-reveal>
+          <li><Flame aria-hidden="true" /><span>Um Forno de Latão a gás funcional e versátil, construído por você, pronto para diferentes tipos de queima cerâmica.</span></li>
+          <li><CircleGauge aria-hidden="true" /><span>Conhecimento sobre manejo e condução das queimas de biscoito, esmalte, monoqueima e várias queimas poéticas — raku nu, obvara, saggar, carbonizações, reduções e iridescências.</span></li>
+          <li><BookOpenText aria-hidden="true" /><span>E-book ilustrado, aulas gravadas e outros materiais de estudo personalizados, reunindo conteúdo técnico, referências e registros do processo.</span></li>
+        </ul>
+      </section>
+
       <section className="teacher section-pad" id="sobre">
         <div className="teacher-photo-wrap" data-reveal>
           <div className="teacher-photo parallax-medium" role="img" aria-label="Amanda Maciel segurando uma peça de cerâmica" />
@@ -300,11 +316,11 @@ export default function Home() {
         <span className="audience-hint">Deslize para comparar <ArrowRight aria-hidden="true" /></span>
         <div className="audience-track">
           <article className="audience-card fit" data-reveal>
-            <div className="audience-card-head"><span>SIM</span><h3>É para você se...</h3></div>
+            <div className="audience-card-head"><h3>É para você se...</h3></div>
             <ul>{fitItems.map((item) => <li key={item}><ArrowUpRight aria-hidden="true" /><span>{item}</span></li>)}</ul>
           </article>
           <article className="audience-card not-fit" data-reveal>
-            <div className="audience-card-head"><span>NÃO</span><h3>Talvez não seja para você se...</h3></div>
+            <div className="audience-card-head"><h3>Talvez não seja para você se...</h3></div>
             <ul>{notFitItems.map((item) => <li key={item}><X aria-hidden="true" /><span>{item}</span></li>)}</ul>
           </article>
         </div>
@@ -315,7 +331,7 @@ export default function Home() {
           <div className="eyebrow light"><span /> O cronograma</div>
           <h2>Projeto, construção,<br />queimas e <em>análise.</em></h2>
           <p>Seis encontros ao vivo entre agosto e novembro, incluindo duas queimas coletivas acompanhadas em tempo real.</p>
-          <a className="outline-cta dark-outline" href={checkoutUrl} target="_blank" rel="noreferrer">Ver detalhes e inscrever-se <ArrowRight aria-hidden="true" /></a>
+          <a className="curriculum-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Ver detalhes e inscrever-se <ArrowRight aria-hidden="true" /></a>
         </div>
         <div className="module-list" data-reveal>
           {modules.map((module) => (
@@ -377,11 +393,12 @@ export default function Home() {
       </section>
 
       <section className="offer section-pad" id="oferta">
-        <div className="offer-stamp" aria-hidden="true">7 dias<br />de garantia</div>
         <div className="offer-copy" data-reveal>
-          <div className="eyebrow light"><span /> A oferta</div>
           <h2>Da construção<br /><em>às queimas.</em></h2>
-          <p>Mentoria online, ao vivo e com acompanhamento, de 17 de agosto a 17 de novembro de 2026.</p>
+          <div className="offer-intro">
+            <p>Mentoria online, ao vivo e com acompanhamento.</p>
+            <strong>De 17 de agosto a 17 de novembro de 2026</strong>
+          </div>
           <h3 className="included-title">Tudo o que você recebe</h3>
           <div className="included-groups">
             {includedGroups.map(({ icon: Icon, title, items }) => (
@@ -393,7 +410,10 @@ export default function Home() {
           </div>
         </div>
         <div className="price-card" data-reveal>
-          <span className="price-label">Invista na sua prática</span>
+          <div className="price-card-head">
+            <span className="price-label">Invista na sua prática</span>
+            <div className="offer-stamp" aria-hidden="true">7 dias<br />de garantia</div>
+          </div>
           <div className="installment-price" aria-label="Em até 12 vezes de 165 reais e 17 centavos">
             <span className="installment-intro">Em até</span>
             <strong className="installment-count">12x</strong>
@@ -402,7 +422,7 @@ export default function Home() {
           </div>
           <span className="cash">Pagamento pela Hotmart, com opções de Pix e parcelamento no cartão.</span>
           <div className="offer-detail">
-            <strong>Matrículas de 3 a 14/8/26</strong>
+            <strong>Inscrições de 3 a 14/8/26</strong>
             <span>Período da mentoria: 17 de agosto a 17 de novembro de 2026. Acesso às gravações e materiais por 1 ano.</span>
           </div>
           <div className="offer-detail">
@@ -419,7 +439,7 @@ export default function Home() {
           <div className="eyebrow light"><span /> Condição especial</div>
           <h2>Uma experiência presencial para ampliar seu repertório <em>na prática.</em></h2>
           <p>Ao se matricular na Mentoria Forno de Latão, você recebe uma condição especial para participar do curso presencial Queimas Poéticas, em Belo Horizonte.</p>
-          <p>Após a confirmação da matrícula, você receberá por e-mail um cupom exclusivo de 20% de desconto.</p>
+          <p className="in-person-highlight">Após a confirmação da matrícula, você receberá por e-mail um cupom exclusivo de 20% de desconto.</p>
           <div className="in-person-price"><small>de R$ 750 por</small><strong>R$ 600</strong></div>
           <a className="outline-cta dark-outline" href={presencialUrl} target="_blank" rel="noreferrer">Conhecer o curso presencial <ArrowUpRight aria-hidden="true" /></a>
         </div>
@@ -443,10 +463,44 @@ export default function Home() {
 
       <section className="final-cta section-pad">
         <div className="eyebrow light" data-reveal><span /> Sua próxima queima</div>
-        <h2 data-reveal>Construa seu forno, aprenda a ler o fogo e conduza suas queimas <em>com mais autonomia.</em></h2>
+        <h2 data-reveal>Construa seu forno, aprenda a ler o fogo e conduza suas queimas <em className="keep-together">com mais autonomia.</em></h2>
         <p data-reveal>Se você quer aprofundar sua pesquisa cerâmica, deixar de depender exclusivamente de estruturas externas e construir uma relação mais próxima com o fogo, esta mentoria foi pensada para acompanhar você nesse caminho, desenvolvendo técnica, segurança e autonomia para conduzir suas próprias queimas.</p>
         <p className="final-dates" data-reveal>As inscrições ficam abertas de 3 a 14 de agosto de 2026, ou enquanto houver lugares disponíveis na turma.</p>
         <a href={checkoutUrl} target="_blank" rel="noreferrer" className="primary-button final-button" data-reveal>Quero construir meu forno <ArrowUpRight aria-hidden="true" /></a>
+      </section>
+
+      <section className="waitlist section-pad" aria-labelledby="waitlist-title">
+        <div className="waitlist-copy" data-reveal>
+          <div className="eyebrow"><span /> Próxima turma</div>
+          <h2 id="waitlist-title">Quer saber quando uma nova turma <em>abrir?</em></h2>
+          <p>Deixe seu e-mail para receber o aviso em primeira mão. Sem excesso de mensagens, só o que importa sobre a próxima edição.</p>
+        </div>
+        <form
+          className="waitlist-form"
+          name="lista-proxima-turma"
+          method="POST"
+          data-netlify="true"
+          data-netlify-honeypot="empresa"
+          onSubmit={handleWaitlistSubmit}
+          data-reveal
+        >
+          <input type="hidden" name="form-name" value="lista-proxima-turma" />
+          <label className="visually-hidden" htmlFor="waitlist-company">Não preencha este campo</label>
+          <input className="visually-hidden" id="waitlist-company" name="empresa" tabIndex={-1} autoComplete="off" />
+          <label htmlFor="waitlist-email">Seu melhor e-mail</label>
+          <div className="waitlist-field">
+            <Mail aria-hidden="true" />
+            <input id="waitlist-email" name="email" type="email" inputMode="email" autoComplete="email" placeholder="voce@exemplo.com" required />
+            <button type="submit" disabled={waitlistStatus === "sending"}>
+              {waitlistStatus === "sending" ? "Enviando" : "Quero receber o aviso"}
+              <ArrowRight aria-hidden="true" />
+            </button>
+          </div>
+          <p className={`waitlist-status ${waitlistStatus}`} aria-live="polite">
+            {waitlistStatus === "success" && "Pronto. Você entrou na lista da próxima turma."}
+            {waitlistStatus === "error" && "Não foi possível enviar agora. Tente novamente em instantes."}
+          </p>
+        </form>
       </section>
 
       <a className="back-to-top" href="#inicio" aria-label="Voltar ao topo">Voltar ao topo <ArrowUp aria-hidden="true" /></a>

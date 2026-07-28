@@ -14,6 +14,8 @@ test("Next.js prerenders the Forno de Latão sales page", async () => {
   assert.match(html, /Ao final da mentoria/);
   assert.match(html, /Tudo o que você recebe/);
   assert.match(html, /Uma experiência presencial/);
+  assert.match(html, /Quer saber quando uma nova turma/);
+  assert.match(html, /name="lista-proxima-turma"/);
   assert.match(html, /Design e desenvolvimento por Estúdio Taú · tauestudio\.com\.br/);
   assert.match(html, /https:\/\/tauestudio\.com\.br/);
   assert.match(html, /assets\/favicon-32\.png/);
@@ -32,13 +34,17 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.match(page, /<details className="module-row"/);
   assert.match(page, /className="audience-track"/);
   assert.match(page, /className="whatsapp-float"/);
+  assert.match(page, /className="hero-highlights"/);
+  assert.match(page, /27h de aulas ao vivo/);
+  assert.doesNotMatch(page, /className="manifesto/);
+  assert.match(page, /className="waitlist-form"/);
   assert.match(page, /className="installment-intro">Em até/);
   assert.match(page, /className="installment-count">12x/);
   assert.match(page, /className="installment-amount">165,17/);
   assert.doesNotMatch(page, /[⟶↗↑×]/);
   assert.match(page, /amanda-placeholder\.jpg|teacher-photo/);
   assert.match(css, /Mobile is the default/);
-  assert.match(css, /min-height: max\(76svh, 620px\)/);
+  assert.match(css, /min-height: max\(100svh, 760px\)/);
   assert.doesNotMatch(css, /content:\s*["'][↗×]["']/);
   assert.match(css, /\.site-header/);
   assert.match(css, /\.audience-track/);
