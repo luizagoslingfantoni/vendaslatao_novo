@@ -138,6 +138,7 @@ export default function Home() {
           </div>
           <p>Durante três meses, a turma caminha junta: estuda o projeto, organiza compras, tira dúvidas de montagem, aprende curvas de queima e analisa resultados.</p>
         </div>
+        <span className="swipe-hint">Deslize para conhecer os 6 fatores <b>⟶</b></span>
         <div className="pillar-grid">
           {pillars.map(([number, title, copy]) => (
             <article className="pillar-card" data-reveal key={number}>
@@ -225,14 +226,16 @@ export default function Home() {
             <span className="slide-caption">Pesquisa, fogo e atmosfera</span>
             <div className="slide-dots" aria-hidden="true"><i /><i /><i /></div>
           </div>
-          <blockquote className="testimonial-card">
-            <p>“Com certeza a mentoria valeu cada centavo. Amanda está entre os professores que mudaram a minha vida pela humildade, leveza e respeito pelo processo de cada um.”</p>
-            <cite>Bárbara G. · Forno de Latão e Fornos de Tijolos</cite>
-          </blockquote>
-          <blockquote className="testimonial-card">
-            <p>“Sou muito grata por ter feito a mentoria. Além do aprendizado sobre cerâmica e fornos, também aprendi muito sobre gestão e pedagogia.”</p>
-            <cite>Anna T. · Forno de Latão</cite>
-          </blockquote>
+          <div className="testimonial-track" aria-label="Depoimentos de participantes">
+            <blockquote className="testimonial-card">
+              <p>“Com certeza a mentoria valeu cada centavo. Amanda está entre os professores que mudaram a minha vida pela humildade, leveza e respeito pelo processo de cada um.”</p>
+              <cite>Bárbara G. · Forno de Latão e Fornos de Tijolos</cite>
+            </blockquote>
+            <blockquote className="testimonial-card">
+              <p>“Sou muito grata por ter feito a mentoria. Além do aprendizado sobre cerâmica e fornos, também aprendi muito sobre gestão e pedagogia.”</p>
+              <cite>Anna T. · Forno de Latão</cite>
+            </blockquote>
+          </div>
         </div>
       </section>
 
