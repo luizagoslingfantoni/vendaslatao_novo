@@ -477,7 +477,7 @@ export default function Home() {
         </div>
         <div className="footer-bottom">
           <span>© 2026 Kûara Cerâmicas · CNPJ 31.660.739/0001-53</span>
-          <a className="footer-credit" href="https://tauestudio.com.br" target="_blank" rel="noreferrer">Design e desenvolvimento por Estúdio Taí <ArrowUpRight aria-hidden="true" /></a>
+          <a className="footer-credit" href="https://tauestudio.com.br" target="_blank" rel="noreferrer">Design e desenvolvimento por Estúdio Taú <ArrowUpRight aria-hidden="true" /></a>
           <a href="#inicio">Voltar ao topo <ArrowUp aria-hidden="true" /></a>
         </div>
       </footer>
