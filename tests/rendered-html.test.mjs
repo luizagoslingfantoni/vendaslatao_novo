@@ -14,7 +14,7 @@ test("Next.js prerenders the Forno de Latão sales page", async () => {
   assert.match(html, /Ao final da mentoria/);
   assert.match(html, /Tudo o que você recebe/);
   assert.match(html, /Uma experiência presencial/);
-  assert.match(html, /Design e desenvolvimento por Estúdio Taú/);
+  assert.match(html, /Design e desenvolvimento por Estúdio Taú · tauestudio\.com\.br/);
   assert.match(html, /https:\/\/tauestudio\.com\.br/);
   assert.match(html, /assets\/favicon-32\.png/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
