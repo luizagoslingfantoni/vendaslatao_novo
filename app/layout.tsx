@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Lora } from "next/font/google";
 import "./globals.css";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? process.env.URL ?? "https://forma-curso-online.luizagosling.chatgpt.site";
+
 const display = Lora({
   variable: "--font-display",
   subsets: ["latin"],
@@ -16,7 +18,7 @@ const sans = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://forma-curso-online.luizagosling.chatgpt.site"),
+  metadataBase: new URL(siteUrl),
   title: "Forno de Latão — Mentoria com Amanda Maciel",
   description: "Construa seu próprio Forno de Latão e aprenda a conduzir queimas artesanais de cerâmica com autonomia e segurança.",
   icons: {

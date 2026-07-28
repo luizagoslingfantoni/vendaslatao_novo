@@ -3,32 +3,11 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 async function render() {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
-
-  return worker.fetch(
-    new Request("http://localhost/", {
-      headers: { accept: "text/html" },
-    }),
-    {
-      ASSETS: {
-        fetch: async () => new Response("Not found", { status: 404 }),
-      },
-    },
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
-  );
+  return readFile(new URL("../.next/server/app/index.html", import.meta.url), "utf8");
 }
 
-test("server-renders the Forno de Latão sales page", async () => {
-  const response = await render();
-  assert.equal(response.status, 200);
-  assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
-
-  const html = await response.text();
+test("Next.js prerenders the Forno de Latão sales page", async () => {
+  const html = await render();
   assert.match(html, /<title>Forno de Latão — Mentoria com Amanda Maciel<\/title>/i);
   assert.match(html, /Construa seu próprio/);
   assert.match(html, /Da construção do forno às primeiras queimas/);
@@ -39,11 +18,13 @@ test("server-renders the Forno de Latão sales page", async () => {
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
 
-test("keeps the mobile-first sales interactions in source", async () => {
-  const [page, css, layout] = await Promise.all([
+test("keeps the mobile-first sales interactions and Netlify config in source", async () => {
+  const [page, css, layout, packageJson, netlify] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../package.json", import.meta.url), "utf8"),
+    readFile(new URL("../netlify.toml", import.meta.url), "utf8"),
   ]);
 
   assert.match(page, /<details className="module-row"/);
@@ -57,4 +38,6 @@ test("keeps the mobile-first sales interactions in source", async () => {
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.match(layout, /Forno de Latão — Mentoria com Amanda Maciel/);
   assert.match(layout, /apple-touch-icon\.png/);
+  assert.match(packageJson, /"build": "next build"/);
+  assert.match(netlify, /publish = "\.next"/);
 });
