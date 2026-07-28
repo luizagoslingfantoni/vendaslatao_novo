@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 
 const checkoutUrl = "https://pay.hotmart.com/H103127357T?off=3xgl76hj";
+const whatsappUrl = "https://wa.me/?text=Olá%2C%20quero%20saber%20mais%20sobre%20a%20Mentoria%20Forno%20de%20Latão";
 
 const pillars = [
   ["01", "Projeto técnico testado", "Acesso ao projeto do forno utilizado na Kûara, desenvolvido e aprimorado na prática."],
@@ -52,6 +53,7 @@ export default function Home() {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       root.style.setProperty("--scroll", `${y}px`);
       root.style.setProperty("--progress", `${max > 0 ? y / max : 0}`);
+      document.body.classList.toggle("is-scrolled", y > 48);
       ticking = false;
     };
     const onScroll = () => {
@@ -65,13 +67,12 @@ export default function Home() {
     return () => {
       observer.disconnect();
       window.removeEventListener("scroll", onScroll);
+      document.body.classList.remove("is-scrolled");
     };
   }, []);
 
   return (
     <main>
-      <div className="scroll-progress" aria-hidden="true" />
-
       <header className="site-header">
         <a className="brand" href="#inicio" aria-label="Kûara - início">
           <span className="brand-mark">K</span>
@@ -83,6 +84,7 @@ export default function Home() {
           <a href="#sobre">Amanda</a>
         </nav>
         <a className="header-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Garantir vaga <span>↗</span></a>
+        <div className="nav-progress" aria-hidden="true"><span /></div>
       </header>
 
       <section className="hero" id="inicio">
@@ -92,7 +94,10 @@ export default function Home() {
           <div className="eyebrow light" data-reveal><span /> Mentoria online · agosto a novembro de 2026</div>
           <h1 data-reveal>Construa seu próprio<br /><em>Forno de Latão.</em></h1>
           <div className="hero-bottom" data-reveal>
-            <p>Aprenda com Amanda Maciel a construir e manejar um forno de latão a gás para queima de cerâmica: acessível, versátil e capaz de atingir até 1245 °C.</p>
+            <div>
+              <p>Aprenda com Amanda Maciel a construir e manejar um forno de latão a gás para queima de cerâmica: acessível, versátil e capaz de atingir até 1245 °C.</p>
+              <a className="text-cta light-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Inscreva-se <span>⟶</span></a>
+            </div>
             <a className="circle-link" href="#manifesto" aria-label="Conhecer a mentoria"><span>↓</span></a>
           </div>
         </div>
@@ -117,6 +122,7 @@ export default function Home() {
           <h2>E se a queima não dependesse de <em>fornos inacessíveis?</em></h2>
           <p>Muita gente chega à cerâmica com uma potência criativa enorme, mas encontra um gargalo justamente na etapa da queima. A dificuldade de acesso a fornos limita a produção, a experimentação e a liberdade de desenvolver um trabalho autoral.</p>
           <p>O Forno de Latão apresenta um caminho possível: artesanal, manual e capaz de devolver autonomia. Você acompanha a chama, lê a atmosfera e entende o comportamento do forno com o corpo inteiro atento ao processo.</p>
+          <a className="outline-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Quero construir meu forno <span>⟶</span></a>
         </div>
         <div className="problem-visual" data-reveal>
           <div className="arch-image parallax-slow" role="img" aria-label="Mãos trabalhando com argila em um ateliê" />
@@ -136,7 +142,6 @@ export default function Home() {
           {pillars.map(([number, title, copy]) => (
             <article className="pillar-card" data-reveal key={number}>
               <span className="pillar-number">{number}</span>
-              <div className="pillar-symbol" aria-hidden="true"><i /><i /></div>
               <h3>{title}</h3>
               <p>{copy}</p>
             </article>
@@ -155,10 +160,6 @@ export default function Home() {
           <p className="teacher-lead">“A Kûara é a materialização desse caminho, que se faz andando e a muitas mãos.”</p>
           <p>Sou graduada em Arquitetura e Urbanismo pela UFMG, onde também concluí mestrado e doutorado em Geografia. Minha trajetória socioambiental atravessa meu fazer artístico, orientado pela pesquisa, pela relação com os territórios e pelo respeito a quem mantém vivos saberes tradicionais.</p>
           <p>Na mentoria, compartilho o projeto do forno que utilizo na Kûara e os conhecimentos que consolidei ao longo do caminho: métodos, cuidados, experimentações e aprendizados sobre fornos e queimas artesanais.</p>
-          <div className="teacher-stats">
-            <div><strong>27h</strong><span>de aulas<br />ao vivo</span></div>
-            <div><strong>3</strong><span>meses de<br />suporte</span></div>
-          </div>
         </div>
       </section>
 
@@ -197,33 +198,41 @@ export default function Home() {
           <div className="eyebrow light"><span /> O cronograma</div>
           <h2>Projeto, construção,<br />queimas e <em>análise.</em></h2>
           <p>Seis encontros ao vivo entre agosto e novembro, incluindo duas queimas coletivas acompanhadas em tempo real.</p>
+          <a className="outline-cta dark-outline" href={checkoutUrl} target="_blank" rel="noreferrer">Ver detalhes e inscrever-se <span>⟶</span></a>
         </div>
         <div className="module-list" data-reveal>
-          {modules.map(([number, title, meta], index) => (
+          {modules.map(([number, title, meta]) => (
             <div className="module-row" key={number}>
               <span>{number}</span>
               <h3>{title}</h3>
               <small>{meta}</small>
-              <i aria-hidden="true">{String(index + 1).padStart(2, "0")}</i>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="testimonials section-pad">
-        <div className="testimonial-art" data-reveal>
-          <div className="quote-mark">“</div>
-          <div className="floating-photo photo-one" aria-hidden="true" />
-          <div className="floating-photo photo-two" aria-hidden="true" />
+      <section className="testimonials section-pad" id="resultados">
+        <div className="social-heading" data-reveal>
+          <div className="eyebrow"><span /> A comunidade sobre a Kûara</div>
+          <h2>O que acontece quando o forno entra na pesquisa.</h2>
+          <p>O forno de latão não é apenas uma estrutura. Ele muda a relação com o tempo, com o risco, com a observação e com a autoria do processo.</p>
         </div>
-        <div className="testimonial-copy" data-reveal>
-          <div className="eyebrow"><span /> Resultados esperados</div>
-          <blockquote>“Mais autonomia, segurança e liberdade para seguir seu caminho na cerâmica.”</blockquote>
-          <div className="result-list">
-            <p>Um Forno de Latão a gás funcional, versátil e pronto para diferentes queimas até 1245 °C.</p>
-            <p>Conhecimento para conduzir biscoito, esmalte, monoqueima e diferentes queimas poéticas.</p>
-            <p>E-book, planilhas, curvas, fornecedores, registros e gravações para consultar quando precisar.</p>
+        <div className="social-grid" data-reveal>
+          <div className="social-slideshow" aria-label="Galeria de resultados em cerâmica">
+            <div className="social-slide slide-a" aria-hidden="true" />
+            <div className="social-slide slide-b" aria-hidden="true" />
+            <div className="social-slide slide-c" aria-hidden="true" />
+            <span className="slide-caption">Pesquisa, fogo e atmosfera</span>
+            <div className="slide-dots" aria-hidden="true"><i /><i /><i /></div>
           </div>
+          <blockquote className="testimonial-card">
+            <p>“Com certeza a mentoria valeu cada centavo. Amanda está entre os professores que mudaram a minha vida pela humildade, leveza e respeito pelo processo de cada um.”</p>
+            <cite>Bárbara G. · Forno de Latão e Fornos de Tijolos</cite>
+          </blockquote>
+          <blockquote className="testimonial-card">
+            <p>“Sou muito grata por ter feito a mentoria. Além do aprendizado sobre cerâmica e fornos, também aprendi muito sobre gestão e pedagogia.”</p>
+            <cite>Anna T. · Forno de Latão</cite>
+          </blockquote>
         </div>
       </section>
 
@@ -243,16 +252,22 @@ export default function Home() {
           </ul>
         </div>
         <div className="price-card" data-reveal>
-          <span className="price-label">Inscrições de 3 a 14 de agosto</span>
-          <div className="old-price">Mentoria coletiva completa</div>
+          <span className="price-label">Invista na sua prática</span>
           <div className="price price-single"><strong>R$ 1.597</strong></div>
-          <span className="cash">Pix ou parcelamento no cartão pela Hotmart</span>
+          <span className="cash">Pagamento pela Hotmart, com opções de Pix e parcelamento no cartão.</span>
+          <div className="offer-detail">
+            <strong>Matrículas de 3 a 14/8/26</strong>
+            <span>Período da mentoria: 17 de agosto a 17 de novembro de 2026. Acesso às gravações e materiais por 1 ano.</span>
+          </div>
+          <div className="offer-detail">
+            <strong>7 dias para decidir com tranquilidade</strong>
+            <span>Se perceber que este não é o momento certo, você pode solicitar reembolso dentro do prazo diretamente pela Hotmart.</span>
+          </div>
           <a href={checkoutUrl} target="_blank" rel="noreferrer" className="primary-button">Garantir minha vaga <span>↗</span></a>
-          <p>Compra segura · 7 dias para decidir com tranquilidade</p>
         </div>
       </section>
 
-      <section className="faq section-pad">
+      <section className="faq section-pad" id="faq">
         <div className="faq-heading" data-reveal>
           <div className="eyebrow"><span /> Perguntas frequentes</div>
           <h2>Ficou alguma<br /><em>dúvida?</em></h2>
@@ -275,16 +290,36 @@ export default function Home() {
         <a href={checkoutUrl} target="_blank" rel="noreferrer" className="primary-button final-button" data-reveal>Quero construir meu forno <span>↗</span></a>
       </section>
 
+      <a className="back-to-top" href="#inicio" aria-label="Voltar ao topo">Voltar ao topo <span>↑</span></a>
+      <a className="whatsapp-float" href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="Falar pelo WhatsApp"><span>WA</span><b>WhatsApp</b></a>
+
       <footer>
-        <div className="footer-top">
-          <div className="footer-word">kûara<span>●</span></div>
-          <p>Cerâmica, território<br />e saberes do fogo.</p>
-          <a href="#inicio" aria-label="Voltar ao topo">↑</a>
+        <div className="footer-main">
+          <div className="footer-intro">
+            <div className="footer-logo">K Û A R A</div>
+            <p>Arte e pesquisa em cerâmica artesanal a partir da terra, do território e dos saberes tradicionais.</p>
+          </div>
+          <div className="footer-column">
+            <strong>Esta página</strong>
+            <a href="#metodo">Método</a>
+            <a href="#conteudo">Programa</a>
+            <a href="#oferta">Oferta</a>
+          </div>
+          <div className="footer-column" id="contato">
+            <strong>Fale com a gente</strong>
+            <span>E-mail</span>
+            <a href="https://www.instagram.com/kuaraceramicas/" target="_blank" rel="noreferrer">Instagram ↗</a>
+          </div>
+          <div className="footer-column">
+            <strong>Informações</strong>
+            <a href="#faq">FAQ</a>
+            <a className="footer-offer" href={checkoutUrl} target="_blank" rel="noreferrer">Garantir vaga ↗</a>
+          </div>
         </div>
         <div className="footer-bottom">
-          <span>© 2026 Kûara</span>
-          <div><a href="#">Instagram</a><a href="#">Termos</a><a href="#">Privacidade</a></div>
-          <span>Feito a muitas mãos</span>
+          <span>© 2026 Kûara Cerâmicas · CNPJ 31.660.739/0001-53</span>
+          <span>Produzido e desenvolvido por Sacada</span>
+          <a href="#inicio">Voltar ao topo ↑</a>
         </div>
       </footer>
     </main>
