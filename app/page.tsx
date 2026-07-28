@@ -2,6 +2,9 @@
 
 import { useEffect } from "react";
 import {
+  ArrowRight,
+  ArrowUp,
+  ArrowUpRight,
   BookOpenText,
   ChartNoAxesCombined,
   Check,
@@ -16,9 +19,9 @@ import {
   NotebookTabs,
   PlayCircle,
   Route,
-  ShieldCheck,
   Sparkles,
   Wrench,
+  X,
 } from "lucide-react";
 
 const checkoutUrl = "https://pay.hotmart.com/H103127357T?off=3xgl76hj";
@@ -200,7 +203,7 @@ export default function Home() {
           <div className="hero-bottom" data-reveal>
             <div>
               <p>Aprenda com Amanda Maciel a construir e manejar um forno de latão a gás para queima de cerâmica: acessível, versátil e capaz de atingir até 1245 °C.</p>
-              <a className="text-cta light-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Inscreva-se <span aria-hidden="true">⟶</span></a>
+              <a className="text-cta light-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Inscreva-se <ArrowRight aria-hidden="true" /></a>
             </div>
           </div>
         </div>
@@ -226,7 +229,7 @@ export default function Home() {
           <p className="problem-emphasis">O Forno de Latão vem para te apresentar um caminho possível.</p>
           <p>Ele é <mark>artesanal, manual e exige presença.</mark> Você acompanha a chama, observa a curva de queima, aprende a ler sua atmosfera, ajustar equipamentos e entende o comportamento do forno com o corpo inteiro atento ao processo.</p>
           <p className="problem-closing">E justamente por isso ele também devolve autonomia.</p>
-          <a className="outline-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Quero construir meu forno <span>⟶</span></a>
+          <a className="outline-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Quero construir meu forno <ArrowRight aria-hidden="true" /></a>
         </div>
         <div className="problem-visual" data-reveal>
           <div className="arch-image parallax-slow" role="img" aria-label="Mãos trabalhando com argila em um ateliê" />
@@ -260,7 +263,7 @@ export default function Home() {
           </div>
         </div>
         <p className="journey-label" data-reveal>Durante 3 meses, a turma caminha junta:</p>
-        <span className="swipe-hint">Deslize para acompanhar o percurso <b>⟶</b></span>
+        <span className="swipe-hint">Deslize para acompanhar o percurso <ArrowRight aria-hidden="true" /></span>
         <div className="pillar-grid">
           {pillars.map(([number, title]) => (
             <article className="pillar-card" data-reveal key={number}>
@@ -270,7 +273,7 @@ export default function Home() {
           ))}
         </div>
         <div className="pillars-close" data-reveal>
-          <a className="outline-cta dark-outline" href={checkoutUrl} target="_blank" rel="noreferrer">Quero construir meu forno <span>⟶</span></a>
+          <a className="outline-cta dark-outline" href={checkoutUrl} target="_blank" rel="noreferrer">Quero construir meu forno <ArrowRight aria-hidden="true" /></a>
           <p>Ao longo da mentoria, vamos orientar você em cada etapa para que desenvolva autonomia, segurança e repertório para seguir construindo, pesquisando e experimentando.</p>
         </div>
       </section>
@@ -294,15 +297,15 @@ export default function Home() {
           <div className="eyebrow"><span /> Para quem é</div>
           <h2>Veja se esta jornada<br /><em>combina com você.</em></h2>
         </div>
-        <span className="audience-hint">Deslize para comparar <b>⟶</b></span>
+        <span className="audience-hint">Deslize para comparar <ArrowRight aria-hidden="true" /></span>
         <div className="audience-track">
           <article className="audience-card fit" data-reveal>
             <div className="audience-card-head"><span>SIM</span><h3>É para você se...</h3></div>
-            <ul>{fitItems.map((item) => <li key={item}>{item}</li>)}</ul>
+            <ul>{fitItems.map((item) => <li key={item}><ArrowUpRight aria-hidden="true" /><span>{item}</span></li>)}</ul>
           </article>
           <article className="audience-card not-fit" data-reveal>
             <div className="audience-card-head"><span>NÃO</span><h3>Talvez não seja para você se...</h3></div>
-            <ul>{notFitItems.map((item) => <li key={item}>{item}</li>)}</ul>
+            <ul>{notFitItems.map((item) => <li key={item}><X aria-hidden="true" /><span>{item}</span></li>)}</ul>
           </article>
         </div>
       </section>
@@ -312,7 +315,7 @@ export default function Home() {
           <div className="eyebrow light"><span /> O cronograma</div>
           <h2>Projeto, construção,<br />queimas e <em>análise.</em></h2>
           <p>Seis encontros ao vivo entre agosto e novembro, incluindo duas queimas coletivas acompanhadas em tempo real.</p>
-          <a className="outline-cta dark-outline" href={checkoutUrl} target="_blank" rel="noreferrer">Ver detalhes e inscrever-se <span>⟶</span></a>
+          <a className="outline-cta dark-outline" href={checkoutUrl} target="_blank" rel="noreferrer">Ver detalhes e inscrever-se <ArrowRight aria-hidden="true" /></a>
         </div>
         <div className="module-list" data-reveal>
           {modules.map((module) => (
@@ -338,7 +341,7 @@ export default function Home() {
           <div className="eyebrow"><span /> Resultados esperados</div>
           <h2>Ao final da mentoria, <em>você terá</em></h2>
         </div>
-        <span className="swipe-hint outcome-hint">Deslize para ver os resultados <b>⟶</b></span>
+        <span className="swipe-hint outcome-hint">Deslize para ver os resultados <ArrowRight aria-hidden="true" /></span>
         <div className="outcome-track">
           {outcomes.map(({ icon: Icon, text }) => (
             <article className="outcome-card" data-reveal key={text}><Icon aria-hidden="true" /><p>{text}</p></article>
@@ -391,7 +394,12 @@ export default function Home() {
         </div>
         <div className="price-card" data-reveal>
           <span className="price-label">Invista na sua prática</span>
-          <div className="price price-single"><strong>R$ 1.597</strong></div>
+          <div className="installment-price" aria-label="Em até 12 vezes de 165 reais e 17 centavos">
+            <span className="installment-intro">Em até</span>
+            <strong className="installment-count">12x</strong>
+            <span className="installment-currency">de R$</span>
+            <strong className="installment-amount">165,17</strong>
+          </div>
           <span className="cash">Pagamento pela Hotmart, com opções de Pix e parcelamento no cartão.</span>
           <div className="offer-detail">
             <strong>Matrículas de 3 a 14/8/26</strong>
@@ -401,7 +409,7 @@ export default function Home() {
             <strong>7 dias para decidir com tranquilidade</strong>
             <span>Se perceber que este não é o momento certo, você pode solicitar reembolso dentro do prazo diretamente pela Hotmart.</span>
           </div>
-          <a href={checkoutUrl} target="_blank" rel="noreferrer" className="primary-button">Garantir minha vaga <span>↗</span></a>
+          <a href={checkoutUrl} target="_blank" rel="noreferrer" className="primary-button">Garantir minha vaga <ArrowUpRight aria-hidden="true" /></a>
         </div>
       </section>
 
@@ -413,7 +421,7 @@ export default function Home() {
           <p>Ao se matricular na Mentoria Forno de Latão, você recebe uma condição especial para participar do curso presencial Queimas Poéticas, em Belo Horizonte.</p>
           <p>Após a confirmação da matrícula, você receberá por e-mail um cupom exclusivo de 20% de desconto.</p>
           <div className="in-person-price"><small>de R$ 750 por</small><strong>R$ 600</strong></div>
-          <a className="outline-cta dark-outline" href={presencialUrl} target="_blank" rel="noreferrer">Conhecer o curso presencial <span>↗</span></a>
+          <a className="outline-cta dark-outline" href={presencialUrl} target="_blank" rel="noreferrer">Conhecer o curso presencial <ArrowUpRight aria-hidden="true" /></a>
         </div>
       </section>
 
@@ -438,10 +446,10 @@ export default function Home() {
         <h2 data-reveal>Construa seu forno, aprenda a ler o fogo e conduza suas queimas <em>com mais autonomia.</em></h2>
         <p data-reveal>Se você quer aprofundar sua pesquisa cerâmica, deixar de depender exclusivamente de estruturas externas e construir uma relação mais próxima com o fogo, esta mentoria foi pensada para acompanhar você nesse caminho, desenvolvendo técnica, segurança e autonomia para conduzir suas próprias queimas.</p>
         <p className="final-dates" data-reveal>As inscrições ficam abertas de 3 a 14 de agosto de 2026, ou enquanto houver lugares disponíveis na turma.</p>
-        <a href={checkoutUrl} target="_blank" rel="noreferrer" className="primary-button final-button" data-reveal>Quero construir meu forno <span>↗</span></a>
+        <a href={checkoutUrl} target="_blank" rel="noreferrer" className="primary-button final-button" data-reveal>Quero construir meu forno <ArrowUpRight aria-hidden="true" /></a>
       </section>
 
-      <a className="back-to-top" href="#inicio" aria-label="Voltar ao topo">Voltar ao topo <span>↑</span></a>
+      <a className="back-to-top" href="#inicio" aria-label="Voltar ao topo">Voltar ao topo <ArrowUp aria-hidden="true" /></a>
       <a className="whatsapp-float" href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="Falar pelo WhatsApp"><img src="https://cdn.simpleicons.org/whatsapp/FFFFFF" alt="" /></a>
 
       <footer>
@@ -459,18 +467,18 @@ export default function Home() {
           <div className="footer-column" id="contato">
             <strong>Fale com a gente</strong>
             <span>E-mail</span>
-            <a href="https://www.instagram.com/kuaraceramicas/" target="_blank" rel="noreferrer">Instagram ↗</a>
+            <a href="https://www.instagram.com/kuaraceramicas/" target="_blank" rel="noreferrer">Instagram <ArrowUpRight aria-hidden="true" /></a>
           </div>
           <div className="footer-column">
             <strong>Informações</strong>
             <a href="#faq">FAQ</a>
-            <a className="footer-offer" href={checkoutUrl} target="_blank" rel="noreferrer">Garantir vaga ↗</a>
+            <a className="footer-offer" href={checkoutUrl} target="_blank" rel="noreferrer">Garantir vaga <ArrowUpRight aria-hidden="true" /></a>
           </div>
         </div>
         <div className="footer-bottom">
           <span>© 2026 Kûara Cerâmicas · CNPJ 31.660.739/0001-53</span>
           <span>Produzido e desenvolvido por Sacada</span>
-          <a href="#inicio">Voltar ao topo ↑</a>
+          <a href="#inicio">Voltar ao topo <ArrowUp aria-hidden="true" /></a>
         </div>
       </footer>
     </main>

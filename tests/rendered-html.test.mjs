@@ -30,8 +30,14 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.match(page, /<details className="module-row"/);
   assert.match(page, /className="audience-track"/);
   assert.match(page, /className="whatsapp-float"/);
+  assert.match(page, /className="installment-intro">Em até/);
+  assert.match(page, /className="installment-count">12x/);
+  assert.match(page, /className="installment-amount">165,17/);
+  assert.doesNotMatch(page, /[⟶↗↑×]/);
   assert.match(page, /amanda-placeholder\.jpg|teacher-photo/);
   assert.match(css, /Mobile is the default/);
+  assert.match(css, /min-height: max\(76svh, 620px\)/);
+  assert.doesNotMatch(css, /content:\s*["'][↗×]["']/);
   assert.match(css, /\.site-header/);
   assert.match(css, /\.audience-track/);
   assert.match(css, /\.module-row summary/);
