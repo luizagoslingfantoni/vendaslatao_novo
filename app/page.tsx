@@ -55,7 +55,7 @@ const testimonials = [
     author: "Adriana S. · Mentoria Forno de Latão",
   },
   {
-    quote: "Você é leve e calma, didática e sabe muito. Se hoje eu sei o que é um forno de latão e uma curva de queima — algo que achei que jamais aprenderia — é por você. Sou muito grata por tudo o que vivemos.",
+    quote: "Você é leve e calma, didática e sabe muito. Se hoje eu sei o que é um forno de latão e uma curva de queima, algo que achei que jamais aprenderia, é por você. Sou muito grata por tudo o que vivemos.",
     author: "Sara S. · Mentoria Forno de Latão",
   },
   {
