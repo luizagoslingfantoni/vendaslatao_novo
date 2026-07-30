@@ -297,7 +297,15 @@ export default function Home() {
 
       <section className="teacher section-pad" id="sobre">
         <div className="teacher-photo-wrap" data-reveal>
-          <div className="teacher-photo parallax-medium" role="img" aria-label="Amanda Maciel segurando uma peça de cerâmica" />
+          <img
+            className="teacher-photo"
+            src="/assets/amanda-convidativa.jpg"
+            alt="Amanda Maciel sorrindo e segurando uma peça de cerâmica"
+            width="1600"
+            height="2000"
+            loading="lazy"
+            decoding="async"
+          />
           <div className="photo-caption"><span>Amanda Maciel</span> Kûara Cerâmicas</div>
         </div>
         <div className="teacher-copy" data-reveal>

@@ -123,7 +123,7 @@ body.is-scrolled .nav-progress { opacity: 1; }
 
 .teacher { display: grid; gap: 44px; background: var(--sand-light); overflow: hidden; }
 .teacher-photo-wrap { position: relative; }
-.teacher-photo { height: min(82vw, 340px); background: url("/assets/amanda-convidativa.jpg") 50% 34% / cover no-repeat; }
+.teacher-photo { display: block; width: 100%; height: auto; }
 .photo-caption { display: flex; justify-content: space-between; gap: 10px; padding-top: 11px; margin-top: 12px; border-top: 1px solid var(--line); color: #81796e; font-size: 7px; text-transform: uppercase; letter-spacing: .1em; }
 .teacher-copy { max-width: 550px; }
 .teacher-lead { margin: 0 0 32px; color: var(--clay); font: italic 400 24px/1.25 var(--font-display); }
@@ -350,7 +350,7 @@ footer { padding: 58px 22px 25px; background: #182126; color: white; }
   .pillar-card h3 { font-size: 17px; }
   .pillars-close { grid-template-columns: auto 1fr; align-items: center; gap: 70px; margin-top: 52px; }
   .teacher { gap: 75px; }
-  .teacher-photo { height: 420px; }
+  .teacher-photo { height: auto; }
   .teacher-lead { font-size: 32px; }
   .audience-title { display: flex; justify-content: space-between; align-items: end; margin-bottom: 60px; }
   .audience-title .eyebrow { align-self: flex-start; }
@@ -451,8 +451,8 @@ footer { padding: 58px 22px 25px; background: #182126; color: white; }
   .pillar-card:hover .pillar-number { color: var(--clay); }
   .pillar-card:hover p { color: #6e675e; }
   .teacher { grid-template-columns: .82fr 1.18fr; gap: 8vw; align-items: stretch; }
-  .teacher-photo-wrap { display: flex; flex-direction: column; min-height: 510px; }
-  .teacher-photo { flex: 1; height: auto; min-height: 470px; transform: translateY(calc(var(--scroll) * -.006)); }
+  .teacher-photo-wrap { display: block; min-height: 0; }
+  .teacher-photo { height: auto; min-height: 0; }
   .audience-card { min-height: 650px; padding: 50px; }
   .audience-card h3 { font-size: 42px; }
   .curriculum { grid-template-columns: .75fr 1.25fr; gap: 8vw; }
@@ -488,7 +488,7 @@ footer { padding: 58px 22px 25px; background: #182126; color: white; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  .hero-image, .arch-image, .teacher-photo { transform: none !important; }
+  .hero-image, .arch-image { transform: none !important; }
   .social-slide { animation: none !important; opacity: 0; }
   .social-slide:first-child { opacity: 1; }
   [data-reveal] { opacity: 1; transform: none; }

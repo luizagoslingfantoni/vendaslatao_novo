@@ -54,7 +54,11 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.match(page, /className="installment-count">12x/);
   assert.match(page, /className="installment-amount">165,17/);
   assert.doesNotMatch(page, /[⟶↗↑×]/);
-  assert.match(css, /amanda-convidativa\.jpg/);
+  assert.match(page, /amanda-convidativa\.jpg/);
+  assert.match(page, /className="teacher-photo"/);
+  assert.match(page, /width="1600"/);
+  assert.match(page, /height="2000"/);
+  assert.doesNotMatch(page, /teacher-photo parallax-medium/);
   assert.match(css, /Mobile is the default/);
   assert.match(css, /min-height: max\(100svh, 850px\)/);
   assert.match(css, /hero-mobile-forno\.jpg/);
