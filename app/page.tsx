@@ -194,7 +194,6 @@ export default function Home() {
       <header className="site-header">
         <a className="brand" href="#inicio" aria-label="Kûara - início">
           <img className="brand-light" src="/assets/logo-kuara.svg" alt="" />
-          <img className="brand-dark" src="/assets/logo-escuro.svg" alt="" />
         </a>
         <nav aria-label="Navegação principal">
           <a href="#metodo">Mentoria</a>

@@ -25,8 +25,7 @@ button { font: inherit; }
 /* Mobile is the default. Larger layouts only expand from this base. */
 .site-header { position: fixed; z-index: 100; inset: 0 0 auto; height: 90px; display: flex; flex-direction: column; align-items: stretch; justify-content: center; padding: 4px 18px 0; color: white; border-bottom: 1px solid rgba(255,255,255,.2); transition: height .3s ease, padding .3s ease, color .3s ease, background .3s ease, box-shadow .3s ease; }
 .brand { display: flex; align-items: center; align-self: center; width: 72px; height: 28px; }
-.brand img { width: 100%; height: 100%; object-fit: contain; }
-.brand-dark { display: none; }
+.brand img { width: 100%; height: 100%; object-fit: contain; transition: filter .25s ease; }
 .site-header nav { display: grid; grid-template-columns: repeat(4, auto); justify-content: space-between; align-items: center; width: 100%; gap: 8px; font-size: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; }
 .site-header nav a { position: relative; display: inline-flex; align-items: center; min-height: 48px; white-space: nowrap; }
 .site-header nav a::after { content: ""; position: absolute; inset: auto 0 8px; height: 1px; background: currentColor; transform: scaleX(0); transition: transform .25s ease; }
@@ -36,8 +35,7 @@ button { font: inherit; }
 .site-header nav .nav-enroll::after { transform: scaleX(1); }
 body.is-scrolled .site-header { height: 90px; padding: 4px 18px 0; color: var(--ink); border: 0; border-bottom: 1px solid rgba(64,54,43,.1); background: rgba(247,243,235,.96); box-shadow: 0 5px 16px rgba(57,40,27,.055); backdrop-filter: blur(16px); }
 body.is-scrolled .site-header nav .nav-enroll { color: var(--clay); }
-body.is-scrolled .brand-light { display: none; }
-body.is-scrolled .brand-dark { display: block; }
+body.is-scrolled .brand img { filter: brightness(0) saturate(100%); }
 .nav-progress { position: absolute; left: 14px; right: 14px; bottom: -1px; height: 2px; overflow: hidden; opacity: 0; transition: opacity .25s ease; }
 .nav-progress span { display: block; width: 100%; height: 100%; background: #d88361; transform: scaleX(var(--progress)); transform-origin: left; }
 body.is-scrolled .nav-progress { opacity: 1; }
@@ -219,7 +217,7 @@ body.is-scrolled .nav-progress { opacity: 1; }
 .installment-price { display: grid; gap: 7px; color: var(--clay-dark); white-space: nowrap; }
 .installment-line { display: flex; align-items: baseline; gap: 6px; }
 .installment-intro { color: #766f66; font: 650 9px/1 var(--font-sans); text-transform: uppercase; letter-spacing: .08em; }
-.installment-count { font-size: 29px; font-weight: 500; line-height: 1; letter-spacing: -.04em; }
+.installment-count { font-size: 11px; font-weight: 650; line-height: 1; letter-spacing: -.01em; }
 .installment-currency { color: #766f66; font: 600 10px/1 var(--font-sans); }
 .installment-main { display: flex; align-items: baseline; gap: 7px; font-family: var(--font-display); }
 .installment-symbol { color: #766f66; font: 600 13px/1 var(--font-sans); }
@@ -316,7 +314,7 @@ footer { padding: 58px 22px 25px; background: #182126; color: white; }
 @media (min-width: 768px) {
   section[id] { scroll-margin-top: 72px; }
   .site-header { flex-direction: row; align-items: center; justify-content: flex-start; height: 74px; padding: 0 36px; }
-  .site-header .brand { display: flex; }
+  .site-header .brand { display: flex; width: 122px; height: 48px; }
   .site-header nav { display: flex; justify-content: flex-end; width: auto; margin-left: auto; gap: 26px; font-size: 10px; letter-spacing: .11em; }
   body.is-scrolled .site-header { inset: 0 0 auto; height: 64px; padding: 0 36px; }
   .hero { min-height: max(100svh, 880px); }
@@ -386,7 +384,7 @@ footer { padding: 58px 22px 25px; background: #182126; color: white; }
   .price-card { margin: 0; padding: 50px; }
   .offer-stamp { width: 100px; height: 100px; font-size: 15px; }
   .installment-intro { font-size: 10px; }
-  .installment-count { font-size: 35px; }
+  .installment-count { font-size: 12px; }
   .installment-currency { font-size: 11px; }
   .installment-amount { font-size: 72px; }
   .in-person { grid-template-columns: 1fr 1fr; min-height: 760px; }
@@ -462,7 +460,7 @@ footer { padding: 58px 22px 25px; background: #182126; color: white; }
   .offer { grid-template-columns: 1fr .82fr; gap: 9vw; align-items: center; }
   .offer-stamp { width: 108px; height: 108px; font-size: 16px; }
   .price-card { padding: 58px; }
-  .installment-count { font-size: 38px; }
+  .installment-count { font-size: 12px; }
   .installment-amount { font-size: 78px; }
   .in-person { grid-template-columns: 1.08fr .92fr; }
   .in-person-copy { padding: 110px 7vw; }
