@@ -43,7 +43,7 @@ body.is-scrolled .brand-dark { opacity: 1; }
 body.is-scrolled .nav-progress { opacity: 1; }
 
 .hero { position: relative; min-height: max(100svh, 850px); overflow: hidden; display: flex; align-items: stretch; color: white; background: #765d49; }
-.hero-image { position: absolute; inset: 0; background: url("/assets/hero-mobile-forno.jpg") center top / auto min(82vh, 760px) no-repeat; transform: translateY(calc(var(--scroll) * .04)) scale(1.01); will-change: transform; }
+.hero-image { position: absolute; inset: 0; background: url("/assets/hero-mobile-vasos.jpg") center top / auto min(82vh, 760px) no-repeat; transform: translateY(calc(var(--scroll) * .04)) scale(1.01); will-change: transform; }
 .hero-wash { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(25,33,37,.46), rgba(25,33,37,.7) 44%, rgba(25,33,37,.95) 100%), linear-gradient(90deg, rgba(25,33,37,.7), rgba(25,33,37,.22)); }
 .hero-content { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 30px; width: 100%; min-height: max(100svh, 850px); padding: 126px 22px 28px; }
 .hero-main { max-width: 760px; }
