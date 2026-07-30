@@ -41,8 +41,8 @@ body.is-scrolled .brand img { filter: brightness(0) saturate(100%); }
 body.is-scrolled .nav-progress { opacity: 1; }
 
 .hero { position: relative; min-height: max(100svh, 850px); overflow: hidden; display: flex; align-items: stretch; color: white; background: #765d49; }
-.hero-image { position: absolute; inset: -5%; background: url("https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=1500&q=86") 60% center / cover no-repeat; transform: translateY(calc(var(--scroll) * .1)) scale(1.04); will-change: transform; }
-.hero-wash { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(30,22,16,.72), rgba(42,27,19,.2) 70%), linear-gradient(0deg, rgba(22,16,12,.72), transparent 58%); }
+.hero-image { position: absolute; inset: 0; background: url("/assets/hero-mobile-forno.jpg") center 72px / auto min(82vh, 760px) no-repeat; transform: translateY(calc(var(--scroll) * .04)) scale(1.01); will-change: transform; }
+.hero-wash { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(25,33,37,.46), rgba(25,33,37,.7) 44%, rgba(25,33,37,.95) 100%), linear-gradient(90deg, rgba(25,33,37,.7), rgba(25,33,37,.22)); }
 .hero-content { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 30px; width: 100%; min-height: max(100svh, 850px); padding: 126px 22px 28px; }
 .hero-main { max-width: 760px; }
 .eyebrow { display: flex; align-items: center; margin-bottom: 22px; color: var(--clay); font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: .16em; }
@@ -413,6 +413,15 @@ footer { padding: 58px 22px 25px; background: #182126; color: white; }
   .footer-bottom { grid-template-columns: 1fr auto; }
   .footer-bottom .footer-credit { grid-column: 1 / -1; }
   .footer-bottom > a:last-child { justify-self: end; text-align: right; }
+}
+
+@media (min-width: 768px) and (max-width: 820px) {
+  .hero-image { background-position: center 72px; }
+}
+
+@media (min-width: 821px) {
+  .hero-image { inset: -5%; background-image: url("/assets/hero-pecas-madeira.jpg"); background-position: center 58%; background-size: cover; transform: translateY(calc(var(--scroll) * .1)) scale(1.04); }
+  .hero-wash { background: linear-gradient(90deg, rgba(30,22,16,.72), rgba(42,27,19,.2) 70%), linear-gradient(0deg, rgba(22,16,12,.72), transparent 58%); }
 }
 
 @media (min-width: 1100px) {
