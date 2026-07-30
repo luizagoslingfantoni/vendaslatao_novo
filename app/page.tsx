@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import {
   ArrowRight,
   ArrowUp,
@@ -8,6 +8,8 @@ import {
   BookOpenText,
   Check,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   CircleGauge,
   Clock3,
   Flame,
@@ -169,6 +171,13 @@ const faqs = [
 
 export default function Home() {
   const [waitlistStatus, setWaitlistStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const testimonialTrackRef = useRef<HTMLDivElement>(null);
+
+  function moveTestimonials(direction: -1 | 1) {
+    const track = testimonialTrackRef.current;
+    if (!track) return;
+    track.scrollBy({ left: direction * track.clientWidth * 0.9, behavior: "smooth" });
+  }
 
   async function handleWaitlistSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -417,13 +426,23 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div className="testimonial-track" aria-label="Depoimentos de participantes">
-            {testimonials.map((testimonial) => (
-              <blockquote className="testimonial-card" key={testimonial.author}>
-                <p>“{testimonial.quote}”</p>
-                <cite>{testimonial.author}</cite>
-              </blockquote>
-            ))}
+          <div className="testimonial-carousel">
+            <div className="testimonial-nav" aria-label="Controles dos depoimentos">
+              <button type="button" onClick={() => moveTestimonials(-1)} aria-label="Ver depoimentos anteriores">
+                <ChevronLeft aria-hidden="true" />
+              </button>
+              <button type="button" onClick={() => moveTestimonials(1)} aria-label="Ver próximos depoimentos">
+                <ChevronRight aria-hidden="true" />
+              </button>
+            </div>
+            <div className="testimonial-track" ref={testimonialTrackRef} aria-label="Depoimentos de participantes">
+              {testimonials.map((testimonial) => (
+                <blockquote className="testimonial-card" key={testimonial.author}>
+                  <p>“{testimonial.quote}”</p>
+                  <cite>{testimonial.author}</cite>
+                </blockquote>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -567,7 +586,7 @@ export default function Home() {
         </form>
       </section>
 
-      <a className="back-to-top" href="#inicio" aria-label="Voltar ao topo">Voltar ao topo <ArrowUp aria-hidden="true" /></a>
+      <a className="back-to-top" href="#inicio" aria-label="Voltar ao topo"><ArrowUp aria-hidden="true" /></a>
       <a className="whatsapp-float" href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="Falar pelo WhatsApp"><img src="https://cdn.simpleicons.org/whatsapp/FFFFFF" alt="" /></a>
 
       <footer>

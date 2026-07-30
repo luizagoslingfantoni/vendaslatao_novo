@@ -8,7 +8,7 @@ async function render() {
 
 test("Next.js prerenders the Forno de Latão sales page", async () => {
   const html = await render();
-  assert.match(html, /<title>Forno de Latão — Mentoria com Amanda Maciel<\/title>/i);
+  assert.match(html, /<title>Forno de Latão • Mentoria online com Amanda Maciel<\/title>/i);
   assert.match(html, /Construa seu próprio/);
   assert.match(html, /Da construção do forno às primeiras queimas/);
   assert.match(html, /Ao final da mentoria/);
@@ -44,6 +44,10 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.match(page, /className="hero-highlights"/);
   assert.match(page, /const testimonials = \[/);
   assert.match(page, /testimonials\.map/);
+  assert.match(page, /className="testimonial-carousel"/);
+  assert.match(page, /moveTestimonials\(-1\)/);
+  assert.match(page, /moveTestimonials\(1\)/);
+  assert.match(page, /className="back-to-top"[^>]*><ArrowUp/);
   assert.doesNotMatch(page, /testimonialScreenshots|testimonial-screenshot/);
   assert.match(page, /27h de aulas ao vivo/);
   assert.doesNotMatch(page, /className="manifesto/);
@@ -76,7 +80,7 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.match(css, /\.audience-track/);
   assert.match(css, /\.module-row summary/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
-  assert.match(layout, /Forno de Latão — Mentoria com Amanda Maciel/);
+  assert.match(layout, /Forno de Latão • Mentoria online com Amanda Maciel/);
   assert.match(layout, /apple-touch-icon\.png/);
   assert.match(packageJson, /"build": "next build"/);
   assert.match(netlify, /publish = "\.next"/);
