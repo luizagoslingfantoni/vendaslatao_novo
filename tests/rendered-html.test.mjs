@@ -18,6 +18,9 @@ test("Next.js prerenders the Forno de Latão sales page", async () => {
   assert.match(html, /name="lista-proxima-turma"/);
   assert.match(html, /Design e desenvolvimento por Estúdio Taú · tauestudio\.com\.br/);
   assert.match(html, /https:\/\/tauestudio\.com\.br/);
+  assert.match(html, /galeria-alta-temperatura\.jpg/);
+  assert.match(html, /Raku nu/);
+  assert.match(html, /Saggar/);
   assert.match(html, /assets\/favicon-32\.png/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
@@ -47,7 +50,9 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.match(css, /Mobile is the default/);
   assert.match(css, /min-height: max\(100svh, 850px\)/);
   assert.match(css, /hero-mobile-forno\.jpg/);
-  assert.match(css, /hero-pecas-madeira\.jpg/);
+  assert.match(css, /hero-desktop-coletivo\.jpg/);
+  assert.match(css, /problema-ceramicas\.jpg/);
+  assert.match(css, /condicao-especial-materiais\.jpg/);
   assert.doesNotMatch(css, /content:\s*["'][↗×]["']/);
   assert.match(css, /\.site-header/);
   assert.match(css, /\.audience-track/);

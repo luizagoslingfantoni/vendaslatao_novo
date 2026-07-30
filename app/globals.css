@@ -35,7 +35,7 @@ button { font: inherit; }
 .site-header nav .nav-enroll::after { transform: scaleX(1); }
 body.is-scrolled .site-header { height: 90px; padding: 4px 18px 0; color: var(--ink); border: 0; border-bottom: 1px solid rgba(64,54,43,.1); background: rgba(247,243,235,.96); box-shadow: 0 5px 16px rgba(57,40,27,.055); backdrop-filter: blur(16px); }
 body.is-scrolled .site-header nav .nav-enroll { color: var(--clay); }
-body.is-scrolled .brand img { filter: brightness(0) saturate(100%); }
+body.is-scrolled .brand img { filter: brightness(0) saturate(100%) invert(22%) sepia(31%) saturate(1742%) hue-rotate(335deg) brightness(89%) contrast(90%); }
 .nav-progress { position: absolute; left: 14px; right: 14px; bottom: -1px; height: 2px; overflow: hidden; opacity: 0; transition: opacity .25s ease; }
 .nav-progress span { display: block; width: 100%; height: 100%; background: #d88361; transform: scaleX(var(--progress)); transform-origin: left; }
 body.is-scrolled .nav-progress { opacity: 1; }
@@ -84,7 +84,7 @@ body.is-scrolled .nav-progress { opacity: 1; }
 .problem-cta:hover, .curriculum-cta:hover { background: var(--ink); }
 .problem-cta svg, .curriculum-cta svg { flex: 0 0 auto; width: 20px; height: 20px; stroke-width: 1.25; }
 .problem-visual { position: relative; height: 100vw; }
-.arch-image { position: absolute; inset: 0; border-radius: 50% 50% 6px 6px / 32% 32% 6px 6px; background: url("https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=1100&q=84") 58% center / cover no-repeat; }
+.arch-image { position: absolute; inset: 0; border-radius: 50% 50% 6px 6px / 32% 32% 6px 6px; background: url("/assets/problema-ceramicas.jpg") center 58% / cover no-repeat; }
 .orbit-note { position: absolute; right: 22px; top: 12%; width: 94px; height: 94px; display: grid; place-items: center; border-radius: 50%; background: var(--clay); color: white; font-size: 7px; text-transform: uppercase; letter-spacing: .13em; text-align: center; padding: 18px; animation: float 5s ease-in-out infinite; }
 @keyframes float { 50% { transform: translateY(-10px) rotate(4deg); } }
 
@@ -181,15 +181,9 @@ body.is-scrolled .nav-progress { opacity: 1; }
 .social-heading > p { max-width: 800px; margin: 20px 0 0; color: #686761; font-size: 13px; line-height: 1.55; }
 .social-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
 .social-slideshow { position: relative; min-height: 96vw; overflow: hidden; background: #cab9a5; }
-.social-slide { position: absolute; inset: 0; background-position: center; background-size: cover; opacity: 0; animation: socialSlide 15s infinite; }
-.slide-a { background-image: url("https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=1000&q=84"); }
-.slide-b { background-image: url("https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=1000&q=84"); animation-delay: 5s; }
-.slide-c { background-image: url("https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=1000&q=84"); animation-delay: 10s; }
-@keyframes socialSlide { 0%, 28% { opacity: 1; transform: scale(1); } 33%, 95% { opacity: 0; transform: scale(1.04); } 100% { opacity: 1; transform: scale(1); } }
+.social-slide { position: absolute; inset: 0; background-position: center; background-size: cover; opacity: 0; animation: socialSlide 30s infinite; }
+@keyframes socialSlide { 0%, 14% { opacity: 1; transform: scale(1); } 16.667%, 100% { opacity: 0; transform: scale(1.04); } }
 .slide-caption { position: absolute; z-index: 3; left: 15px; bottom: 15px; padding: 9px 12px; background: rgba(247,243,235,.9); color: var(--ink); font: italic 400 12px var(--font-display); backdrop-filter: blur(8px); }
-.slide-dots { position: absolute; z-index: 3; right: 15px; bottom: 19px; display: flex; gap: 6px; }
-.slide-dots i { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,.55); }
-.slide-dots i:first-child { width: 16px; border-radius: 10px; background: white; }
 .testimonial-track { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .testimonial-card { display: flex; flex-direction: column; justify-content: space-between; min-height: 390px; margin: 0; padding: 17px 14px; border: 1px solid rgba(168,79,53,.4); background: #f7f5f1; }
 .testimonial-card p { margin: 0; font: italic 400 15px/1.38 var(--font-display); }
@@ -232,7 +226,7 @@ body.is-scrolled .nav-progress { opacity: 1; }
 .primary-button > svg { flex: 0 0 auto; width: 19px; height: 19px; stroke-width: 1.25; }
 
 .in-person { position: relative; display: grid; gap: 0; padding: 0; background: #343228; color: white; overflow: hidden; }
-.in-person-image { min-height: 88vw; background: linear-gradient(0deg, rgba(27,26,20,.2), rgba(27,26,20,.05)), url("https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=1200&q=84") center / cover no-repeat; }
+.in-person-image { min-height: 88vw; background: linear-gradient(0deg, rgba(27,26,20,.2), rgba(27,26,20,.05)), url("/assets/condicao-especial-materiais.jpg") center 46% / cover no-repeat; }
 .in-person-copy { padding: 64px 22px; }
 .in-person h2 { margin: 0 0 28px; font-size: 9.8vw; line-height: 1.02; }
 .in-person h2 em { color: #e9b9a7; }
@@ -420,7 +414,7 @@ footer { padding: 58px 22px 25px; background: #182126; color: white; }
 }
 
 @media (min-width: 821px) {
-  .hero-image { inset: -5%; background-image: url("/assets/hero-pecas-madeira.jpg"); background-position: center 58%; background-size: cover; transform: translateY(calc(var(--scroll) * .1)) scale(1.04); }
+  .hero-image { inset: -5%; background-image: url("/assets/hero-desktop-coletivo.jpg"); background-position: center 52%; background-size: cover; transform: translateY(calc(var(--scroll) * .1)) scale(1.04); }
   .hero-wash { background: linear-gradient(90deg, rgba(30,22,16,.72), rgba(42,27,19,.2) 70%), linear-gradient(0deg, rgba(22,16,12,.72), transparent 58%); }
 }
 

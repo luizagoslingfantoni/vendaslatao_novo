@@ -34,6 +34,15 @@ const quickHighlights = [
   { icon: Wrench, text: "Projeto técnico, fornecedores e curvas de queima" },
 ];
 
+const socialSlides = [
+  { image: "/assets/galeria-alta-temperatura.jpg", caption: "Alta temperatura" },
+  { image: "/assets/galeria-obvara.jpg", caption: "Obvara" },
+  { image: "/assets/galeria-raku-iridescente.jpg", caption: "Raku iridescente" },
+  { image: "/assets/galeria-raku.jpg", caption: "Raku" },
+  { image: "/assets/galeria-raku-nu.jpg", caption: "Raku nu" },
+  { image: "/assets/galeria-saggar.jpg", caption: "Saggar" },
+];
+
 const pillars = [
   ["01", "Estudando o projeto técnico"],
   ["02", "Organizando compras e fornecedores"],
@@ -358,11 +367,19 @@ export default function Home() {
         </div>
         <div className="social-grid" data-reveal>
           <div className="social-slideshow" aria-label="Galeria de resultados em cerâmica">
-            <div className="social-slide slide-a" aria-hidden="true" />
-            <div className="social-slide slide-b" aria-hidden="true" />
-            <div className="social-slide slide-c" aria-hidden="true" />
-            <span className="slide-caption">Pesquisa, fogo e atmosfera</span>
-            <div className="slide-dots" aria-hidden="true"><i /><i /><i /></div>
+            {socialSlides.map((slide, index) => (
+              <div
+                className="social-slide"
+                style={{
+                  backgroundImage: `url("${slide.image}")`,
+                  animationDelay: `${index * 5}s`,
+                }}
+                key={slide.caption}
+                aria-hidden="true"
+              >
+                <span className="slide-caption">{slide.caption}</span>
+              </div>
+            ))}
           </div>
           <div className="testimonial-track" aria-label="Depoimentos de participantes">
             <blockquote className="testimonial-card">
