@@ -202,7 +202,8 @@ export default function Home() {
     <main>
       <header className="site-header">
         <a className="brand" href="#inicio" aria-label="Kûara - início">
-          <img className="brand-light" src="/assets/logo-kuara.svg" alt="" />
+          <img className="brand-light" src="/assets/logo-kuara-white.png" alt="" />
+          <img className="brand-dark" src="/assets/logo-kuara-brown.png" alt="" />
         </a>
         <nav aria-label="Navegação principal">
           <a href="#metodo">Mentoria</a>
@@ -372,7 +373,7 @@ export default function Home() {
                 className="social-slide"
                 style={{
                   backgroundImage: `url("${slide.image}")`,
-                  animationDelay: `${index * 5}s`,
+                  animationDelay: `${index * 3}s`,
                 }}
                 key={slide.caption}
                 aria-hidden="true"
@@ -399,7 +400,7 @@ export default function Home() {
           <h2>Da construção<br /><em>às queimas.</em></h2>
           <div className="offer-intro">
             <p>Mentoria online, ao vivo e com acompanhamento.</p>
-            <strong>De 17 de agosto a 17 de novembro de 2026</strong>
+            <strong>17/8 a 17/11/26</strong>
           </div>
           <h3 className="included-title">Tudo o que você recebe</h3>
           <div className="included-groups">
@@ -445,7 +446,7 @@ export default function Home() {
         <div className="in-person-image" role="img" aria-label="Peças de cerâmica reunidas após uma queima" />
         <div className="in-person-copy" data-reveal>
           <div className="eyebrow light"><span /> Condição especial</div>
-          <h2>Uma experiência presencial para ampliar seu repertório <em>na prática.</em></h2>
+          <h2>Uma <em className="in-person-emphasis">experiência presencial</em> para ampliar seu repertório na prática.</h2>
           <p>Ao se matricular na Mentoria Forno de Latão, você recebe uma condição especial para participar do curso presencial Queimas Poéticas, em Belo Horizonte.</p>
           <p className="in-person-highlight">Após a confirmação da matrícula, você receberá por e-mail um cupom exclusivo de 20% de desconto.</p>
           <div className="in-person-price"><small>de R$ 750 por</small><strong>R$ 600</strong></div>
@@ -461,7 +462,7 @@ export default function Home() {
         </div>
         <div className="faq-list" data-reveal>
           {faqs.map(([question, answer], index) => (
-            <details key={question} open={index === 0}>
+            <details key={question}>
               <summary><span>{String(index + 1).padStart(2, "0")}</span>{question}<ChevronDown aria-hidden="true" /></summary>
               <p>{answer}</p>
             </details>
@@ -471,13 +472,13 @@ export default function Home() {
 
       <section className="final-cta section-pad">
         <div className="eyebrow light" data-reveal><span /> Sua próxima queima</div>
-        <h2 data-reveal>Construa seu forno, aprenda a ler o fogo e conduza suas queimas <em className="keep-together">com mais autonomia.</em></h2>
+        <h2 data-reveal>Construa seu forno, aprenda a ler o fogo e conduza suas queimas com <strong className="keep-together">mais autonomia.</strong></h2>
         <p data-reveal>Se você quer aprofundar sua pesquisa cerâmica, deixar de depender exclusivamente de estruturas externas e construir uma relação mais próxima com o fogo, esta mentoria foi pensada para acompanhar você nesse caminho, desenvolvendo técnica, segurança e autonomia para conduzir suas próprias queimas.</p>
         <p className="final-dates" data-reveal>As inscrições ficam abertas de 3 a 14 de agosto de 2026, ou enquanto houver lugares disponíveis na turma.</p>
         <a href={checkoutUrl} target="_blank" rel="noreferrer" className="primary-button final-button" data-reveal>Quero construir meu forno <ArrowUpRight aria-hidden="true" /></a>
       </section>
 
-      <section className="waitlist section-pad" aria-labelledby="waitlist-title">
+      <section className="waitlist section-pad" aria-labelledby="waitlist-title" hidden>
         <div className="waitlist-copy" data-reveal>
           <div className="eyebrow"><span /> Próxima turma</div>
           <h2 id="waitlist-title">Quer saber quando uma nova turma <em>abrir?</em></h2>

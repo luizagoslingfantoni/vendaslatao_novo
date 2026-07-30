@@ -13,7 +13,7 @@ test("Next.js prerenders the Forno de Latão sales page", async () => {
   assert.match(html, /Da construção do forno às primeiras queimas/);
   assert.match(html, /Ao final da mentoria/);
   assert.match(html, /Tudo o que você recebe/);
-  assert.match(html, /Uma experiência presencial/);
+  assert.match(html, /experiência presencial/);
   assert.match(html, /Quer saber quando uma nova turma/);
   assert.match(html, /name="lista-proxima-turma"/);
   assert.match(html, /Design e desenvolvimento por Estúdio Taú · tauestudio\.com\.br/);
@@ -42,6 +42,14 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.match(page, /27h de aulas ao vivo/);
   assert.doesNotMatch(page, /className="manifesto/);
   assert.match(page, /className="waitlist-form"/);
+  assert.match(page, /className="waitlist section-pad" aria-labelledby="waitlist-title" hidden/);
+  assert.match(css, /\.final-button[^}]*font-weight:\s*700/);
+  assert.match(page, /logo-kuara-white\.png/);
+  assert.match(page, /logo-kuara-brown\.png/);
+  assert.doesNotMatch(page, /<details key=\{question\} open=/);
+  assert.match(page, /experiência presencial<\/em>/);
+  assert.match(page, /<strong className="keep-together">mais autonomia\.<\/strong>/);
+  assert.match(css, /socialSlide 18s infinite/);
   assert.match(page, /className="installment-intro">Em até/);
   assert.match(page, /className="installment-count">12x/);
   assert.match(page, /className="installment-amount">165,17/);
