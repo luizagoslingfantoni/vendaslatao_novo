@@ -45,7 +45,7 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.doesNotMatch(page, /[⟶↗↑×]/);
   assert.match(page, /amanda-placeholder\.jpg|teacher-photo/);
   assert.match(css, /Mobile is the default/);
-  assert.match(css, /min-height: max\(100svh, 760px\)/);
+  assert.match(css, /min-height: max\(100svh, 850px\)/);
   assert.doesNotMatch(css, /content:\s*["'][↗×]["']/);
   assert.match(css, /\.site-header/);
   assert.match(css, /\.audience-track/);
@@ -58,4 +58,6 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.match(page, /fetch\("\/__forms\.html"/);
   assert.match(forms, /name="lista-proxima-turma"/);
   assert.match(forms, /data-netlify="true"/);
+  assert.match(forms, /data-netlify-recaptcha="true"/);
+  assert.match(forms, /name="whatsapp"/);
 });

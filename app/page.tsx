@@ -11,13 +11,13 @@ import {
   CircleGauge,
   Clock3,
   Flame,
-  FolderOpen,
   HandHelping,
   Mail,
   MessagesSquare,
+  Phone,
   PlayCircle,
-  Route,
-  Sparkles,
+  ShieldCheck,
+  UserRound,
   Wrench,
   X,
 } from "lucide-react";
@@ -97,14 +97,6 @@ const notFitItems = [
   "Procura produção padronizada, automatizada e em grande volume",
   "Não tem acesso a um espaço aberto e bem ventilado",
   "Quer apenas assistir sem colocar o processo em prática",
-];
-
-const outcomes = [
-  { icon: Flame, text: "Um Forno de Latão a gás funcional, construído por você ou em processo avançado, pronto para queimas até 1245 °C." },
-  { icon: CircleGauge, text: "Economia significativa em relação a fornos elétricos semelhantes, com investimento médio de R$ 3.000 na estrutura." },
-  { icon: Sparkles, text: "Conhecimento para conduzir biscoito, esmalte, monoqueima e diferentes queimas poéticas." },
-  { icon: FolderOpen, text: "E-book, planilhas, curvas, fornecedores, registros e gravações para consultar sempre que precisar." },
-  { icon: Route, text: "Mais autonomia, segurança e liberdade para seguir seu caminho na cerâmica." },
 ];
 
 const includedGroups = [
@@ -241,7 +233,8 @@ export default function Home() {
           <div className="eyebrow"><span /> O problema</div>
           <h2>E se a queima não dependesse de <em>fornos inacessíveis?</em></h2>
           <p>Muita gente chega à cerâmica com uma potência criativa enorme, mas encontra <mark>um gargalo justamente na etapa da queima.</mark> A dificuldade de acesso a fornos acaba limitando a produção, a experimentação e a liberdade de desenvolver um trabalho autoral.</p>
-          <p>Para quem mora <mark>fora dos grandes centros</mark>, esse desafio costuma ser ainda maior. Nem sempre há fornos disponíveis para aluguel, nem sempre o tipo de queima desejado está ao alcance, nem sempre a agenda, ou o bolso, permitem o acesso a esse tipo de serviço. E, assim, muitos ceramistas permanecem distantes de uma das etapas mais importantes e transformadoras da cerâmica: acompanhar o fogo, compreender seu comportamento e construir, com ele, parte do resultado final de cada peça.</p>
+          <p>Para quem mora <mark>fora dos grandes centros</mark>, esse desafio costuma ser ainda maior. Nem sempre há fornos disponíveis para aluguel, nem sempre o tipo de queima desejado está ao alcance, nem sempre a agenda, ou o bolso, permitem o acesso a esse tipo de serviço.</p>
+          <p>E, assim, muitos ceramistas permanecem distantes de uma das etapas mais importantes e transformadoras da cerâmica: acompanhar o fogo, compreender seu comportamento e construir, com ele, parte do resultado final de cada peça.</p>
           <p className="problem-emphasis">O Forno de Latão vem para te apresentar um caminho possível.</p>
           <p>Ele é <mark>artesanal, manual e exige presença.</mark> Você acompanha a chama, observa a curva de queima, aprende a ler sua atmosfera, ajustar equipamentos e entende o comportamento do forno com o corpo inteiro atento ao processo.</p>
           <p className="problem-closing">E justamente por isso ele também devolve autonomia.</p>
@@ -266,7 +259,6 @@ export default function Home() {
           </div>
         </div>
         <p className="journey-label" data-reveal>Durante 3 meses, a turma caminha junta:</p>
-        <span className="swipe-hint">Deslize para acompanhar o percurso <ArrowRight aria-hidden="true" /></span>
         <div className="pillar-grid">
           {pillars.map(([number, title]) => (
             <article className="pillar-card" data-reveal key={number}>
@@ -276,7 +268,7 @@ export default function Home() {
           ))}
         </div>
         <div className="pillars-close" data-reveal>
-          <a className="outline-cta dark-outline" href={checkoutUrl} target="_blank" rel="noreferrer">Quero construir meu forno <ArrowRight aria-hidden="true" /></a>
+          <a className="outline-cta pillars-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Quero construir meu forno <ArrowRight aria-hidden="true" /></a>
           <p>Ao longo da mentoria, vamos orientar você em cada etapa para que desenvolva autonomia, segurança e repertório para seguir construindo, pesquisando e experimentando.</p>
         </div>
       </section>
@@ -289,7 +281,7 @@ export default function Home() {
         </div>
         <ul className="promise-results" data-reveal>
           <li><Flame aria-hidden="true" /><span>Um Forno de Latão a gás funcional e versátil, construído por você, pronto para diferentes tipos de queima cerâmica.</span></li>
-          <li><CircleGauge aria-hidden="true" /><span>Conhecimento sobre manejo e condução das queimas de biscoito, esmalte, monoqueima e várias queimas poéticas — raku nu, obvara, saggar, carbonizações, reduções e iridescências.</span></li>
+          <li><CircleGauge aria-hidden="true" /><span>Conhecimento sobre manejo e condução das queimas de biscoito, esmalte, monoqueima e várias queimas poéticas.</span></li>
           <li><BookOpenText aria-hidden="true" /><span>E-book ilustrado, aulas gravadas e outros materiais de estudo personalizados, reunindo conteúdo técnico, referências e registros do processo.</span></li>
         </ul>
       </section>
@@ -302,9 +294,11 @@ export default function Home() {
         <div className="teacher-copy" data-reveal>
           <div className="eyebrow"><span /> Quem conduz</div>
           <h2>Amanda Maciel</h2>
-          <p className="teacher-lead">“A Kûara é a materialização desse caminho, que se faz andando e a muitas mãos.”</p>
-          <p>Sou graduada em Arquitetura e Urbanismo pela UFMG, onde também concluí mestrado e doutorado em Geografia. Minha trajetória socioambiental atravessa meu fazer artístico, orientado pela pesquisa, pela relação com os territórios e pelo respeito a quem mantém vivos saberes tradicionais.</p>
-          <p>Na mentoria, compartilho o projeto do forno que utilizo na Kûara e os conhecimentos que consolidei ao longo do caminho: métodos, cuidados, experimentações e aprendizados sobre fornos e queimas artesanais.</p>
+          <p className="teacher-lead">A Kûara é a materialização desse caminho, que se faz andando e a muitas mãos.</p>
+          <p>Sou graduada em Arquitetura e Urbanismo pela UFMG, onde também concluí mestrado e doutorado em Geografia.</p>
+          <p>Minha trajetória socioambiental atravessa meu fazer artístico, orientado pela pesquisa, pela relação com os territórios e pelo respeito a quem mantém vivos saberes tradicionais.</p>
+          <p>Na mentoria, compartilho o projeto do forno que utilizo na Kûara e os conhecimentos que consolidei ao longo do caminho.</p>
+          <p>Métodos, cuidados, experimentações e aprendizados sobre fornos e queimas artesanais passam a fazer parte dessa construção coletiva.</p>
         </div>
       </section>
 
@@ -328,18 +322,22 @@ export default function Home() {
 
       <section className="curriculum section-pad" id="conteudo">
         <div className="curriculum-intro" data-reveal>
-          <div className="eyebrow light"><span /> O cronograma</div>
+          <div className="eyebrow light"><span /> Cronograma</div>
           <h2>Projeto, construção,<br />queimas e <em>análise.</em></h2>
           <p>Seis encontros ao vivo entre agosto e novembro, incluindo duas queimas coletivas acompanhadas em tempo real.</p>
-          <a className="curriculum-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Ver detalhes e inscrever-se <ArrowRight aria-hidden="true" /></a>
         </div>
         <div className="module-list" data-reveal>
           {modules.map((module) => (
             <details className="module-row" key={module.number}>
               <summary>
-                <span>{module.number}</span>
+                <div className="module-meta">
+                  <span>{module.number}</span>
+                  <small>
+                    <b>{module.meta.split(" · ")[0]}</b>
+                    <b>{module.meta.split(" · ")[1]}</b>
+                  </small>
+                </div>
                 <h3>{module.title}</h3>
-                <small>{module.meta}</small>
                 <ChevronDown aria-hidden="true" />
               </summary>
               <div className="module-detail">
@@ -349,19 +347,7 @@ export default function Home() {
               </div>
             </details>
           ))}
-        </div>
-      </section>
-
-      <section className="outcomes section-pad">
-        <div className="outcomes-heading" data-reveal>
-          <div className="eyebrow"><span /> Resultados esperados</div>
-          <h2>Ao final da mentoria, <em>você terá</em></h2>
-        </div>
-        <span className="swipe-hint outcome-hint">Deslize para ver os resultados <ArrowRight aria-hidden="true" /></span>
-        <div className="outcome-track">
-          {outcomes.map(({ icon: Icon, text }) => (
-            <article className="outcome-card" data-reveal key={text}><Icon aria-hidden="true" /><p>{text}</p></article>
-          ))}
+          <a className="curriculum-cta curriculum-end-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Ver detalhes e inscrever-se <ArrowRight aria-hidden="true" /></a>
         </div>
       </section>
 
@@ -415,15 +401,21 @@ export default function Home() {
             <div className="offer-stamp" aria-hidden="true">7 dias<br />de garantia</div>
           </div>
           <div className="installment-price" aria-label="Em até 12 vezes de 165 reais e 17 centavos">
-            <span className="installment-intro">Em até</span>
-            <strong className="installment-count">12x</strong>
-            <span className="installment-currency">de R$</span>
-            <strong className="installment-amount">165,17</strong>
+            <div className="installment-line">
+              <span className="installment-intro">Em até</span>
+              <strong className="installment-count">12x</strong>
+              <span className="installment-currency">de</span>
+            </div>
+            <div className="installment-main">
+              <span className="installment-symbol">R$</span>
+              <strong className="installment-amount">165,17</strong>
+            </div>
           </div>
           <span className="cash">Pagamento pela Hotmart, com opções de Pix e parcelamento no cartão.</span>
           <div className="offer-detail">
             <strong>Inscrições de 3 a 14/8/26</strong>
-            <span>Período da mentoria: 17 de agosto a 17 de novembro de 2026. Acesso às gravações e materiais por 1 ano.</span>
+            <span>Período da mentoria: 17 de agosto a 17 de novembro de 2026.</span>
+            <span>Acesso às gravações e materiais por 1 ano.</span>
           </div>
           <div className="offer-detail">
             <strong>7 dias para decidir com tranquilidade</strong>
@@ -473,27 +465,51 @@ export default function Home() {
         <div className="waitlist-copy" data-reveal>
           <div className="eyebrow"><span /> Próxima turma</div>
           <h2 id="waitlist-title">Quer saber quando uma nova turma <em>abrir?</em></h2>
-          <p>Deixe seu e-mail para receber o aviso em primeira mão. Sem excesso de mensagens, só o que importa sobre a próxima edição.</p>
+          <p>Preencha com seus dados para receber o aviso em primeira mão.</p>
         </div>
         <form
           className="waitlist-form"
           name="lista-proxima-turma"
           method="POST"
+          data-netlify-recaptcha="true"
           onSubmit={handleWaitlistSubmit}
           data-reveal
         >
           <input type="hidden" name="form-name" value="lista-proxima-turma" />
           <label className="visually-hidden" htmlFor="waitlist-company">Não preencha este campo</label>
           <input className="visually-hidden" id="waitlist-company" name="empresa" tabIndex={-1} autoComplete="off" />
-          <label htmlFor="waitlist-email">Seu melhor e-mail</label>
-          <div className="waitlist-field">
-            <Mail aria-hidden="true" />
-            <input id="waitlist-email" name="email" type="email" inputMode="email" autoComplete="email" placeholder="voce@exemplo.com" required />
-            <button type="submit" disabled={waitlistStatus === "sending"}>
-              {waitlistStatus === "sending" ? "Enviando" : "Quero receber o aviso"}
-              <ArrowRight aria-hidden="true" />
-            </button>
+          <div className="waitlist-fields">
+            <label className="waitlist-field" htmlFor="waitlist-name">
+              <UserRound aria-hidden="true" />
+              <span>Nome</span>
+              <input id="waitlist-name" name="nome" type="text" autoComplete="given-name" placeholder="Seu nome" required />
+            </label>
+            <label className="waitlist-field" htmlFor="waitlist-surname">
+              <UserRound aria-hidden="true" />
+              <span>Sobrenome</span>
+              <input id="waitlist-surname" name="sobrenome" type="text" autoComplete="family-name" placeholder="Seu sobrenome" required />
+            </label>
+            <label className="waitlist-field" htmlFor="waitlist-email">
+              <Mail aria-hidden="true" />
+              <span>E-mail</span>
+              <input id="waitlist-email" name="email" type="email" inputMode="email" autoComplete="email" placeholder="voce@exemplo.com" required />
+            </label>
+            <label className="waitlist-field" htmlFor="waitlist-whatsapp">
+              <Phone aria-hidden="true" />
+              <span>WhatsApp</span>
+              <input id="waitlist-whatsapp" name="whatsapp" type="tel" inputMode="tel" autoComplete="tel" placeholder="(31) 99999-9999" required />
+            </label>
           </div>
+          <label className="waitlist-consent">
+            <input name="consentimento" type="checkbox" value="aceito" required />
+            <span>Concordo em receber comunicações sobre a próxima turma e li a <a href="/privacidade-termos.html#privacidade" target="_blank" rel="noreferrer">Política de Privacidade</a>.</span>
+          </label>
+          <div className="netlify-captcha" data-netlify-recaptcha="true" />
+          <div className="waitlist-security"><ShieldCheck aria-hidden="true" /><span>Dados protegidos, validação antispam e descadastro a qualquer momento.</span></div>
+          <button className="waitlist-submit" type="submit" disabled={waitlistStatus === "sending"}>
+            {waitlistStatus === "sending" ? "Enviando" : "Quero receber o aviso"}
+            <ArrowRight aria-hidden="true" />
+          </button>
           <p className={`waitlist-status ${waitlistStatus}`} aria-live="polite">
             {waitlistStatus === "success" && "Pronto. Você entrou na lista da próxima turma."}
             {waitlistStatus === "error" && "Não foi possível enviar agora. Tente novamente em instantes."}
@@ -512,8 +528,8 @@ export default function Home() {
           </div>
           <div className="footer-column">
             <strong>Esta página</strong>
-            <a href="#metodo">Método</a>
-            <a href="#conteudo">Programa</a>
+            <a href="#metodo">Mentoria</a>
+            <a href="#conteudo">Aulas</a>
             <a href="#oferta">Oferta</a>
           </div>
           <div className="footer-column" id="contato">
@@ -524,6 +540,8 @@ export default function Home() {
           <div className="footer-column">
             <strong>Informações</strong>
             <a href="#faq">FAQ</a>
+            <a href="/privacidade-termos.html#privacidade">Política de Privacidade</a>
+            <a href="/privacidade-termos.html#termos">Termos de Uso</a>
             <a className="footer-offer" href={checkoutUrl} target="_blank" rel="noreferrer">Garantir vaga <ArrowUpRight aria-hidden="true" /></a>
           </div>
         </div>
