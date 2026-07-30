@@ -123,7 +123,7 @@ body.is-scrolled .nav-progress { opacity: 1; }
 
 .teacher { display: grid; gap: 44px; background: var(--sand-light); overflow: hidden; }
 .teacher-photo-wrap { position: relative; }
-.teacher-photo { height: min(82vw, 340px); background: url("/assets/amanda-placeholder.jpg") 50% 34% / cover no-repeat; }
+.teacher-photo { height: min(82vw, 340px); background: url("/assets/amanda-convidativa.jpg") 50% 34% / cover no-repeat; }
 .photo-caption { display: flex; justify-content: space-between; gap: 10px; padding-top: 11px; margin-top: 12px; border-top: 1px solid var(--line); color: #81796e; font-size: 7px; text-transform: uppercase; letter-spacing: .1em; }
 .teacher-copy { max-width: 550px; }
 .teacher-lead { margin: 0 0 32px; color: var(--clay); font: italic 400 24px/1.25 var(--font-display); }
