@@ -43,6 +43,33 @@ const socialSlides = [
   { image: "/assets/galeria-saggar.jpg", caption: "Saggar" },
 ];
 
+const testimonials = [
+  {
+    quote: "Com certeza a mentoria valeu cada centavo. Amanda está entre os professores que mudaram a minha vida pela humildade, leveza e respeito pelo processo de cada um.",
+    author: "Bárbara G. · Forno de Latão e Fornos de Tijolos",
+  },
+  {
+    quote: "Impossível não deixar registrado meu agradecimento por toda a sua disponibilidade, pelo cuidado no preparo do material, na pesquisa dos fornecedores e no acompanhamento. Valeu cada centavo. Um ajudando o outro: foi e está sendo incrível.",
+    author: "Adriana S. · Mentoria Forno de Latão",
+  },
+  {
+    quote: "Você é leve e calma, didática e sabe muito. Se hoje eu sei o que é um forno de latão e uma curva de queima — algo que achei que jamais aprenderia — é por você. Sou muito grata por tudo o que vivemos.",
+    author: "Sara S. · Mentoria Forno de Latão",
+  },
+  {
+    quote: "No começo achei que era muita coisa e fiquei com medo de não dar conta sozinha. Mas o material e as aulas foram tão didáticos que ficou simples seguir o passo a passo. Fazer cerâmica em casa é um sonho realizado.",
+    author: "Jé · Mentoria Forno de Latão",
+  },
+  {
+    quote: "Eu ainda nem fiz minhas queimas e já me sinto muito realizada. Amanda, você é muito dedicada, atenciosa e competente. Fico feliz de acompanhar e fazer parte da sua jornada na cerâmica. Você já virou uma inspiração para mim.",
+    author: "Lolla A. · Mentoria Forno de Latão",
+  },
+  {
+    quote: "Sou muito grata por ter feito a mentoria. Além do aprendizado sobre cerâmica e fornos, também aprendi muito sobre gestão e pedagogia.",
+    author: "Anna T. · Forno de Latão",
+  },
+];
+
 const pillars = [
   ["01", "Estudando o projeto técnico"],
   ["02", "Organizando compras e fornecedores"],
@@ -391,14 +418,12 @@ export default function Home() {
             ))}
           </div>
           <div className="testimonial-track" aria-label="Depoimentos de participantes">
-            <blockquote className="testimonial-card">
-              <p>“Com certeza a mentoria valeu cada centavo. Amanda está entre os professores que mudaram a minha vida pela humildade, leveza e respeito pelo processo de cada um.”</p>
-              <cite>Bárbara G. · Forno de Latão e Fornos de Tijolos</cite>
-            </blockquote>
-            <blockquote className="testimonial-card">
-              <p>“Sou muito grata por ter feito a mentoria. Além do aprendizado sobre cerâmica e fornos, também aprendi muito sobre gestão e pedagogia.”</p>
-              <cite>Anna T. · Forno de Latão</cite>
-            </blockquote>
+            {testimonials.map((testimonial) => (
+              <blockquote className="testimonial-card" key={testimonial.author}>
+                <p>“{testimonial.quote}”</p>
+                <cite>{testimonial.author}</cite>
+              </blockquote>
+            ))}
           </div>
         </div>
       </section>
