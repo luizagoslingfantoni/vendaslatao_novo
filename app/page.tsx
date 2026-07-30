@@ -48,7 +48,7 @@ const socialSlides = [
 const testimonials = [
   {
     quote: "Com certeza a mentoria valeu cada centavo. Amanda está entre os professores que mudaram a minha vida pela humildade, leveza e respeito pelo processo de cada um.",
-    author: "Bárbara G. · Forno de Latão e Fornos de Tijolos",
+    author: "Bárbara G. · Mentoria Forno de Latão",
   },
   {
     quote: "Impossível não deixar registrado meu agradecimento por toda a sua disponibilidade, pelo cuidado no preparo do material, na pesquisa dos fornecedores e no acompanhamento. Valeu cada centavo. Um ajudando o outro: foi e está sendo incrível.",
@@ -68,7 +68,7 @@ const testimonials = [
   },
   {
     quote: "Sou muito grata por ter feito a mentoria. Além do aprendizado sobre cerâmica e fornos, também aprendi muito sobre gestão e pedagogia.",
-    author: "Anna T. · Forno de Latão",
+    author: "Anna T. · Mentoria Forno de Latão",
   },
 ];
 

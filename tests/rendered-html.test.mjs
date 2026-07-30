@@ -22,6 +22,8 @@ test("Next.js prerenders the Forno de Latão sales page", async () => {
   assert.match(html, /Raku nu/);
   assert.match(html, /Saggar/);
   assert.match(html, /Sara S\. · Mentoria Forno de Latão/);
+  assert.match(html, /Bárbara G\. · Mentoria Forno de Latão/);
+  assert.match(html, /Anna T\. · Mentoria Forno de Latão/);
   assert.match(html, /Fazer cerâmica em casa é um sonho realizado/);
   assert.doesNotMatch(html, /depoimento-whatsapp|Print de depoimento/);
   assert.match(html, /assets\/favicon-32\.png/);
@@ -81,6 +83,8 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.match(css, /\.module-row summary/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.match(layout, /Forno de Latão • Mentoria online com Amanda Maciel/);
+  assert.match(layout, /hero-desktop-coletivo\.jpg\?v=20260730/);
+  assert.doesNotMatch(layout, /og\.png/);
   assert.match(layout, /apple-touch-icon\.png/);
   assert.match(packageJson, /"build": "next build"/);
   assert.match(netlify, /publish = "\.next"/);

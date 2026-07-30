@@ -3,6 +3,7 @@ import { Inter, Lora } from "next/font/google";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? process.env.URL ?? "https://forma-curso-online.luizagosling.chatgpt.site";
+const socialImage = "/assets/hero-desktop-coletivo.jpg?v=20260730";
 
 const display = Lora({
   variable: "--font-display",
@@ -32,13 +33,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Forno de Latão • Mentoria online com Amanda Maciel",
     description: "Da construção às primeiras queimas, com acompanhamento ao vivo.",
-    images: [{ url: "/og.png", width: 1734, height: 907, alt: "Forno de Latão - Mentoria online com Amanda Maciel" }],
+    images: [{ url: socialImage, width: 2400, height: 1600, alt: "Peças de cerâmica sendo colocadas no Forno de Latão" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Forno de Latão • Mentoria online com Amanda Maciel",
     description: "Da construção às primeiras queimas, com acompanhamento ao vivo.",
-    images: ["/og.png"],
+    images: [socialImage],
   },
 };
 
