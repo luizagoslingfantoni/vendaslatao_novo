@@ -75,6 +75,9 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.match(page, /height="2000"/);
   assert.doesNotMatch(page, /teacher-photo parallax-medium/);
   assert.match(css, /Mobile is the default/);
+  assert.match(css, /Mobile reading scale/);
+  assert.match(css, /@media \(max-width: 767px\)[\s\S]*\.problem-copy > p,[\s\S]*font-size:\s*15px/);
+  assert.match(css, /@media \(max-width: 767px\)[\s\S]*\.faq-list details > p \{ font-size:\s*13px/);
   assert.match(css, /min-height: max\(100svh, 850px\)/);
   assert.match(css, /hero-mobile-vasos\.jpg/);
   assert.match(css, /hero-desktop-coletivo\.jpg/);

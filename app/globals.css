@@ -317,6 +317,43 @@ footer { padding: 58px 22px 25px; background: #182126; color: white; }
 .footer-bottom .footer-credit { color: rgba(255,255,255,.62); }
 .footer-bottom .footer-credit:hover { color: #d9956e; }
 
+/* Mobile reading scale: body copy only; headings, subtitles and UI labels stay unchanged. */
+@media (max-width: 767px) {
+  .hero-bottom p { font-size: 14px; }
+  .hero-highlight strong { font-size: 11px; line-height: 1.5; }
+  .problem-copy > p,
+  .teacher-copy > p:not(.teacher-lead),
+  .promise-copy p { font-size: 15px; }
+  .promise-results li { font-size: 15px; }
+  .section-heading p,
+  .curriculum-intro > p,
+  .offer-copy > p,
+  .pillar-card p,
+  .pillars-close p,
+  .offer-intro p,
+  .in-person-copy > p,
+  .faq-heading > p,
+  .final-cta > p,
+  .waitlist-copy > p,
+  .footer-intro p { font-size: 14px; }
+  .audience-card li,
+  .module-detail > p,
+  .included-group li,
+  .cash,
+  .offer-detail strong,
+  .faq-list details > p { font-size: 13px; }
+  .module-detail li,
+  .offer-detail span,
+  .footer-column a,
+  .footer-column > span { font-size: 12px; }
+  .outcome-card p,
+  .social-heading > p { font-size: 15px; }
+  .testimonial-card p { font-size: 16px; line-height: 1.48; }
+  .waitlist-consent { font-size: 11px; }
+  .waitlist-security { font-size: 10px; }
+  .waitlist-status { font-size: 12px; }
+}
+
 @media (min-width: 768px) {
   section[id] { scroll-margin-top: 72px; }
   .site-header { flex-direction: row; align-items: center; justify-content: flex-start; height: 74px; padding: 0 36px; }
