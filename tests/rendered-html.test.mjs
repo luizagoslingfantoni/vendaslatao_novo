@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 async function render() {
-  return readFile(new URL("../.next/server/app/index.html", import.meta.url), "utf8");
+  return readFile(new URL("../out/index.html", import.meta.url), "utf8");
 }
 
 test("Next.js prerenders the Forno de Latão sales page", async () => {
@@ -31,18 +31,21 @@ test("Next.js prerenders the Forno de Latão sales page", async () => {
 });
 
 test("keeps the mobile-first sales interactions and Netlify config in source", async () => {
-  const [page, css, layout, packageJson, netlify, forms] = await Promise.all([
+  const [page, css, layout, packageJson, netlify, forms, privacy] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../netlify.toml", import.meta.url), "utf8"),
     readFile(new URL("../public/__forms.html", import.meta.url), "utf8"),
+    readFile(new URL("../public/privacidade-termos.html", import.meta.url), "utf8"),
   ]);
 
   assert.match(page, /<details className="module-row"/);
   assert.match(page, /className="audience-track"/);
   assert.match(page, /className="whatsapp-float"/);
+  assert.match(page, /assets\/whatsapp\.svg/);
+  assert.doesNotMatch(page, /cdn\.simpleicons\.org/);
   assert.match(page, /className="hero-highlights"/);
   assert.match(page, /const testimonials = \[/);
   assert.match(page, /testimonials\.map/);
@@ -87,10 +90,15 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.doesNotMatch(layout, /og\.png/);
   assert.match(layout, /apple-touch-icon\.png/);
   assert.match(packageJson, /"build": "next build"/);
-  assert.match(netlify, /publish = "\.next"/);
+  assert.match(netlify, /publish = "out"/);
+  assert.match(netlify, /Content-Security-Policy/);
+  assert.match(netlify, /frame-ancestors 'none'/);
+  assert.match(netlify, /Permissions-Policy/);
+  assert.match(netlify, /X-Frame-Options = "DENY"/);
   assert.match(page, /fetch\("\/__forms\.html"/);
   assert.match(forms, /name="lista-proxima-turma"/);
   assert.match(forms, /data-netlify="true"/);
+  assert.doesNotMatch(privacy, /fonts\.(googleapis|gstatic)\.com/);
   assert.match(forms, /data-netlify-recaptcha="true"/);
   assert.match(forms, /name="whatsapp"/);
 });
