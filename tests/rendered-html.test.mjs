@@ -89,7 +89,8 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.match(css, /min-height: max\(100svh, 850px\)/);
   assert.match(css, /hero-mobile-vasos\.jpg/);
   assert.match(css, /hero-desktop-coletivo\.jpg/);
-  assert.match(css, /problema-ceramicas\.jpg/);
+  assert.match(css, /problema-forno-aceso\.jpg/);
+  assert.doesNotMatch(css, /problema-ceramicas\.jpg/);
   assert.match(css, /condicao-especial-materiais\.jpg/);
   assert.doesNotMatch(css, /content:\s*["'][↗×]["']/);
   assert.match(css, /\.site-header/);
@@ -110,6 +111,9 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.match(forms, /name="lista-proxima-turma"/);
   assert.match(forms, /data-netlify="true"/);
   assert.doesNotMatch(privacy, /fonts\.(googleapis|gstatic)\.com/);
+  assert.match(privacy, /contato@kuaraceramicas\.com\.br/);
+  assert.match(privacy, /Prazo de armazenamento/);
+  assert.match(privacy, /mantidos enquanto houver consentimento/);
   assert.match(forms, /data-netlify-recaptcha="true"/);
   assert.match(forms, /name="whatsapp"/);
 });

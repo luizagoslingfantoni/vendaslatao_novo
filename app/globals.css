@@ -88,7 +88,7 @@ body.is-scrolled .nav-progress { opacity: 1; }
 .problem-cta:hover, .curriculum-cta:hover { background: var(--ink); }
 .problem-cta svg, .curriculum-cta svg { flex: 0 0 auto; width: 20px; height: 20px; stroke-width: 1.25; }
 .problem-visual { position: relative; height: 100vw; }
-.arch-image { position: absolute; inset: 0; border-radius: 50% 50% 6px 6px / 32% 32% 6px 6px; background: url("/assets/problema-ceramicas.jpg") center 58% / cover no-repeat; }
+.arch-image { position: absolute; inset: 0; border-radius: 50% 50% 6px 6px / 32% 32% 6px 6px; background: url("/assets/problema-forno-aceso.jpg") center 50% / cover no-repeat; }
 .orbit-note { position: absolute; right: 22px; top: 12%; width: 94px; height: 94px; display: grid; place-items: center; border-radius: 50%; background: var(--clay); color: white; font-size: 7px; text-transform: uppercase; letter-spacing: .13em; text-align: center; padding: 18px; animation: float 5s ease-in-out infinite; }
 @keyframes float { 50% { transform: translateY(-10px) rotate(4deg); } }
 
