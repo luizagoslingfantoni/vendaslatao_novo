@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef } from "react";
 import {
   ArrowRight,
   ArrowUp,
@@ -14,11 +14,8 @@ import {
   Clock3,
   Flame,
   HandHelping,
-  Mail,
   MessagesSquare,
-  Phone,
   PlayCircle,
-  ShieldCheck,
   UserRound,
   Wrench,
   X,
@@ -172,35 +169,12 @@ const faqs = [
 ];
 
 export default function Home() {
-  const [waitlistStatus, setWaitlistStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const testimonialTrackRef = useRef<HTMLDivElement>(null);
 
   function moveTestimonials(direction: -1 | 1) {
     const track = testimonialTrackRef.current;
     if (!track) return;
     track.scrollBy({ left: direction * track.clientWidth * 0.9, behavior: "smooth" });
-  }
-
-  async function handleWaitlistSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    const body = new URLSearchParams();
-    formData.forEach((value, key) => body.append(key, String(value)));
-    setWaitlistStatus("sending");
-
-    try {
-      const response = await fetch("/__forms.html", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: body.toString(),
-      });
-      if (!response.ok) throw new Error("Falha no envio");
-      form.reset();
-      setWaitlistStatus("success");
-    } catch {
-      setWaitlistStatus("error");
-    }
   }
 
   useEffect(() => {
@@ -550,62 +524,6 @@ export default function Home() {
         <p data-reveal>Se você quer aprofundar sua pesquisa cerâmica, deixar de depender exclusivamente de estruturas externas e construir uma relação mais próxima com o fogo, esta mentoria foi pensada para acompanhar você nesse caminho, desenvolvendo técnica, segurança e autonomia para conduzir suas próprias queimas.</p>
         <p className="final-dates" data-reveal>As inscrições ficam abertas de 3 a 14 de agosto de 2026, ou enquanto houver lugares disponíveis na turma.</p>
         <a href={checkoutUrl} target="_blank" rel="noreferrer" className="primary-button final-button" data-reveal>Quero construir meu forno <ArrowUpRight aria-hidden="true" /></a>
-      </section>
-
-      <section className="waitlist section-pad" aria-labelledby="waitlist-title" hidden>
-        <div className="waitlist-copy" data-reveal>
-          <div className="eyebrow"><span /> Próxima turma</div>
-          <h2 id="waitlist-title">Quer saber quando uma nova turma <em>abrir?</em></h2>
-          <p>Preencha com seus dados para receber o aviso em primeira mão.</p>
-        </div>
-        <form
-          className="waitlist-form"
-          name="lista-proxima-turma"
-          method="POST"
-          data-netlify-recaptcha="true"
-          onSubmit={handleWaitlistSubmit}
-          data-reveal
-        >
-          <input type="hidden" name="form-name" value="lista-proxima-turma" />
-          <label className="visually-hidden" htmlFor="waitlist-company">Não preencha este campo</label>
-          <input className="visually-hidden" id="waitlist-company" name="empresa" tabIndex={-1} autoComplete="off" />
-          <div className="waitlist-fields">
-            <label className="waitlist-field" htmlFor="waitlist-name">
-              <UserRound aria-hidden="true" />
-              <span>Nome</span>
-              <input id="waitlist-name" name="nome" type="text" autoComplete="given-name" placeholder="Seu nome" required />
-            </label>
-            <label className="waitlist-field" htmlFor="waitlist-surname">
-              <UserRound aria-hidden="true" />
-              <span>Sobrenome</span>
-              <input id="waitlist-surname" name="sobrenome" type="text" autoComplete="family-name" placeholder="Seu sobrenome" required />
-            </label>
-            <label className="waitlist-field" htmlFor="waitlist-email">
-              <Mail aria-hidden="true" />
-              <span>E-mail</span>
-              <input id="waitlist-email" name="email" type="email" inputMode="email" autoComplete="email" placeholder="voce@exemplo.com" required />
-            </label>
-            <label className="waitlist-field" htmlFor="waitlist-whatsapp">
-              <Phone aria-hidden="true" />
-              <span>WhatsApp</span>
-              <input id="waitlist-whatsapp" name="whatsapp" type="tel" inputMode="tel" autoComplete="tel" placeholder="(31) 99999-9999" required />
-            </label>
-          </div>
-          <label className="waitlist-consent">
-            <input name="consentimento" type="checkbox" value="aceito" required />
-            <span>Concordo em receber comunicações sobre a próxima turma e li a <a href="/privacidade-termos.html#privacidade" target="_blank" rel="noreferrer">Política de Privacidade</a>.</span>
-          </label>
-          <div className="netlify-captcha" data-netlify-recaptcha="true" />
-          <div className="waitlist-security"><ShieldCheck aria-hidden="true" /><span>Dados protegidos, validação antispam e descadastro a qualquer momento.</span></div>
-          <button className="waitlist-submit" type="submit" disabled={waitlistStatus === "sending"}>
-            {waitlistStatus === "sending" ? "Enviando" : "Quero receber o aviso"}
-            <ArrowRight aria-hidden="true" />
-          </button>
-          <p className={`waitlist-status ${waitlistStatus}`} aria-live="polite">
-            {waitlistStatus === "success" && "Pronto. Você entrou na lista da próxima turma."}
-            {waitlistStatus === "error" && "Não foi possível enviar agora. Tente novamente em instantes."}
-          </p>
-        </form>
       </section>
 
       <a className="back-to-top" href="#inicio" aria-label="Voltar ao topo"><ArrowUp aria-hidden="true" /></a>

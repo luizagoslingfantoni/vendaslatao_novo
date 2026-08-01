@@ -22,8 +22,7 @@ test("Next.js prerenders the Forno de Latão sales page", async () => {
   assert.match(html, /Ex-alunos de cursos e aulas online:[\s\S]*5% de desconto/);
   assert.match(html, /https:\/\/forms\.gle\/H28ag11q2wUpd4Zr7/);
   assert.doesNotMatch(html, /de R\$ 750 por|R\$ 600/);
-  assert.match(html, /Quer saber quando uma nova turma/);
-  assert.match(html, /name="lista-proxima-turma"/);
+  assert.doesNotMatch(html, /Quer saber quando uma nova turma|lista-proxima-turma|g-recaptcha/);
   assert.match(html, /Design e desenvolvimento por Estúdio Taú · tauestudio\.com\.br/);
   assert.match(html, /https:\/\/tauestudio\.com\.br/);
   assert.match(html, /galeria-alta-temperatura\.jpg/);
@@ -39,14 +38,15 @@ test("Next.js prerenders the Forno de Latão sales page", async () => {
 });
 
 test("keeps the mobile-first sales interactions and Netlify config in source", async () => {
-  const [page, css, layout, packageJson, netlify, forms, privacy] = await Promise.all([
+  const [page, css, layout, packageJson, netlify, privacy, dependabot, workflow] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../netlify.toml", import.meta.url), "utf8"),
-    readFile(new URL("../public/__forms.html", import.meta.url), "utf8"),
     readFile(new URL("../public/privacidade-termos.html", import.meta.url), "utf8"),
+    readFile(new URL("../.github/dependabot.yml", import.meta.url), "utf8"),
+    readFile(new URL("../.github/workflows/quality.yml", import.meta.url), "utf8"),
   ]);
 
   assert.match(page, /<details className="module-row"/);
@@ -64,8 +64,7 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.doesNotMatch(page, /testimonialScreenshots|testimonial-screenshot/);
   assert.match(page, /27h de aulas ao vivo/);
   assert.doesNotMatch(page, /className="manifesto/);
-  assert.match(page, /className="waitlist-form"/);
-  assert.match(page, /className="waitlist section-pad" aria-labelledby="waitlist-title" hidden/);
+  assert.doesNotMatch(page, /waitlist|data-netlify-recaptcha|__forms\.html|handleWaitlistSubmit/);
   assert.match(css, /\.final-button[^}]*font-weight:\s*700/);
   assert.match(page, /logo-kuara-white\.png/);
   assert.match(page, /logo-kuara-brown\.png/);
@@ -102,18 +101,20 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.doesNotMatch(layout, /og\.png/);
   assert.match(layout, /apple-touch-icon\.png/);
   assert.match(packageJson, /"build": "next build"/);
+  assert.match(packageJson, /"postcss": "8\.5\.25"/);
+  assert.match(packageJson, /"sharp": "0\.35\.3"/);
   assert.match(netlify, /publish = "out"/);
   assert.match(netlify, /Content-Security-Policy/);
   assert.match(netlify, /frame-ancestors 'none'/);
   assert.match(netlify, /Permissions-Policy/);
   assert.match(netlify, /X-Frame-Options = "DENY"/);
-  assert.match(page, /fetch\("\/__forms\.html"/);
-  assert.match(forms, /name="lista-proxima-turma"/);
-  assert.match(forms, /data-netlify="true"/);
+  assert.doesNotMatch(netlify, /google\.com|gstatic\.com|recaptcha|\/__forms\.html/);
   assert.doesNotMatch(privacy, /fonts\.(googleapis|gstatic)\.com/);
   assert.match(privacy, /contato@kuaraceramicas\.com\.br/);
   assert.match(privacy, /Prazo de armazenamento/);
   assert.match(privacy, /mantidos enquanto houver consentimento/);
-  assert.match(forms, /data-netlify-recaptcha="true"/);
-  assert.match(forms, /name="whatsapp"/);
+  assert.match(dependabot, /package-ecosystem: npm/);
+  assert.match(dependabot, /interval: weekly/);
+  assert.match(workflow, /npm audit --omit=dev --audit-level=high/);
+  assert.match(workflow, /npm test/);
 });
