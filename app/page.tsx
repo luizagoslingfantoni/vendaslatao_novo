@@ -26,7 +26,9 @@ import {
 
 const checkoutUrl = "https://pay.hotmart.com/H103127357T?off=3xgl76hj";
 const whatsappUrl = "https://wa.me/?text=Olá%2C%20quero%20saber%20mais%20sobre%20a%20Mentoria%20Forno%20de%20Latão";
+const discountWhatsappUrl = "https://wa.me/?text=Olá%2C%20sou%20ex-aluno%28a%29%20e%20quero%20receber%20meu%20desconto%20na%20Mentoria%20Forno%20de%20Latão";
 const presencialUrl = "https://www.oficina.cc/event-details/queimas-poeticas-com-kuara-ceramicas-2";
+const socialSpotsUrl = "https://forms.gle/H28ag11q2wUpd4Zr7";
 
 const quickHighlights = [
   { icon: Clock3, text: "27h de aulas ao vivo" },
@@ -77,7 +79,7 @@ const pillars = [
   ["02", "Organizando compras e fornecedores"],
   ["03", "Tirando dúvidas de montagem"],
   ["04", "Aprendendo curvas de queima"],
-  ["05", "Acompanhando uma queima coletiva em tempo real"],
+  ["05", "Acompanhando duas queimas coletivas em tempo real"],
   ["06", "Analisando resultados, registros e ajustes possíveis"],
 ];
 
@@ -408,7 +410,7 @@ export default function Home() {
         <div className="social-heading" data-reveal>
           <div className="eyebrow"><span /> A comunidade sobre a Kûara</div>
           <h2>O que acontece quando o forno entra na pesquisa.</h2>
-          <p>O forno de latão não é apenas uma estrutura. Ele muda a relação com o tempo, com o risco, com a observação e com a autoria do processo.</p>
+          <p>Ter um forno de latão amplia as possibilidades da prática cerâmica. Ele te permite investigar materiais, atmosferas e curvas de queima no seu próprio ritmo. O forno se torna uma ferramenta de pesquisa, criação e autoria.</p>
         </div>
         <div className="social-grid" data-reveal>
           <div className="social-slideshow" aria-label="Galeria de resultados em cerâmica">
@@ -490,6 +492,27 @@ export default function Home() {
             <strong>7 dias para decidir com tranquilidade</strong>
             <span>Se perceber que este não é o momento certo, você pode solicitar reembolso dentro do prazo diretamente pela Hotmart.</span>
           </div>
+          <div className="offer-benefits" aria-label="Condições especiais da mentoria">
+            <section className="offer-benefit">
+              <HandHelping aria-hidden="true" />
+              <div>
+                <strong>Vagas sociais</strong>
+                <p>2 vagas com 80% de desconto para multiplicadores do conhecimento.</p>
+                <a href={socialSpotsUrl} target="_blank" rel="noreferrer">Saiba mais <ArrowUpRight aria-hidden="true" /></a>
+              </div>
+            </section>
+            <section className="offer-benefit">
+              <UserRound aria-hidden="true" />
+              <div>
+                <strong>Benefícios para ex-alunos</strong>
+                <ul>
+                  <li>Ex-alunos de mentorias e oficinas presenciais: <b>15% de desconto</b></li>
+                  <li>Ex-alunos de cursos e aulas online: <b>5% de desconto</b></li>
+                </ul>
+                <p className="offer-benefit-note">Entre em contato pelo <a href={discountWhatsappUrl} target="_blank" rel="noreferrer">WhatsApp</a> para receber seu desconto.</p>
+              </div>
+            </section>
+          </div>
           <a href={checkoutUrl} target="_blank" rel="noreferrer" className="primary-button">Garantir minha vaga <ArrowUpRight aria-hidden="true" /></a>
         </div>
       </section>
@@ -501,7 +524,6 @@ export default function Home() {
           <h2>Uma <em className="in-person-emphasis">experiência presencial</em> para ampliar seu repertório na prática.</h2>
           <p>Ao se matricular na Mentoria Forno de Latão, você recebe uma condição especial para participar do curso presencial Queimas Poéticas, em Belo Horizonte.</p>
           <p className="in-person-highlight">Após a confirmação da matrícula, você receberá por e-mail um cupom exclusivo de 20% de desconto.</p>
-          <div className="in-person-price"><small>de R$ 750 por</small><strong>R$ 600</strong></div>
           <a className="outline-cta dark-outline" href={presencialUrl} target="_blank" rel="noreferrer">Conhecer o curso presencial <ArrowUpRight aria-hidden="true" /></a>
         </div>
       </section>

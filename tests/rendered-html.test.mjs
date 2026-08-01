@@ -14,6 +14,14 @@ test("Next.js prerenders the Forno de Latão sales page", async () => {
   assert.match(html, /Ao final da mentoria/);
   assert.match(html, /Tudo o que você recebe/);
   assert.match(html, /experiência presencial/);
+  assert.match(html, /Acompanhando duas queimas coletivas em tempo real/);
+  assert.match(html, /Ter um forno de latão amplia as possibilidades da prática cerâmica/);
+  assert.match(html, /Vagas sociais/);
+  assert.match(html, /2 vagas com 80% de desconto para multiplicadores do conhecimento/);
+  assert.match(html, /Ex-alunos de mentorias e oficinas presenciais:[\s\S]*15% de desconto/);
+  assert.match(html, /Ex-alunos de cursos e aulas online:[\s\S]*5% de desconto/);
+  assert.match(html, /https:\/\/forms\.gle\/H28ag11q2wUpd4Zr7/);
+  assert.doesNotMatch(html, /de R\$ 750 por|R\$ 600/);
   assert.match(html, /Quer saber quando uma nova turma/);
   assert.match(html, /name="lista-proxima-turma"/);
   assert.match(html, /Design e desenvolvimento por Estúdio Taú · tauestudio\.com\.br/);
@@ -76,8 +84,8 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.doesNotMatch(page, /teacher-photo parallax-medium/);
   assert.match(css, /Mobile is the default/);
   assert.match(css, /Mobile reading scale/);
-  assert.match(css, /@media \(max-width: 767px\)[\s\S]*\.problem-copy > p,[\s\S]*font-size:\s*15px/);
-  assert.match(css, /@media \(max-width: 767px\)[\s\S]*\.faq-list details > p \{ font-size:\s*13px/);
+  assert.match(css, /@media \(max-width: 767px\)[\s\S]*\.problem-copy > p,[\s\S]*font-size:\s*17\.5px/);
+  assert.match(css, /@media \(max-width: 767px\)[\s\S]*\.faq-list details > p \{ font-size:\s*15\.5px/);
   assert.match(css, /min-height: max\(100svh, 850px\)/);
   assert.match(css, /hero-mobile-vasos\.jpg/);
   assert.match(css, /hero-desktop-coletivo\.jpg/);
