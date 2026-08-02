@@ -39,8 +39,8 @@ test("Next.js prerenders the Forno de Latão sales page", async () => {
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
 
-test("keeps the mobile-first sales interactions and both protected timed forms in source", async () => {
-  const [page, css, layout, packageJson, netlify, privacy, leadFunction, dependabot, workflow] = await Promise.all([
+test("keeps the mobile-first sales interactions and protected integrations in source", async () => {
+  const [page, css, layout, packageJson, netlify, privacy, leadFunction, hotmartFunction, dependabot, workflow] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
@@ -48,6 +48,7 @@ test("keeps the mobile-first sales interactions and both protected timed forms i
     readFile(new URL("../netlify.toml", import.meta.url), "utf8"),
     readFile(new URL("../public/privacidade-termos.html", import.meta.url), "utf8"),
     readFile(new URL("../netlify/functions/lead.js", import.meta.url), "utf8"),
+    readFile(new URL("../netlify/functions/hotmart-brevo.js", import.meta.url), "utf8"),
     readFile(new URL("../.github/dependabot.yml", import.meta.url), "utf8"),
     readFile(new URL("../.github/workflows/quality.yml", import.meta.url), "utf8"),
   ]);
@@ -156,6 +157,9 @@ test("keeps the mobile-first sales interactions and both protected timed forms i
   assert.match(privacy, /Netlify para hospedagem e processamento seguro do formulário/);
   assert.match(privacy, /Cloudflare Turnstile/);
   assert.match(privacy, /Brevo/);
+  assert.match(privacy, /Quando uma compra é aprovada, a Hotmart pode enviar à Kûara/);
+  assert.match(privacy, /execução do contrato/);
+  assert.match(privacy, /respeita bloqueios e pedidos de descadastro já registrados/);
   assert.match(privacy, /YouTube no modo de privacidade aprimorada/);
   assert.match(leadFunction, /FREE_CLASS_FORM_OPENS_AT/);
   assert.match(leadFunction, /WAITLIST_FORM_OPENS_AT/);
@@ -170,10 +174,88 @@ test("keeps the mobile-first sales interactions and both protected timed forms i
   assert.match(leadFunction, /UPSTASH_REDIS_REST_URL/);
   assert.match(leadFunction, /email_address_check/);
   assert.match(leadFunction, /MIN_FORM_TIME_MS/);
+  assert.match(hotmartFunction, /X-HOTMART-HOTTOK|x-hotmart-hottok/);
+  assert.match(hotmartFunction, /timingSafeEqual/);
+  assert.match(hotmartFunction, /HOTMART_HOTTOK/);
+  assert.match(hotmartFunction, /HOTMART_PRODUCT_IDS/);
+  assert.match(hotmartFunction, /HOTMART_BUYERS_LIST_ID/);
+  assert.match(hotmartFunction, /PURCHASE_APPROVED/);
+  assert.match(hotmartFunction, /PURCHASE_COMPLETE/);
+  assert.match(hotmartFunction, /updateEnabled: true/);
+  assert.doesNotMatch(hotmartFunction, /emailBlacklisted\s*:/);
   assert.match(dependabot, /package-ecosystem: npm/);
   assert.match(dependabot, /interval: weekly/);
   assert.match(workflow, /npm audit --omit=dev --audit-level=high/);
   assert.match(workflow, /npm test/);
+});
+
+test("the Hotmart webhook authenticates, filters the product and idempotently syncs buyers to Brevo", async () => {
+  process.env.HOTMART_HOTTOK = "test-hottok";
+  process.env.HOTMART_PRODUCT_IDS = "213344,product-ucode";
+  process.env.HOTMART_BUYERS_LIST_ID = "42";
+  process.env.BREVO_API_KEY = "test-brevo-key";
+  process.env.BREVO_WHATSAPP_ATTRIBUTE = "WHATSAPP";
+
+  const originalFetch = global.fetch;
+  const brevoRequests = [];
+  global.fetch = async (url, options) => {
+    brevoRequests.push({ url, options });
+    return { ok: true, status: 201 };
+  };
+
+  try {
+    const { handler } = await import("../netlify/functions/hotmart-brevo.js?hotmart-test");
+    const payload = {
+      id: "event-123",
+      event: "PURCHASE_APPROVED",
+      version: "2.0.0",
+      data: {
+        product: { id: 213344, ucode: "product-ucode", name: "Forno de Latão" },
+        buyer: {
+          email: "Compradora@Example.com",
+          name: "Amanda da Silva",
+          checkout_phone: "99999-9999",
+          checkout_phone_code: "31",
+        },
+        purchase: { checkout_country: { iso: "BR" } },
+      },
+    };
+    const makeEvent = (body = payload, hottok = "test-hottok") => ({
+      httpMethod: "POST",
+      headers: { "content-type": "application/json", "x-hotmart-hottok": hottok },
+      body: JSON.stringify(body),
+    });
+
+    const accepted = await handler(makeEvent());
+    assert.equal(accepted.statusCode, 200);
+    assert.equal(brevoRequests.length, 1);
+    assert.equal(brevoRequests[0].url, "https://api.brevo.com/v3/contacts");
+    assert.equal(brevoRequests[0].options.headers["api-key"], "test-brevo-key");
+    assert.deepEqual(JSON.parse(brevoRequests[0].options.body), {
+      email: "compradora@example.com",
+      listIds: [42],
+      updateEnabled: true,
+      attributes: { NOME: "Amanda da Silva", WHATSAPP: "+5531999999999" },
+    });
+
+    const unauthorized = await handler(makeEvent(payload, "wrong-hottok"));
+    assert.equal(unauthorized.statusCode, 401);
+    assert.equal(brevoRequests.length, 1);
+
+    const otherProduct = structuredClone(payload);
+    otherProduct.data.product = { id: 999999, ucode: "other-product" };
+    const ignoredProduct = await handler(makeEvent(otherProduct));
+    assert.equal(ignoredProduct.statusCode, 200);
+    assert.equal(JSON.parse(ignoredProduct.body).ignored, true);
+    assert.equal(brevoRequests.length, 1);
+
+    const ignoredEvent = await handler(makeEvent({ ...payload, event: "PURCHASE_REFUNDED" }));
+    assert.equal(ignoredEvent.statusCode, 200);
+    assert.equal(JSON.parse(ignoredEvent.body).ignored, true);
+    assert.equal(brevoRequests.length, 1);
+  } finally {
+    global.fetch = originalFetch;
+  }
 });
 
 test("the server blocks both forms before their configured opening times", async () => {
