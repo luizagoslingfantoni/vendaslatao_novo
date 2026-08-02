@@ -15,8 +15,11 @@ import {
   Clock3,
   Flame,
   HandHelping,
+  Mail,
   MessagesSquare,
+  Phone,
   PlayCircle,
+  ShieldCheck,
   UserRound,
   Wrench,
   X,
@@ -28,6 +31,7 @@ const discountWhatsappUrl = "https://wa.me/?text=Olá%2C%20sou%20ex-aluno%28a%29
 const presencialUrl = "https://www.oficina.cc/event-details/queimas-poeticas-com-kuara-ceramicas-2";
 const socialSpotsUrl = "https://forms.gle/H28ag11q2wUpd4Zr7";
 const freeClassFormOpensAt = Date.parse("2026-08-04T00:00:00-03:00");
+const waitlistFormOpensAt = Date.parse("2026-08-15T00:00:00-03:00");
 const turnstileSiteKey = "0x4AAAAAADp702-3DV1oukX8";
 
 type TurnstileApi = {
@@ -279,6 +283,7 @@ function FreeClassSignup() {
           </div>
         ) : (
           <form ref={formRef} className="free-class-form" onSubmit={handleSubmit} noValidate>
+            <input type="hidden" name="formType" value="free-class" />
             <label htmlFor="free-class-name">Seu nome</label>
             <input id="free-class-name" name="name" type="text" placeholder="Como podemos te chamar?" autoComplete="name" maxLength={80} required />
             <label htmlFor="free-class-email">Seu melhor e-mail</label>
@@ -304,9 +309,149 @@ function FreeClassSignup() {
   );
 }
 
+function WaitlistSignup() {
+  const startedAtRef = useRef<HTMLInputElement>(null);
+  const tokenRef = useRef<HTMLInputElement>(null);
+  const turnstileContainerRef = useRef<HTMLDivElement>(null);
+  const widgetIdRef = useRef<string | null>(null);
+  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("Revise os campos e tente novamente em instantes.");
+
+  useEffect(() => {
+    if (startedAtRef.current) startedAtRef.current.value = String(Date.now());
+
+    let attempts = 0;
+    const renderTurnstile = () => {
+      const turnstile = (window as typeof window & { turnstile?: TurnstileApi }).turnstile;
+      const container = turnstileContainerRef.current;
+      if (!turnstile || !container || widgetIdRef.current !== null) return;
+      widgetIdRef.current = turnstile.render(container, {
+        sitekey: turnstileSiteKey,
+        theme: "light",
+        callback: (token) => {
+          if (tokenRef.current) tokenRef.current.value = token;
+        },
+        "expired-callback": () => {
+          if (tokenRef.current) tokenRef.current.value = "";
+        },
+        "error-callback": () => {
+          if (tokenRef.current) tokenRef.current.value = "";
+        },
+      });
+    };
+
+    renderTurnstile();
+    const timer = window.setInterval(() => {
+      attempts += 1;
+      renderTurnstile();
+      if (widgetIdRef.current !== null || attempts > 30) window.clearInterval(timer);
+    }, 300);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    if (!form.reportValidity()) return;
+    if (!tokenRef.current?.value) {
+      setErrorMessage("Confirme a verificação anti-bot antes de enviar.");
+      setFormStatus("error");
+      return;
+    }
+
+    setFormStatus("sending");
+    setErrorMessage("Revise os campos e tente novamente em instantes.");
+
+    try {
+      const payload = new URLSearchParams();
+      new FormData(form).forEach((value, key) => payload.append(key, String(value)));
+      const response = await fetch("/.netlify/functions/lead", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: payload,
+      });
+      const result = await response.json().catch(() => ({})) as { ok?: boolean; message?: string };
+      if (!response.ok || !result.ok) throw new Error(result.message || "Falha no envio");
+
+      form.reset();
+      setFormStatus("success");
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Não foi possível concluir a inscrição.");
+      setFormStatus("error");
+      const turnstile = (window as typeof window & { turnstile?: TurnstileApi }).turnstile;
+      if (turnstile && widgetIdRef.current !== null) turnstile.reset(widgetIdRef.current);
+      if (tokenRef.current) tokenRef.current.value = "";
+    }
+  }
+
+  return (
+    <section className="waitlist section-pad" id="proxima-turma" aria-labelledby="waitlist-title">
+      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" />
+      <div className="waitlist-copy">
+        <div className="eyebrow"><span /> Próxima turma</div>
+        <h2 id="waitlist-title">Quer saber quando uma nova turma <em>abrir?</em></h2>
+        <p>Preencha com seus dados para receber o aviso em primeira mão.</p>
+      </div>
+      <div className="waitlist-card">
+        {formStatus === "success" ? (
+          <div className="waitlist-success" role="status">
+            <strong>Você entrou na lista.</strong>
+            <p>Vamos avisar em primeira mão quando a próxima turma abrir.</p>
+          </div>
+        ) : (
+          <form className="waitlist-form" onSubmit={handleSubmit} noValidate>
+            <input type="hidden" name="formType" value="waitlist" />
+            <div className="waitlist-fields">
+              <label className="waitlist-field" htmlFor="waitlist-name">
+                <UserRound aria-hidden="true" />
+                <span>Nome</span>
+                <input id="waitlist-name" name="name" type="text" autoComplete="given-name" placeholder="Seu nome" maxLength={80} required />
+              </label>
+              <label className="waitlist-field" htmlFor="waitlist-surname">
+                <UserRound aria-hidden="true" />
+                <span>Sobrenome</span>
+                <input id="waitlist-surname" name="surname" type="text" autoComplete="family-name" placeholder="Seu sobrenome" maxLength={80} required />
+              </label>
+              <label className="waitlist-field" htmlFor="waitlist-email">
+                <Mail aria-hidden="true" />
+                <span>E-mail</span>
+                <input id="waitlist-email" name="email" type="email" inputMode="email" autoComplete="email" placeholder="voce@exemplo.com" maxLength={254} required />
+              </label>
+              <label className="waitlist-field" htmlFor="waitlist-whatsapp">
+                <Phone aria-hidden="true" />
+                <span>WhatsApp</span>
+                <input id="waitlist-whatsapp" name="whatsapp" type="tel" inputMode="tel" autoComplete="tel" placeholder="(31) 99999-9999" maxLength={20} pattern="[\d\s()+.-]{8,20}" required />
+              </label>
+            </div>
+            <label className="waitlist-consent" htmlFor="waitlist-privacy-consent">
+              <input id="waitlist-privacy-consent" name="privacyConsent" type="checkbox" value="yes" required />
+              <span>Concordo em receber comunicações sobre a próxima turma e li a <a href="/privacidade-termos.html#privacidade" target="_blank" rel="noreferrer">Política de Privacidade</a>.</span>
+            </label>
+            <input className="hp-field" type="text" name="email_address_check" defaultValue="" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+            <input ref={startedAtRef} type="hidden" name="formStartedAt" />
+            <input ref={tokenRef} type="hidden" name="turnstileToken" />
+            <div ref={turnstileContainerRef} className="turnstile-box" data-sitekey={turnstileSiteKey} aria-label="Verificação anti-bot" />
+            <div className="waitlist-security"><ShieldCheck aria-hidden="true" /><span>Dados protegidos, validação antispam e descadastro a qualquer momento.</span></div>
+            <button className="waitlist-submit" type="submit" disabled={formStatus === "sending"}>
+              {formStatus === "sending" ? "Enviando…" : "Quero receber o aviso"}
+              <ArrowRight aria-hidden="true" />
+            </button>
+            {formStatus === "error" && <div className="waitlist-error" role="alert"><strong>Não foi possível enviar.</strong><p>{errorMessage}</p></div>}
+          </form>
+        )}
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   const testimonialTrackRef = useRef<HTMLDivElement>(null);
   const [freeClassFormOpen, setFreeClassFormOpen] = useState(false);
+  const [waitlistOpen, setWaitlistOpen] = useState(false);
 
   function moveTestimonials(direction: -1 | 1) {
     const track = testimonialTrackRef.current;
@@ -350,6 +495,27 @@ export default function Home() {
   useEffect(() => {
     let timer: number | undefined;
     const updateAvailability = () => {
+      const remaining = waitlistFormOpensAt - Date.now();
+      if (remaining <= 0) {
+        setWaitlistOpen(true);
+        return;
+      }
+      setWaitlistOpen(false);
+      timer = window.setTimeout(updateAvailability, Math.min(remaining, 60 * 60 * 1000));
+    };
+    updateAvailability();
+    return () => {
+      if (timer) window.clearTimeout(timer);
+    };
+  }, []);
+
+  const conversionHref = waitlistOpen ? "#proxima-turma" : checkoutUrl;
+  const conversionTarget = waitlistOpen ? undefined : "_blank";
+  const conversionRel = waitlistOpen ? undefined : "noreferrer";
+
+  useEffect(() => {
+    let timer: number | undefined;
+    const updateAvailability = () => {
       const remaining = freeClassFormOpensAt - Date.now();
       if (remaining <= 0) {
         setFreeClassFormOpen(true);
@@ -374,7 +540,7 @@ export default function Home() {
         <nav aria-label="Navegação principal">
           <a href="#metodo">Mentoria</a>
           <a href="#conteudo">Aulas</a>
-          <a className="nav-enroll" href={checkoutUrl} target="_blank" rel="noreferrer">Inscreva-se</a>
+          <a className="nav-enroll" href={conversionHref} target={conversionTarget} rel={conversionRel}>{waitlistOpen ? "Próxima turma" : "Inscreva-se"}</a>
           <a href="#faq">FAQ</a>
         </nav>
         <div className="nav-progress" aria-hidden="true"><span /></div>
@@ -390,7 +556,7 @@ export default function Home() {
             <div className="hero-bottom" data-reveal>
               <div>
                 <p>Aprenda com Amanda Maciel a construir e manejar um forno de latão a gás para queima de cerâmica: acessível, versátil e capaz de atingir até 1245 °C.</p>
-                <a className="text-cta light-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Inscreva-se <ArrowRight aria-hidden="true" /></a>
+                <a className="text-cta light-cta" href={conversionHref} target={conversionTarget} rel={conversionRel}>{waitlistOpen ? "Entrar na lista" : "Inscreva-se"} <ArrowRight aria-hidden="true" /></a>
               </div>
             </div>
           </div>
@@ -400,7 +566,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <div className="hero-index">03 <span>/</span> 14 AGO</div>
+        <div className="hero-index">{waitlistOpen ? <>PRÓXIMA <span>/</span> TURMA</> : <>03 <span>/</span> 14 AGO</>}</div>
       </section>
 
       <section className="video-story section-pad" aria-labelledby="video-story-title">
@@ -433,7 +599,7 @@ export default function Home() {
           <p className="problem-emphasis">O Forno de Latão vem para te apresentar um caminho possível.</p>
           <p>Ele é <mark>artesanal, manual e exige presença.</mark> Você acompanha a chama, observa a curva de queima, aprende a ler sua atmosfera, ajustar equipamentos e entende o comportamento do forno com o corpo inteiro atento ao processo.</p>
           <p className="problem-closing">E justamente por isso ele também devolve autonomia.</p>
-          <a className="problem-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Quero construir meu forno <ArrowRight aria-hidden="true" /></a>
+          <a className="problem-cta" href={conversionHref} target={conversionTarget} rel={conversionRel}>{waitlistOpen ? "Quero saber da próxima turma" : "Quero construir meu forno"} <ArrowRight aria-hidden="true" /></a>
         </div>
         <div className="problem-visual" data-reveal>
           <div className="arch-image parallax-slow" role="img" aria-label="Mãos trabalhando com argila em um ateliê" />
@@ -463,7 +629,7 @@ export default function Home() {
           ))}
         </div>
         <div className="pillars-close" data-reveal>
-          <a className="outline-cta pillars-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Quero construir meu forno <ArrowRight aria-hidden="true" /></a>
+          <a className="outline-cta pillars-cta" href={conversionHref} target={conversionTarget} rel={conversionRel}>{waitlistOpen ? "Quero saber da próxima turma" : "Quero construir meu forno"} <ArrowRight aria-hidden="true" /></a>
           <p>Ao longo da mentoria, vamos orientar você em cada etapa para que desenvolva autonomia, segurança e repertório para seguir construindo, pesquisando e experimentando.</p>
         </div>
       </section>
@@ -535,10 +701,10 @@ export default function Home() {
               <summary>
                 <div className="module-meta">
                   <span>{module.number}</span>
-                  <small>
+                  {!waitlistOpen && <small>
                     <b>{module.meta.split(" · ")[0]}</b>
                     <b>{module.meta.split(" · ")[1]}</b>
-                  </small>
+                  </small>}
                 </div>
                 <h3>{module.title}</h3>
                 <ChevronDown aria-hidden="true" />
@@ -550,7 +716,7 @@ export default function Home() {
               </div>
             </details>
           ))}
-          <a className="curriculum-cta curriculum-end-cta" href={checkoutUrl} target="_blank" rel="noreferrer">Ver detalhes e inscrever-se <ArrowRight aria-hidden="true" /></a>
+          <a className="curriculum-cta curriculum-end-cta" href={conversionHref} target={conversionTarget} rel={conversionRel}>{waitlistOpen ? "Quero saber da próxima turma" : "Ver detalhes e inscrever-se"} <ArrowRight aria-hidden="true" /></a>
         </div>
       </section>
 
@@ -597,7 +763,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="offer section-pad" id="oferta">
+      {!waitlistOpen && <section className="offer section-pad" id="oferta">
         <div className="offer-copy" data-reveal>
           <h2>Da construção<br /><em>às queimas.</em></h2>
           <div className="offer-intro">
@@ -663,7 +829,7 @@ export default function Home() {
           </div>
           <a href={checkoutUrl} target="_blank" rel="noreferrer" className="primary-button">Garantir minha vaga <ArrowUpRight aria-hidden="true" /></a>
         </div>
-      </section>
+      </section>}
 
       <section className="in-person section-pad" id="presencial">
         <div className="in-person-image" role="img" aria-label="Peças de cerâmica reunidas após uma queima" />
@@ -696,10 +862,11 @@ export default function Home() {
         <div className="eyebrow light" data-reveal><span /> Sua próxima queima</div>
         <h2 data-reveal>Construa seu forno, aprenda a ler o fogo e conduza suas queimas com <strong className="keep-together">mais autonomia.</strong></h2>
         <p data-reveal>Se você quer aprofundar sua pesquisa cerâmica, deixar de depender exclusivamente de estruturas externas e construir uma relação mais próxima com o fogo, esta mentoria foi pensada para acompanhar você nesse caminho, desenvolvendo técnica, segurança e autonomia para conduzir suas próprias queimas.</p>
-        <p className="final-dates" data-reveal>As inscrições ficam abertas de 3 a 14 de agosto de 2026, ou enquanto houver lugares disponíveis na turma.</p>
-        <a href={checkoutUrl} target="_blank" rel="noreferrer" className="primary-button final-button" data-reveal>Quero construir meu forno <ArrowUpRight aria-hidden="true" /></a>
+        {!waitlistOpen && <p className="final-dates" data-reveal>As inscrições ficam abertas de 3 a 14 de agosto de 2026, ou enquanto houver lugares disponíveis na turma.</p>}
+        <a href={conversionHref} target={conversionTarget} rel={conversionRel} className="primary-button final-button" data-reveal>{waitlistOpen ? "Quero saber da próxima turma" : "Quero construir meu forno"} <ArrowUpRight aria-hidden="true" /></a>
       </section>
 
+      {waitlistOpen && <WaitlistSignup />}
       {freeClassFormOpen && <FreeClassSignup />}
 
       <a className="back-to-top" href="#inicio" aria-label="Voltar ao topo"><ArrowUp aria-hidden="true" /></a>
@@ -715,7 +882,7 @@ export default function Home() {
             <strong>Esta página</strong>
             <a href="#metodo">Mentoria</a>
             <a href="#conteudo">Aulas</a>
-            <a href="#oferta">Oferta</a>
+            {waitlistOpen ? <a href="#proxima-turma">Próxima turma</a> : <a href="#oferta">Oferta</a>}
           </div>
           <div className="footer-column" id="contato">
             <strong>Fale com a gente</strong>
@@ -727,7 +894,7 @@ export default function Home() {
             <a href="#faq">FAQ</a>
             <a href="/privacidade-termos.html#privacidade">Política de Privacidade</a>
             <a href="/privacidade-termos.html#termos">Termos de Uso</a>
-            <a className="footer-offer" href={checkoutUrl} target="_blank" rel="noreferrer">Garantir vaga <ArrowUpRight aria-hidden="true" /></a>
+            <a className="footer-offer" href={conversionHref} target={conversionTarget} rel={conversionRel}>{waitlistOpen ? "Entrar na lista" : "Garantir vaga"} <ArrowUpRight aria-hidden="true" /></a>
           </div>
         </div>
         <div className="footer-bottom">

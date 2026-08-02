@@ -1,12 +1,15 @@
 import { createHash } from "node:crypto";
 
-const FORM_OPENS_AT = Date.parse(process.env.FREE_CLASS_FORM_OPENS_AT || "2026-08-04T00:00:00-03:00");
+const FORM_OPENINGS = {
+  "free-class": Date.parse(process.env.FREE_CLASS_FORM_OPENS_AT || "2026-08-04T00:00:00-03:00"),
+  waitlist: Date.parse(process.env.WAITLIST_FORM_OPENS_AT || "2026-08-15T00:00:00-03:00"),
+};
 const IP_RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const IP_RATE_LIMIT_MAX = 8;
 const EMAIL_RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const EMAIL_RATE_LIMIT_MAX = 3;
 const MIN_FORM_TIME_MS = 2500;
-const MAX_FIELD_LENGTHS = { name: 80, email: 254, whatsapp: 20 };
+const MAX_FIELD_LENGTHS = { name: 80, surname: 80, email: 254, whatsapp: 20 };
 const SAFE_NAME_PATTERN = /[^\p{L}\p{M}\s'.-]/gu;
 const CONTROL_CHARS_PATTERN = /[\u0000-\u001f\u007f]/g;
 const rateLimitStore = new Map();
@@ -24,9 +27,10 @@ const json = (statusCode, body) => ({
 });
 
 const getIp = (event) => {
-  const forwarded = event.headers["x-forwarded-for"] || event.headers["X-Forwarded-For"];
+  const headers = event.headers || {};
+  const forwarded = headers["x-forwarded-for"] || headers["X-Forwarded-For"];
   if (typeof forwarded === "string" && forwarded.trim()) return forwarded.split(",")[0].trim();
-  return event.headers["client-ip"] || event.headers["x-nf-client-connection-ip"] || "unknown";
+  return headers["client-ip"] || headers["x-nf-client-connection-ip"] || "unknown";
 };
 
 const normalize = (value) => String(value || "").trim();
@@ -112,14 +116,15 @@ const verifyTurnstile = async (token, ip) => {
   return Boolean(result.success) && allowedHosts.has(String(result.hostname || "").toLowerCase());
 };
 
-const sendToBrevo = async ({ name, email, whatsapp }) => {
+const sendToBrevo = async ({ formType, name, surname, email, whatsapp }) => {
   const apiKey = process.env.BREVO_API_KEY;
-  const listId = Number(process.env.BREVO_LIST_ID);
+  const listIdKey = formType === "waitlist" ? "BREVO_WAITLIST_LIST_ID" : "BREVO_LIST_ID";
+  const listId = Number(process.env[listIdKey]);
   const whatsappAttribute = process.env.BREVO_WHATSAPP_ATTRIBUTE || "";
   if (!apiKey) throw new Error("BREVO_API_KEY não configurada");
-  if (!Number.isInteger(listId) || listId <= 0) throw new Error("BREVO_LIST_ID inválido");
+  if (!Number.isInteger(listId) || listId <= 0) throw new Error(`${listIdKey} inválido`);
 
-  const attributes = { NOME: name };
+  const attributes = { NOME: [name, surname].filter(Boolean).join(" ") };
   if (whatsapp && whatsappAttribute) attributes[whatsappAttribute] = normalizeBrazilPhone(whatsapp);
   const response = await fetch("https://api.brevo.com/v3/contacts", {
     method: "POST",
@@ -140,45 +145,52 @@ export const handler = async (event) => {
 
   const ip = getIp(event);
   try {
-    if (Date.now() < FORM_OPENS_AT) return json(403, { ok: false, message: "As inscrições para a aula ainda não estão abertas." });
-    if (await isRateLimited({ scope: "ip", value: ip, max: IP_RATE_LIMIT_MAX, windowMs: IP_RATE_LIMIT_WINDOW_MS })) {
-      logEvent("warn", "lead_rate_limited", { ip, scope: "ip" });
+    const form = new URLSearchParams(event.body || "");
+    const formType = normalize(form.get("formType")) || "free-class";
+    if (!Object.hasOwn(FORM_OPENINGS, formType)) return json(400, { ok: false, message: "Formulário inválido." });
+    if (Date.now() < FORM_OPENINGS[formType]) {
+      const message = formType === "waitlist" ? "A lista da próxima turma ainda não está aberta." : "As inscrições para a aula ainda não estão abertas.";
+      return json(403, { ok: false, message });
+    }
+    if (await isRateLimited({ scope: `ip:${formType}`, value: ip, max: IP_RATE_LIMIT_MAX, windowMs: IP_RATE_LIMIT_WINDOW_MS })) {
+      logEvent("warn", "lead_rate_limited", { ip, scope: "ip", formType });
       return json(429, { ok: false, message: "Muitas tentativas. Tente novamente mais tarde." });
     }
 
-    const form = new URLSearchParams(event.body || "");
     if (normalize(form.get("email_address_check"))) {
-      logEvent("warn", "lead_honeypot_hit", { ip });
+      logEvent("warn", "lead_honeypot_hit", { ip, formType });
       return json(200, { ok: true });
     }
 
     const startedAt = Number(form.get("formStartedAt") || 0);
     if (!startedAt || Date.now() - startedAt < MIN_FORM_TIME_MS) {
-      logEvent("warn", "lead_fast_submit", { ip });
+      logEvent("warn", "lead_fast_submit", { ip, formType });
       return json(400, { ok: false, message: "Envio não validado." });
     }
 
     const name = sanitizeName(form.get("name"));
+    const surname = sanitizeName(form.get("surname")).slice(0, MAX_FIELD_LENGTHS.surname);
     const email = normalize(form.get("email")).toLowerCase().slice(0, MAX_FIELD_LENGTHS.email);
     const whatsapp = normalize(form.get("whatsapp")).slice(0, MAX_FIELD_LENGTHS.whatsapp);
     const consent = form.get("privacyConsent") === "yes";
     const turnstileToken = normalize(form.get("turnstileToken"));
-    if (!name || !email || !validEmail(email) || !validPhone(whatsapp) || !consent) {
-      logEvent("warn", "lead_invalid_fields", { ip });
+    const waitlistFieldsInvalid = formType === "waitlist" && (!surname || !whatsapp);
+    if (!name || !email || !validEmail(email) || !validPhone(whatsapp) || !consent || waitlistFieldsInvalid) {
+      logEvent("warn", "lead_invalid_fields", { ip, formType });
       return json(400, { ok: false, message: "Dados inválidos." });
     }
 
     if (!await verifyTurnstile(turnstileToken, ip)) {
-      logEvent("warn", "lead_turnstile_failed", { ip });
+      logEvent("warn", "lead_turnstile_failed", { ip, formType });
       return json(403, { ok: false, message: "Verificação anti-bot falhou." });
     }
-    if (await isRateLimited({ scope: "email", value: email, max: EMAIL_RATE_LIMIT_MAX, windowMs: EMAIL_RATE_LIMIT_WINDOW_MS })) {
-      logEvent("warn", "lead_rate_limited", { ip, scope: "email", emailHash: hashValue(email) });
+    if (await isRateLimited({ scope: `email:${formType}`, value: email, max: EMAIL_RATE_LIMIT_MAX, windowMs: EMAIL_RATE_LIMIT_WINDOW_MS })) {
+      logEvent("warn", "lead_rate_limited", { ip, scope: "email", formType, emailHash: hashValue(email) });
       return json(429, { ok: false, message: "Muitas tentativas para este e-mail. Tente novamente mais tarde." });
     }
 
-    await sendToBrevo({ name, email, whatsapp });
-    logEvent("info", "lead_created", { ip });
+    await sendToBrevo({ formType, name, surname, email, whatsapp });
+    logEvent("info", "lead_created", { ip, formType });
     return json(200, { ok: true });
   } catch (error) {
     logEvent("error", "lead_submit_error", { ip, error: error instanceof Error ? error.message : "unknown" });
