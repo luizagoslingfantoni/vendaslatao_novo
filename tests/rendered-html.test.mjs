@@ -39,14 +39,15 @@ test("Next.js prerenders the Forno de Latão sales page", async () => {
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
 
-test("keeps the mobile-first sales interactions and Netlify config in source", async () => {
-  const [page, css, layout, packageJson, netlify, privacy, dependabot, workflow] = await Promise.all([
+test("keeps the mobile-first sales interactions and protected free-class form in source", async () => {
+  const [page, css, layout, packageJson, netlify, privacy, leadFunction, dependabot, workflow] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../netlify.toml", import.meta.url), "utf8"),
     readFile(new URL("../public/privacidade-termos.html", import.meta.url), "utf8"),
+    readFile(new URL("../netlify/functions/lead.js", import.meta.url), "utf8"),
     readFile(new URL("../.github/dependabot.yml", import.meta.url), "utf8"),
     readFile(new URL("../.github/workflows/quality.yml", import.meta.url), "utf8"),
   ]);
@@ -67,6 +68,15 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.match(page, /27h de aulas ao vivo/);
   assert.doesNotMatch(page, /className="manifesto/);
   assert.doesNotMatch(page, /waitlist|data-netlify-recaptcha|__forms\.html|handleWaitlistSubmit/);
+  assert.match(page, /function FreeClassSignup/);
+  assert.match(page, /2026-08-04T00:00:00-03:00/);
+  assert.match(page, /freeClassFormOpen && <FreeClassSignup/);
+  assert.match(page, /\/\.netlify\/functions\/lead/);
+  assert.match(page, /privacyConsent/);
+  assert.match(page, /email_address_check/);
+  assert.match(page, /formStartedAt/);
+  assert.match(page, /turnstileToken/);
+  assert.match(page, /0x4AAAAAADp702-3DV1oukX8/);
   assert.match(css, /\.final-button[^}]*font-weight:\s*700/);
   assert.match(page, /logo-kuara-white\.png/);
   assert.match(page, /logo-kuara-brown\.png/);
@@ -106,9 +116,13 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.match(packageJson, /"postcss": "8\.5\.25"/);
   assert.match(packageJson, /"sharp": "0\.35\.3"/);
   assert.match(netlify, /publish = "out"/);
+  assert.match(netlify, /functions = "netlify\/functions"/);
+  assert.match(netlify, /node_bundler = "esbuild"/);
   assert.match(netlify, /Content-Security-Policy/);
   assert.match(netlify, /frame-ancestors 'none'/);
-  assert.match(netlify, /frame-src https:\/\/www\.youtube-nocookie\.com/);
+  assert.match(netlify, /frame-src https:\/\/www\.youtube-nocookie\.com https:\/\/challenges\.cloudflare\.com/);
+  assert.match(netlify, /script-src[^\n]*https:\/\/challenges\.cloudflare\.com/);
+  assert.match(netlify, /connect-src[^\n]*https:\/\/challenges\.cloudflare\.com/);
   assert.match(netlify, /Permissions-Policy/);
   assert.match(netlify, /X-Frame-Options = "DENY"/);
   assert.doesNotMatch(netlify, /google\.com|gstatic\.com|recaptcha|\/__forms\.html/);
@@ -116,8 +130,20 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.match(privacy, /contato@kuaraceramicas\.com\.br/);
   assert.match(privacy, /Prazo de armazenamento/);
   assert.match(privacy, /mantidos enquanto houver consentimento/);
-  assert.match(privacy, /não possui formulário próprio de captação de leads/);
+  assert.match(privacy, /formulário para inscrição na aula online gratuita/);
+  assert.match(privacy, /Netlify para hospedagem e processamento seguro do formulário/);
+  assert.match(privacy, /Cloudflare Turnstile/);
+  assert.match(privacy, /Brevo/);
   assert.match(privacy, /YouTube no modo de privacidade aprimorada/);
+  assert.match(leadFunction, /FREE_CLASS_FORM_OPENS_AT/);
+  assert.match(leadFunction, /2026-08-04T00:00:00-03:00/);
+  assert.match(leadFunction, /Date\.now\(\) < FORM_OPENS_AT/);
+  assert.match(leadFunction, /TURNSTILE_SECRET_KEY/);
+  assert.match(leadFunction, /BREVO_API_KEY/);
+  assert.match(leadFunction, /BREVO_LIST_ID/);
+  assert.match(leadFunction, /UPSTASH_REDIS_REST_URL/);
+  assert.match(leadFunction, /email_address_check/);
+  assert.match(leadFunction, /MIN_FORM_TIME_MS/);
   assert.match(dependabot, /package-ecosystem: npm/);
   assert.match(dependabot, /interval: weekly/);
   assert.match(workflow, /npm audit --omit=dev --audit-level=high/);

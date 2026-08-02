@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import Script from "next/script";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   ArrowUp,
@@ -26,6 +27,19 @@ const whatsappUrl = "https://wa.me/?text=Olá%2C%20quero%20saber%20mais%20sobre%
 const discountWhatsappUrl = "https://wa.me/?text=Olá%2C%20sou%20ex-aluno%28a%29%20e%20quero%20receber%20meu%20desconto%20na%20Mentoria%20Forno%20de%20Latão";
 const presencialUrl = "https://www.oficina.cc/event-details/queimas-poeticas-com-kuara-ceramicas-2";
 const socialSpotsUrl = "https://forms.gle/H28ag11q2wUpd4Zr7";
+const freeClassFormOpensAt = Date.parse("2026-08-04T00:00:00-03:00");
+const turnstileSiteKey = "0x4AAAAAADp702-3DV1oukX8";
+
+type TurnstileApi = {
+  render: (target: HTMLElement, options: {
+    sitekey: string;
+    theme: "light";
+    callback: (token: string) => void;
+    "expired-callback": () => void;
+    "error-callback": () => void;
+  }) => string;
+  reset: (widgetId: string) => void;
+};
 
 const quickHighlights = [
   { icon: Clock3, text: "27h de aulas ao vivo" },
@@ -168,8 +182,131 @@ const faqs = [
   ["As aulas ficam gravadas?", "Sim. Embora a participação ao vivo seja ideal, todas as aulas ficarão gravadas e disponíveis na Hotmart por um ano. O e-book e os materiais complementares poderão ser baixados."],
 ];
 
+function FreeClassSignup() {
+  const formRef = useRef<HTMLFormElement>(null);
+  const startedAtRef = useRef<HTMLInputElement>(null);
+  const tokenRef = useRef<HTMLInputElement>(null);
+  const turnstileContainerRef = useRef<HTMLDivElement>(null);
+  const widgetIdRef = useRef<string | null>(null);
+  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("Revise os campos e tente novamente em instantes.");
+
+  useEffect(() => {
+    if (startedAtRef.current) startedAtRef.current.value = String(Date.now());
+
+    let attempts = 0;
+    const renderTurnstile = () => {
+      const turnstile = (window as typeof window & { turnstile?: TurnstileApi }).turnstile;
+      const container = turnstileContainerRef.current;
+      if (!turnstile || !container || widgetIdRef.current !== null) return;
+      widgetIdRef.current = turnstile.render(container, {
+        sitekey: turnstileSiteKey,
+        theme: "light",
+        callback: (token) => {
+          if (tokenRef.current) tokenRef.current.value = token;
+        },
+        "expired-callback": () => {
+          if (tokenRef.current) tokenRef.current.value = "";
+        },
+        "error-callback": () => {
+          if (tokenRef.current) tokenRef.current.value = "";
+        },
+      });
+    };
+
+    renderTurnstile();
+    const timer = window.setInterval(() => {
+      attempts += 1;
+      renderTurnstile();
+      if (widgetIdRef.current !== null || attempts > 30) window.clearInterval(timer);
+    }, 300);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    if (!form.reportValidity()) return;
+    if (!tokenRef.current?.value) {
+      setErrorMessage("Confirme a verificação anti-bot antes de enviar.");
+      setFormStatus("error");
+      return;
+    }
+
+    setFormStatus("sending");
+    setErrorMessage("Revise os campos e tente novamente em instantes.");
+
+    try {
+      const payload = new URLSearchParams();
+      new FormData(form).forEach((value, key) => payload.append(key, String(value)));
+      const response = await fetch("/.netlify/functions/lead", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: payload,
+      });
+      const result = await response.json().catch(() => ({})) as { ok?: boolean; message?: string };
+      if (!response.ok || !result.ok) throw new Error(result.message || "Falha no envio");
+
+      form.reset();
+      setFormStatus("success");
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Não foi possível concluir a inscrição.");
+      setFormStatus("error");
+      const turnstile = (window as typeof window & { turnstile?: TurnstileApi }).turnstile;
+      if (turnstile && widgetIdRef.current !== null) turnstile.reset(widgetIdRef.current);
+      if (tokenRef.current) tokenRef.current.value = "";
+    }
+  }
+
+  return (
+    <section className="free-class-signup section-pad" id="aula-gratuita" aria-labelledby="free-class-title">
+      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" />
+      <div className="free-class-copy">
+        <div className="eyebrow light"><span /> Aula online gratuita</div>
+        <h2 id="free-class-title">Conheça o forno de latão <em>antes de começar.</em></h2>
+        <p>Preencha seus dados e receba o acesso à aula gratuita com Amanda Maciel, da Kûara Cerâmicas.</p>
+      </div>
+      <div className="free-class-card">
+        <span className="free-class-stamp">100%<br />gratuita</span>
+        {formStatus === "success" ? (
+          <div className="free-class-success" role="status">
+            <strong>Inscrição recebida.</strong>
+            <p>O link da aula chegará no seu e-mail.</p>
+          </div>
+        ) : (
+          <form ref={formRef} className="free-class-form" onSubmit={handleSubmit} noValidate>
+            <label htmlFor="free-class-name">Seu nome</label>
+            <input id="free-class-name" name="name" type="text" placeholder="Como podemos te chamar?" autoComplete="name" maxLength={80} required />
+            <label htmlFor="free-class-email">Seu melhor e-mail</label>
+            <input id="free-class-email" name="email" type="email" placeholder="voce@email.com" autoComplete="email" maxLength={254} required />
+            <label htmlFor="free-class-whatsapp">WhatsApp <span>opcional</span></label>
+            <input id="free-class-whatsapp" name="whatsapp" type="tel" placeholder="(00) 00000-0000" autoComplete="tel" inputMode="tel" maxLength={20} pattern="[\d\s()+.-]{8,20}" />
+            <label className="free-class-consent" htmlFor="free-class-privacy-consent">
+              <input id="free-class-privacy-consent" name="privacyConsent" type="checkbox" value="yes" required />
+              <span>Aceito receber comunicações sobre esta aula e conteúdos da Kûara. Li e concordo com a <a href="/privacidade-termos.html" target="_blank" rel="noreferrer">Política de Privacidade e Termos</a>.</span>
+            </label>
+            <input className="hp-field" type="text" name="email_address_check" defaultValue="" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+            <input ref={startedAtRef} type="hidden" name="formStartedAt" />
+            <input ref={tokenRef} type="hidden" name="turnstileToken" />
+            <div ref={turnstileContainerRef} className="turnstile-box" data-sitekey={turnstileSiteKey} aria-label="Verificação anti-bot" />
+            <input type="hidden" name="locale" value="pt" />
+            <button type="submit" disabled={formStatus === "sending"}>{formStatus === "sending" ? "Enviando…" : "Quero assistir à aula"}<ArrowRight aria-hidden="true" /></button>
+            <small>Usaremos seus dados apenas para comunicações da aula e conteúdos relacionados à Kûara Cerâmicas. Você pode se descadastrar quando quiser.</small>
+            {formStatus === "error" && <div className="free-class-error" role="alert"><strong>Não foi possível enviar.</strong><p>{errorMessage}</p></div>}
+          </form>
+        )}
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   const testimonialTrackRef = useRef<HTMLDivElement>(null);
+  const [freeClassFormOpen, setFreeClassFormOpen] = useState(false);
 
   function moveTestimonials(direction: -1 | 1) {
     const track = testimonialTrackRef.current;
@@ -207,6 +344,23 @@ export default function Home() {
       observer.disconnect();
       window.removeEventListener("scroll", onScroll);
       document.body.classList.remove("is-scrolled");
+    };
+  }, []);
+
+  useEffect(() => {
+    let timer: number | undefined;
+    const updateAvailability = () => {
+      const remaining = freeClassFormOpensAt - Date.now();
+      if (remaining <= 0) {
+        setFreeClassFormOpen(true);
+        return;
+      }
+      setFreeClassFormOpen(false);
+      timer = window.setTimeout(updateAvailability, Math.min(remaining, 60 * 60 * 1000));
+    };
+    updateAvailability();
+    return () => {
+      if (timer) window.clearTimeout(timer);
     };
   }, []);
 
@@ -545,6 +699,8 @@ export default function Home() {
         <p className="final-dates" data-reveal>As inscrições ficam abertas de 3 a 14 de agosto de 2026, ou enquanto houver lugares disponíveis na turma.</p>
         <a href={checkoutUrl} target="_blank" rel="noreferrer" className="primary-button final-button" data-reveal>Quero construir meu forno <ArrowUpRight aria-hidden="true" /></a>
       </section>
+
+      {freeClassFormOpen && <FreeClassSignup />}
 
       <a className="back-to-top" href="#inicio" aria-label="Voltar ao topo"><ArrowUp aria-hidden="true" /></a>
       <a className="whatsapp-float" href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="Falar pelo WhatsApp"><img src="/assets/whatsapp.svg" alt="" /></a>
