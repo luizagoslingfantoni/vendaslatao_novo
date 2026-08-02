@@ -25,6 +25,8 @@ test("Next.js prerenders the Forno de Latão sales page", async () => {
   assert.doesNotMatch(html, /Quer saber quando uma nova turma|lista-proxima-turma|g-recaptcha/);
   assert.match(html, /Design e desenvolvimento por Estúdio Taú · tauestudio\.com\.br/);
   assert.match(html, /https:\/\/tauestudio\.com\.br/);
+  assert.match(html, /www\.youtube-nocookie\.com\/embed\/Sj7uvQfgdOM/);
+  assert.match(html, /Mentoria Forno de Latão com Amanda Maciel/);
   assert.match(html, /galeria-alta-temperatura\.jpg/);
   assert.match(html, /Raku nu/);
   assert.match(html, /Saggar/);
@@ -106,6 +108,7 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.match(netlify, /publish = "out"/);
   assert.match(netlify, /Content-Security-Policy/);
   assert.match(netlify, /frame-ancestors 'none'/);
+  assert.match(netlify, /frame-src https:\/\/www\.youtube-nocookie\.com/);
   assert.match(netlify, /Permissions-Policy/);
   assert.match(netlify, /X-Frame-Options = "DENY"/);
   assert.doesNotMatch(netlify, /google\.com|gstatic\.com|recaptcha|\/__forms\.html/);
@@ -113,6 +116,8 @@ test("keeps the mobile-first sales interactions and Netlify config in source", a
   assert.match(privacy, /contato@kuaraceramicas\.com\.br/);
   assert.match(privacy, /Prazo de armazenamento/);
   assert.match(privacy, /mantidos enquanto houver consentimento/);
+  assert.match(privacy, /não possui formulário próprio de captação de leads/);
+  assert.match(privacy, /YouTube no modo de privacidade aprimorada/);
   assert.match(dependabot, /package-ecosystem: npm/);
   assert.match(dependabot, /interval: weekly/);
   assert.match(workflow, /npm audit --omit=dev --audit-level=high/);
