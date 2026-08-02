@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Lora } from "next/font/google";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? process.env.URL ?? "https://forma-curso-online.luizagosling.chatgpt.site";
+const siteUrl = "https://mentoria.kuaraceramicas.com.br";
 const socialImage = "/assets/hero-desktop-coletivo.jpg?v=20260730";
 
 const display = Lora({
@@ -22,6 +22,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Forno de Latão • Mentoria online com Amanda Maciel",
   description: "Construa seu próprio Forno de Latão e aprenda a conduzir queimas artesanais de cerâmica com autonomia e segurança.",
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: [
       { url: "/assets/favicon.png", sizes: "512x512", type: "image/png" },
@@ -31,6 +34,7 @@ export const metadata: Metadata = {
     apple: "/assets/apple-touch-icon.png",
   },
   openGraph: {
+    url: "/",
     title: "Forno de Latão • Mentoria online com Amanda Maciel",
     description: "Da construção às primeiras queimas, com acompanhamento ao vivo.",
     images: [{ url: socialImage, width: 2400, height: 1600, alt: "Peças de cerâmica sendo colocadas no Forno de Latão" }],

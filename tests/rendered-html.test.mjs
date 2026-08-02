@@ -128,6 +128,9 @@ test("keeps the mobile-first sales interactions and both protected timed forms i
   assert.match(css, /\.module-row summary/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.match(layout, /Forno de Latão • Mentoria online com Amanda Maciel/);
+  assert.match(layout, /https:\/\/mentoria\.kuaraceramicas\.com\.br/);
+  assert.match(layout, /canonical: "\/"/);
+  assert.match(layout, /openGraph:\s*\{\s*url: "\/"/);
   assert.match(layout, /hero-desktop-coletivo\.jpg\?v=20260730/);
   assert.doesNotMatch(layout, /og\.png/);
   assert.match(layout, /apple-touch-icon\.png/);
@@ -160,6 +163,7 @@ test("keeps the mobile-first sales interactions and both protected timed forms i
   assert.match(leadFunction, /2026-08-15T00:00:00-03:00/);
   assert.match(leadFunction, /Date\.now\(\) < FORM_OPENINGS\[formType\]/);
   assert.match(leadFunction, /TURNSTILE_SECRET_KEY/);
+  assert.match(leadFunction, /mentoria\.kuaraceramicas\.com\.br/);
   assert.match(leadFunction, /BREVO_API_KEY/);
   assert.match(leadFunction, /BREVO_LIST_ID/);
   assert.match(leadFunction, /BREVO_WAITLIST_LIST_ID/);
