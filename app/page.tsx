@@ -186,7 +186,7 @@ const faqs = [
   ["As aulas ficam gravadas?", "Sim. Embora a participação ao vivo seja ideal, todas as aulas ficarão gravadas e disponíveis na Hotmart por um ano. O e-book e os materiais complementares poderão ser baixados."],
 ];
 
-function FreeClassSignup() {
+function FreeClassSignup({ previewOnly = false }: { previewOnly?: boolean }) {
   const formRef = useRef<HTMLFormElement>(null);
   const startedAtRef = useRef<HTMLInputElement>(null);
   const tokenRef = useRef<HTMLInputElement>(null);
@@ -197,6 +197,7 @@ function FreeClassSignup() {
 
   useEffect(() => {
     if (startedAtRef.current) startedAtRef.current.value = String(Date.now());
+    if (previewOnly) return;
 
     let attempts = 0;
     const renderTurnstile = () => {
@@ -226,10 +227,11 @@ function FreeClassSignup() {
     }, 300);
 
     return () => window.clearInterval(timer);
-  }, []);
+  }, [previewOnly]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (previewOnly) return;
     const form = event.currentTarget;
     if (!form.reportValidity()) return;
     if (!tokenRef.current?.value) {
@@ -268,7 +270,7 @@ function FreeClassSignup() {
 
   return (
     <section className="free-class-signup section-pad" id="aula-gratuita" aria-labelledby="free-class-title">
-      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" />
+      {!previewOnly && <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" />}
       <div className="free-class-copy">
         <div className="eyebrow light"><span /> Aula online gratuita</div>
         <h2 id="free-class-title">Conheça o forno de latão <em>antes de começar.</em></h2>
@@ -297,9 +299,10 @@ function FreeClassSignup() {
             <input className="hp-field" type="text" name="email_address_check" defaultValue="" tabIndex={-1} autoComplete="off" aria-hidden="true" />
             <input ref={startedAtRef} type="hidden" name="formStartedAt" />
             <input ref={tokenRef} type="hidden" name="turnstileToken" />
-            <div ref={turnstileContainerRef} className="turnstile-box" data-sitekey={turnstileSiteKey} aria-label="Verificação anti-bot" />
+            {!previewOnly && <div ref={turnstileContainerRef} className="turnstile-box" data-sitekey={turnstileSiteKey} aria-label="Verificação anti-bot" />}
             <input type="hidden" name="locale" value="pt" />
-            <button type="submit" disabled={formStatus === "sending"}>{formStatus === "sending" ? "Enviando…" : "Quero assistir à aula"}<ArrowRight aria-hidden="true" /></button>
+            {previewOnly && <p className="form-preview-note" role="status">Prévia visual — os envios serão liberados em 4 de agosto.</p>}
+            <button type="submit" disabled={previewOnly || formStatus === "sending"}>{formStatus === "sending" ? "Enviando…" : "Quero assistir à aula"}<ArrowRight aria-hidden="true" /></button>
             <small>Usaremos seus dados apenas para comunicações da aula e conteúdos relacionados à Kûara Cerâmicas. Você pode se descadastrar quando quiser.</small>
             {formStatus === "error" && <div className="free-class-error" role="alert"><strong>Não foi possível enviar.</strong><p>{errorMessage}</p></div>}
           </form>
@@ -451,6 +454,7 @@ function WaitlistSignup() {
 export default function Home() {
   const testimonialTrackRef = useRef<HTMLDivElement>(null);
   const [freeClassFormOpen, setFreeClassFormOpen] = useState(false);
+  const [freeClassPreview, setFreeClassPreview] = useState(false);
   const [waitlistOpen, setWaitlistOpen] = useState(false);
 
   function moveTestimonials(direction: -1 | 1) {
@@ -516,6 +520,13 @@ export default function Home() {
   useEffect(() => {
     let timer: number | undefined;
     const updateAvailability = () => {
+      const preview = new URLSearchParams(window.location.search).get("preview") === "aula-gratuita";
+      setFreeClassPreview(preview);
+      if (preview) {
+        setFreeClassFormOpen(true);
+        window.setTimeout(() => document.getElementById("aula-gratuita")?.scrollIntoView({ behavior: "smooth" }), 120);
+        return;
+      }
       const remaining = freeClassFormOpensAt - Date.now();
       if (remaining <= 0) {
         setFreeClassFormOpen(true);
@@ -867,7 +878,7 @@ export default function Home() {
       </section>
 
       {waitlistOpen && <WaitlistSignup />}
-      {freeClassFormOpen && <FreeClassSignup />}
+      {freeClassFormOpen && <FreeClassSignup previewOnly={freeClassPreview} />}
 
       <a className="back-to-top" href="#inicio" aria-label="Voltar ao topo"><ArrowUp aria-hidden="true" /></a>
       <a className="whatsapp-float" href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="Falar pelo WhatsApp"><img src="/assets/whatsapp.svg" alt="" /></a>

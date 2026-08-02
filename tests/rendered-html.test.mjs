@@ -69,6 +69,9 @@ test("keeps the mobile-first sales interactions and both protected timed forms i
   assert.doesNotMatch(page, /className="manifesto/);
   assert.doesNotMatch(page, /data-netlify-recaptcha|__forms\.html/);
   assert.match(page, /function FreeClassSignup/);
+  assert.match(page, /previewOnly = false/);
+  assert.match(page, /get\("preview"\) === "aula-gratuita"/);
+  assert.match(page, /Prévia visual — os envios serão liberados em 4 de agosto/);
   assert.match(page, /function WaitlistSignup/);
   assert.match(page, /2026-08-04T00:00:00-03:00/);
   assert.match(page, /2026-08-15T00:00:00-03:00/);
