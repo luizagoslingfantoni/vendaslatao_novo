@@ -249,6 +249,26 @@ export default function Home() {
         <div className="hero-index">03 <span>/</span> 14 AGO</div>
       </section>
 
+      <section className="video-story section-pad" aria-labelledby="video-story-title">
+        <div className="video-story-heading" data-reveal>
+          <div>
+            <div className="eyebrow light"><span /> Conheça a mentoria</div>
+            <h2 id="video-story-title">Veja o Forno de Latão <em>em ação.</em></h2>
+          </div>
+          <p>Conheça de perto a proposta da mentoria e a relação entre construção, manejo do fogo e autonomia na prática cerâmica.</p>
+        </div>
+        <div className="video-story-player" data-reveal>
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/Sj7uvQfgdOM?rel=0"
+            title="Mentoria Forno de Latão com Amanda Maciel"
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          />
+        </div>
+      </section>
+
       <section className="problem section-pad">
         <div className="problem-copy" data-reveal>
           <div className="eyebrow"><span /> O problema</div>
