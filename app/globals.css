@@ -292,9 +292,13 @@ body.is-scrolled .nav-progress { opacity: 1; }
 .free-class-copy h2 { max-width: 650px; margin: 0; font-size: 9.8vw; line-height: 1.02; }
 .free-class-copy h2 em { color: #e9b9a7; }
 .free-class-copy > p { max-width: 520px; margin: 28px 0 0; color: rgba(255,255,255,.72); font-size: 16.5px; line-height: 1.72; }
+.free-class-benefits { display: grid; gap: 10px; max-width: 520px; margin: 26px 0 0; padding: 22px 0 0; border-top: 1px solid rgba(255,255,255,.2); list-style: none; }
+.free-class-benefits li { display: grid; grid-template-columns: 19px 1fr; gap: 10px; align-items: start; color: rgba(255,255,255,.88); font-size: 14.5px; line-height: 1.5; }
+.free-class-benefits svg { width: 17px; height: 17px; margin-top: 2px; color: #e9b9a7; stroke-width: 1.6; }
 .free-class-card { width: 100%; padding: 42px 24px 30px; background: var(--sand-light); color: var(--ink); box-shadow: 0 28px 70px rgba(28,19,14,.24); }
 .free-class-stamp { position: absolute; top: -25px; right: 18px; display: grid; place-items: center; width: 76px; height: 76px; padding: 12px; border-radius: 50%; background: #f24e2e; color: white; font: italic 700 12px/1.18 var(--font-display); text-align: center; transform: rotate(6deg); }
 .free-class-form { display: grid; gap: 5px; }
+.free-class-card-intro { max-width: 290px; margin: 0 0 8px; color: var(--clay-dark); font: 500 21px/1.25 var(--font-display); }
 .free-class-form > label:not(.free-class-consent) { margin-top: 11px; color: var(--clay-dark); font-size: 9px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; }
 .free-class-form > label span { color: #918980; font-weight: 400; }
 .free-class-form > input:not([type="hidden"]):not(.hp-field) { width: 100%; padding: 11px 0 12px; border: 0; border-bottom: 1px solid #b9afa4; border-radius: 0; outline: 0; background: transparent; color: var(--ink); font-size: 16px; }
@@ -502,6 +506,7 @@ footer { padding: 58px 22px 25px; background: #182126; color: white; }
   .free-class-signup { grid-template-columns: minmax(0, 1fr) minmax(380px, 520px); align-items: center; gap: 8vw; }
   .free-class-copy h2 { font-size: 58px; line-height: .96; }
   .free-class-copy > p { font-size: 14px; }
+  .free-class-benefits li { font-size: 12px; }
   .free-class-card { justify-self: end; padding: 52px 44px 38px; }
   .free-class-stamp { right: -20px; width: 88px; height: 88px; font-size: 13px; }
   .free-class-form > input:not([type="hidden"]):not(.hp-field) { font-size: 15px; }

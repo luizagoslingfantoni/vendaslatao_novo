@@ -72,6 +72,10 @@ test("keeps the mobile-first sales interactions and both protected timed forms i
   assert.match(page, /previewOnly = false/);
   assert.match(page, /get\("preview"\) === "aula-gratuita"/);
   assert.match(page, /Prévia visual — os envios serão liberados em 4 de agosto/);
+  assert.match(page, /Conheça o forno de latão usado pela/);
+  assert.match(page, /Amanda Maciel apresenta o forno que utiliza no ateliê/);
+  assert.match(page, /Tenha uma prévia da abordagem da mentoria/);
+  assert.match(page, /Quero conhecer o forno/);
   assert.match(page, /function WaitlistSignup/);
   assert.match(page, /2026-08-04T00:00:00-03:00/);
   assert.match(page, /2026-08-15T00:00:00-03:00/);

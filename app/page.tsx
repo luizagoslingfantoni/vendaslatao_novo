@@ -272,9 +272,14 @@ function FreeClassSignup({ previewOnly = false }: { previewOnly?: boolean }) {
     <section className="free-class-signup section-pad" id="aula-gratuita" aria-labelledby="free-class-title">
       {!previewOnly && <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" />}
       <div className="free-class-copy">
-        <div className="eyebrow light"><span /> Aula online gratuita</div>
-        <h2 id="free-class-title">Conheça o forno de latão <em>antes de começar.</em></h2>
-        <p>Preencha seus dados e receba o acesso à aula gratuita com Amanda Maciel, da Kûara Cerâmicas.</p>
+        <div className="eyebrow light"><span /> Uma prévia da mentoria</div>
+        <h2 id="free-class-title">Conheça o forno de latão usado pela <em>Kûara.</em></h2>
+        <p>Antes de decidir pela mentoria, veja uma parte dessa experiência. Nesta aula gratuita, Amanda Maciel apresenta o forno que utiliza no ateliê, mostra como ele funciona e compartilha as possibilidades que ele abre para uma prática cerâmica mais autônoma.</p>
+        <ul className="free-class-benefits" aria-label="O que você vai conhecer na aula gratuita">
+          <li><Check aria-hidden="true" /><span>Veja o forno de latão por dentro.</span></li>
+          <li><Check aria-hidden="true" /><span>Entenda como ele participa das queimas da Kûara.</span></li>
+          <li><Check aria-hidden="true" /><span>Tenha uma prévia da abordagem da mentoria.</span></li>
+        </ul>
       </div>
       <div className="free-class-card">
         <span className="free-class-stamp">100%<br />gratuita</span>
@@ -286,6 +291,7 @@ function FreeClassSignup({ previewOnly = false }: { previewOnly?: boolean }) {
         ) : (
           <form ref={formRef} className="free-class-form" onSubmit={handleSubmit} noValidate>
             <input type="hidden" name="formType" value="free-class" />
+            <p className="free-class-card-intro">Preencha seus dados e receba gratuitamente o acesso à aula.</p>
             <label htmlFor="free-class-name">Seu nome</label>
             <input id="free-class-name" name="name" type="text" placeholder="Como podemos te chamar?" autoComplete="name" maxLength={80} required />
             <label htmlFor="free-class-email">Seu melhor e-mail</label>
@@ -302,7 +308,7 @@ function FreeClassSignup({ previewOnly = false }: { previewOnly?: boolean }) {
             {!previewOnly && <div ref={turnstileContainerRef} className="turnstile-box" data-sitekey={turnstileSiteKey} aria-label="Verificação anti-bot" />}
             <input type="hidden" name="locale" value="pt" />
             {previewOnly && <p className="form-preview-note" role="status">Prévia visual — os envios serão liberados em 4 de agosto.</p>}
-            <button type="submit" disabled={previewOnly || formStatus === "sending"}>{formStatus === "sending" ? "Enviando…" : "Quero assistir à aula"}<ArrowRight aria-hidden="true" /></button>
+            <button type="submit" disabled={previewOnly || formStatus === "sending"}>{formStatus === "sending" ? "Enviando…" : "Quero conhecer o forno"}<ArrowRight aria-hidden="true" /></button>
             <small>Usaremos seus dados apenas para comunicações da aula e conteúdos relacionados à Kûara Cerâmicas. Você pode se descadastrar quando quiser.</small>
             {formStatus === "error" && <div className="free-class-error" role="alert"><strong>Não foi possível enviar.</strong><p>{errorMessage}</p></div>}
           </form>
