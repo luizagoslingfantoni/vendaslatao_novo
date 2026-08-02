@@ -618,6 +618,8 @@ export default function Home() {
         </div>
       </section>
 
+      {freeClassFormOpen && <FreeClassSignup previewOnly={freeClassPreview} />}
+
       <section className="pillars section-pad" id="metodo">
         <div className="section-heading" data-reveal>
           <div>
@@ -878,7 +880,6 @@ export default function Home() {
       </section>
 
       {waitlistOpen && <WaitlistSignup />}
-      {freeClassFormOpen && <FreeClassSignup previewOnly={freeClassPreview} />}
 
       <a className="back-to-top" href="#inicio" aria-label="Voltar ao topo"><ArrowUp aria-hidden="true" /></a>
       <a className="whatsapp-float" href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="Falar pelo WhatsApp"><img src="/assets/whatsapp.svg" alt="" /></a>
