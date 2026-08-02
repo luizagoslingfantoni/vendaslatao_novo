@@ -112,7 +112,7 @@ const verifyTurnstile = async (token, ip) => {
     .split(",")
     .map((host) => host.trim().toLowerCase())
     .filter(Boolean);
-  const allowedHosts = new Set(["vendaslataov2.netlify.app", ...configuredHosts]);
+  const allowedHosts = new Set(["mentoria.kuaraceramicas.com.br", "vendaslataov2.netlify.app", ...configuredHosts]);
   return Boolean(result.success) && allowedHosts.has(String(result.hostname || "").toLowerCase());
 };
 
