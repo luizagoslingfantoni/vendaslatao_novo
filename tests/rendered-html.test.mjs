@@ -25,7 +25,10 @@ test("Next.js prerenders the Forno de Latão sales page", async () => {
   assert.doesNotMatch(html, /Quer saber quando uma nova turma|lista-proxima-turma|g-recaptcha/);
   assert.match(html, /Design e desenvolvimento por Estúdio Taú · tauestudio\.com\.br/);
   assert.match(html, /https:\/\/tauestudio\.com\.br/);
-  assert.match(html, /www\.youtube-nocookie\.com\/embed\/Sj7uvQfgdOM/);
+  assert.match(html, /assets\/forno-latao-mentoria\.mp4/);
+  assert.match(html, /assets\/forno-latao-mentoria-poster\.jpg/);
+  assert.match(html, /<video[^>]*controls[^>]*preload="none"/i);
+  assert.doesNotMatch(html, /youtube(?:-nocookie)?\.com/i);
   assert.match(html, /Mentoria Forno de Latão com Amanda Maciel/);
   assert.match(html, /galeria-alta-temperatura\.jpg/);
   assert.match(html, /Raku nu/);
@@ -142,7 +145,8 @@ test("keeps the mobile-first sales interactions and both protected timed forms i
   assert.match(netlify, /node_bundler = "esbuild"/);
   assert.match(netlify, /Content-Security-Policy/);
   assert.match(netlify, /frame-ancestors 'none'/);
-  assert.match(netlify, /frame-src https:\/\/www\.youtube-nocookie\.com https:\/\/challenges\.cloudflare\.com/);
+  assert.match(netlify, /frame-src https:\/\/challenges\.cloudflare\.com/);
+  assert.doesNotMatch(netlify, /youtube(?:-nocookie)?\.com/i);
   assert.match(netlify, /script-src[^\n]*https:\/\/challenges\.cloudflare\.com/);
   assert.match(netlify, /connect-src[^\n]*https:\/\/challenges\.cloudflare\.com/);
   assert.match(netlify, /Permissions-Policy/);
@@ -156,7 +160,7 @@ test("keeps the mobile-first sales interactions and both protected timed forms i
   assert.match(privacy, /Netlify para hospedagem e processamento seguro do formulário/);
   assert.match(privacy, /Cloudflare Turnstile/);
   assert.match(privacy, /Brevo/);
-  assert.match(privacy, /YouTube no modo de privacidade aprimorada/);
+  assert.match(privacy, /servido pela própria infraestrutura de hospedagem/);
   assert.match(leadFunction, /FREE_CLASS_FORM_OPENS_AT/);
   assert.match(leadFunction, /WAITLIST_FORM_OPENS_AT/);
   assert.match(leadFunction, /2026-08-04T00:00:00-03:00/);
