@@ -595,14 +595,18 @@ export default function Home() {
           <p>Conheça de perto a proposta da mentoria e a relação entre construção, manejo do fogo e autonomia na prática cerâmica.</p>
         </div>
         <div className="video-story-player" data-reveal>
-          <iframe
-            src="https://www.youtube-nocookie.com/embed/Sj7uvQfgdOM?rel=0"
-            title="Mentoria Forno de Latão com Amanda Maciel"
-            loading="lazy"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+          <video
+            controls
+            playsInline
+            preload="none"
+            poster="/assets/forno-latao-mentoria-poster.jpg"
+            aria-label="Mentoria Forno de Latão com Amanda Maciel"
+            width="1280"
+            height="720"
+          >
+            <source src="/assets/forno-latao-mentoria.mp4" type="video/mp4" />
+            Seu navegador não oferece suporte à reprodução deste vídeo.
+          </video>
         </div>
       </section>
 
