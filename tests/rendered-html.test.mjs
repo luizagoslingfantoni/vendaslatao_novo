@@ -83,7 +83,7 @@ test("keeps the mobile-first sales interactions and both protected timed forms i
   assert.match(page, /2026-08-04T00:00:00-03:00/);
   assert.match(page, /2026-08-15T00:00:00-03:00/);
   assert.match(page, /freeClassFormOpen && <FreeClassSignup/);
-  assert.match(page, /problem-visual[\s\S]*freeClassFormOpen && <FreeClassSignup[\s\S]*<section className="pillars/);
+  assert.match(page, /freeClassFormOpen && <FreeClassSignup[\s\S]*<section className="problem[\s\S]*problem-visual/);
   assert.match(page, /waitlistOpen && <WaitlistSignup/);
   assert.match(page, /id="proxima-turma"/);
   assert.match(page, /name="formType" value="free-class"/);

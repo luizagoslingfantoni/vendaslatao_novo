@@ -610,6 +610,8 @@ export default function Home() {
         </div>
       </section>
 
+      {freeClassFormOpen && <FreeClassSignup previewOnly={freeClassPreview} />}
+
       <section className="problem section-pad">
         <div className="problem-copy" data-reveal>
           <div className="eyebrow"><span /> O problema</div>
@@ -627,8 +629,6 @@ export default function Home() {
           <span className="orbit-note">técnica · fogo · autonomia ·</span>
         </div>
       </section>
-
-      {freeClassFormOpen && <FreeClassSignup previewOnly={freeClassPreview} />}
 
       <section className="pillars section-pad" id="metodo">
         <div className="section-heading" data-reveal>
