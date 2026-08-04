@@ -32,7 +32,7 @@ const presencialUrl = "https://www.oficina.cc/event-details/queimas-poeticas-com
 const socialSpotsUrl = "https://forms.gle/H28ag11q2wUpd4Zr7";
 const freeClassFormOpensAt = Date.parse("2026-08-03T00:00:00-03:00");
 const waitlistFormOpensAt = Date.parse("2026-08-15T00:00:00-03:00");
-const turnstileSiteKey = "0x4AAAAAAEERqdkI7Hq8v7Qb3YNQvrkF24g";
+const turnstileSiteKey = "0x4AAAAAADp702-3DV1oukX8";
 
 type TurnstileApi = {
   render: (target: HTMLElement, options: {
