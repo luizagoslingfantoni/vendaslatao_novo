@@ -98,7 +98,7 @@ test("keeps the mobile-first sales interactions and both protected timed forms i
   assert.match(page, /email_address_check/);
   assert.match(page, /formStartedAt/);
   assert.match(page, /turnstileToken/);
-  assert.match(page, /0x4AAAAAADp702-3DV1oukX8/);
+  assert.match(page, /0x4AAAAAAEERqdkI7Hq8v7Qb3YNQvrkF24g/);
   assert.match(css, /\.final-button[^}]*font-weight:\s*700/);
   assert.match(page, /logo-kuara-white\.png/);
   assert.match(page, /logo-kuara-brown\.png/);
