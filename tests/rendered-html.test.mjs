@@ -80,7 +80,7 @@ test("keeps the mobile-first sales interactions and both protected timed forms i
   assert.match(page, /Tenha uma prévia da abordagem da mentoria/);
   assert.match(page, /Quero conhecer o forno/);
   assert.match(page, /function WaitlistSignup/);
-  assert.match(page, /2026-08-04T00:00:00-03:00/);
+  assert.match(page, /2026-08-03T00:00:00-03:00/);
   assert.match(page, /2026-08-15T00:00:00-03:00/);
   assert.match(page, /freeClassFormOpen && <FreeClassSignup/);
   assert.match(page, /freeClassFormOpen && <FreeClassSignup[\s\S]*<section className="problem[\s\S]*problem-visual/);
@@ -163,7 +163,7 @@ test("keeps the mobile-first sales interactions and both protected timed forms i
   assert.match(privacy, /servido pela própria infraestrutura de hospedagem/);
   assert.match(leadFunction, /FREE_CLASS_FORM_OPENS_AT/);
   assert.match(leadFunction, /WAITLIST_FORM_OPENS_AT/);
-  assert.match(leadFunction, /2026-08-04T00:00:00-03:00/);
+  assert.match(leadFunction, /2026-08-03T00:00:00-03:00/);
   assert.match(leadFunction, /2026-08-15T00:00:00-03:00/);
   assert.match(leadFunction, /Date\.now\(\) < FORM_OPENINGS\[formType\]/);
   assert.match(leadFunction, /TURNSTILE_SECRET_KEY/);
