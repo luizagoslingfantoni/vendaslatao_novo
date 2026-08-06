@@ -573,7 +573,10 @@ export default function Home() {
             <div className="hero-bottom" data-reveal>
               <div>
                 <p>Aprenda com Amanda Maciel a construir e manejar um forno de latão a gás para queima de cerâmica: acessível, versátil e capaz de atingir até 1245 °C.</p>
-                <a className="text-cta light-cta" href={conversionHref} target={conversionTarget} rel={conversionRel}>{waitlistOpen ? "Entrar na lista" : "Inscreva-se"} <ArrowRight aria-hidden="true" /></a>
+                <div className="hero-cta-row">
+                  <a className="text-cta light-cta" href={conversionHref} target={conversionTarget} rel={conversionRel}>{waitlistOpen ? "Entrar na lista" : "Inscreva-se até 14/8"} <ArrowRight aria-hidden="true" /></a>
+                  {!waitlistOpen && <span className="hero-urgency">Vagas limitadas</span>}
+                </div>
               </div>
             </div>
           </div>
