@@ -24,10 +24,12 @@ import {
   Wrench,
   X,
 } from "lucide-react";
+import { openPrivacyPreferences } from "./analytics-consent";
 
 const checkoutUrl = "https://pay.hotmart.com/H103127357T?off=3xgl76hj";
 const whatsappUrl = "https://wa.me/5537999662621?text=Olá%2C%20quero%20saber%20mais%20sobre%20a%20Mentoria%20Forno%20de%20Latão";
 const discountWhatsappUrl = "https://wa.me/5537999662621?text=Olá%2C%20sou%20ex-aluno%28a%29%20e%20quero%20receber%20meu%20desconto%20na%20Mentoria%20Forno%20de%20Latão";
+const analyticsAvailable = Boolean(process.env.NEXT_PUBLIC_GA_ID);
 const presencialUrl = "https://www.oficina.cc/event-details/queimas-poeticas-com-kuara-ceramicas-2";
 const socialSpotsUrl = "https://forms.gle/H28ag11q2wUpd4Zr7";
 const freeClassFormOpensAt = Date.parse("2026-08-03T00:00:00-03:00");
@@ -919,6 +921,7 @@ export default function Home() {
             <a href="#faq">FAQ</a>
             <a href="/privacidade-termos.html#privacidade">Política de Privacidade</a>
             <a href="/privacidade-termos.html#termos">Termos de Uso</a>
+            {analyticsAvailable && <button type="button" onClick={openPrivacyPreferences}>Preferências de privacidade</button>}
             <a className="footer-offer" href={conversionHref} target={conversionTarget} rel={conversionRel}>{waitlistOpen ? "Entrar na lista" : "Garantir vaga"} <ArrowUpRight aria-hidden="true" /></a>
           </div>
         </div>
