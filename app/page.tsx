@@ -593,25 +593,50 @@ export default function Home() {
 
       <section className="video-story section-pad" aria-labelledby="video-story-title">
         <div className="video-story-heading" data-reveal>
-          <div>
-            <div className="eyebrow light"><span /> Conheça a mentoria</div>
-            <h2 id="video-story-title">Veja o Forno de Latão <em>em ação.</em></h2>
-          </div>
-          <p>Conheça de perto a proposta da mentoria e a relação entre construção, manejo do fogo e autonomia na prática cerâmica.</p>
+          <div className="eyebrow light"><span /> Conheça a mentoria</div>
+          <h2 id="video-story-title">Veja o Forno de Latão <em>em ação.</em></h2>
         </div>
-        <div className="video-story-player" data-reveal>
-          <video
-            controls
-            playsInline
-            preload="none"
-            poster="/assets/forno-latao-mentoria-poster.jpg"
-            aria-label="Mentoria Forno de Latão com Amanda Maciel"
-            width="1280"
-            height="720"
-          >
-            <source src="/assets/forno-latao-mentoria.mp4" type="video/mp4" />
-            Seu navegador não oferece suporte à reprodução deste vídeo.
-          </video>
+        <div className="video-story-grid">
+          <article className="video-story-column video-story-main" data-reveal aria-labelledby="amanda-video-title">
+            <p id="amanda-video-title" className="video-story-copy">Conheça de perto a proposta da mentoria e a relação entre construção, manejo do fogo e autonomia na prática cerâmica.</p>
+            <div className="video-story-player video-story-player-landscape">
+              <video
+                controls
+                playsInline
+                preload="none"
+                poster="/assets/forno-latao-mentoria-poster.jpg"
+                aria-label="Mentoria Forno de Latão com Amanda Maciel"
+                width="1280"
+                height="720"
+              >
+                <source src="/assets/forno-latao-mentoria.mp4" type="video/mp4" />
+                Seu navegador não oferece suporte à reprodução deste vídeo.
+              </video>
+            </div>
+            <span className="video-story-caption">Amanda Maciel apresenta a Mentoria Forno de Latão</span>
+          </article>
+
+          <article className="video-story-column video-story-student" data-reveal aria-labelledby="sara-video-title">
+            <div className="video-story-student-copy">
+              <span className="video-story-label">Da turma para a prática</span>
+              <p id="sara-video-title">Este registro é de Sara Soares, aluna de Amanda, colocando em prática seu percurso com a cerâmica.</p>
+              <a href="https://www.instagram.com/minhaarteceramica/" target="_blank" rel="noreferrer">Sara Soares · @minhaarteceramica <ArrowUpRight aria-hidden="true" /></a>
+            </div>
+            <div className="video-story-player video-story-player-portrait">
+              <video
+                controls
+                playsInline
+                preload="none"
+                poster="/assets/sara-soares-forno-latao-poster.jpg"
+                aria-label="Registro de Sara Soares, aluna de Amanda Maciel"
+                width="576"
+                height="1024"
+              >
+                <source src="/assets/sara-soares-forno-latao.mp4" type="video/mp4" />
+                Seu navegador não oferece suporte à reprodução deste vídeo.
+              </video>
+            </div>
+          </article>
         </div>
       </section>
 
