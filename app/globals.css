@@ -359,6 +359,15 @@ body.is-scrolled .back-to-top { opacity: 1; pointer-events: auto; transform: tra
 .whatsapp-float { position: fixed; z-index: 91; right: 16px; bottom: 20px; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #2b8b57; box-shadow: 0 8px 22px rgba(30,45,35,.2); }
 .whatsapp-float img { width: 23px; height: 23px; }
 
+.analytics-consent { position: fixed; z-index: 120; right: 14px; bottom: 82px; left: 14px; display: grid; gap: 18px; padding: 21px; border: 1px solid rgba(116,54,37,.24); background: rgba(247,243,235,.98); color: var(--ink); box-shadow: 0 22px 60px rgba(41,37,31,.2); backdrop-filter: blur(14px); }
+.analytics-consent strong { font: 500 21px/1.15 var(--font-display); }
+.analytics-consent p { margin: 8px 0 0; color: #655e55; font-size: 14px; line-height: 1.58; }
+.analytics-consent p a { color: var(--clay-dark); text-decoration: underline; text-underline-offset: 3px; }
+.analytics-consent-actions { display: grid; grid-template-columns: 1fr 1.45fr; gap: 8px; }
+.analytics-consent button { min-height: 44px; padding: 11px 12px; border: 1px solid var(--clay-dark); font: 700 9px/1.2 var(--font-sans); text-transform: uppercase; letter-spacing: .09em; cursor: pointer; }
+.analytics-reject { background: transparent; color: var(--clay-dark); }
+.analytics-accept { background: var(--clay-dark); color: white; }
+
 footer { padding: 58px 22px 25px; background: #182126; color: white; }
 .footer-main { display: grid; grid-template-columns: 1fr 1fr; gap: 42px 26px; padding-bottom: 48px; }
 .footer-intro { grid-column: 1 / -1; max-width: 370px; }
@@ -367,8 +376,10 @@ footer { padding: 58px 22px 25px; background: #182126; color: white; }
 .footer-column { display: flex; flex-direction: column; gap: 16px; }
 .footer-column:last-child { grid-column: 1 / -1; }
 .footer-column strong { margin-bottom: 5px; color: #d9956e; font-size: 8px; text-transform: uppercase; letter-spacing: .14em; }
-.footer-column a, .footer-column > span { color: rgba(255,255,255,.7); font-size: 10px; }
-.footer-column a { display: inline-flex; align-items: center; width: fit-content; gap: 5px; }
+.footer-column a, .footer-column > span, .footer-column button { color: rgba(255,255,255,.7); font-size: 10px; }
+.footer-column a, .footer-column button { display: inline-flex; align-items: center; width: fit-content; gap: 5px; }
+.footer-column button { padding: 0; border: 0; background: transparent; font-family: inherit; cursor: pointer; }
+.footer-column button:hover { color: #d9956e; }
 .footer-column a > svg, .footer-bottom a > svg { width: 12px; height: 12px; stroke-width: 1.35; }
 .footer-column .footer-offer { color: #d9956e; }
 .footer-bottom { display: grid; grid-template-columns: 1fr; gap: 13px; align-items: center; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.18); color: rgba(255,255,255,.48); font-size: 7px; text-transform: uppercase; letter-spacing: .09em; }
@@ -403,7 +414,8 @@ footer { padding: 58px 22px 25px; background: #182126; color: white; }
   .faq-list details > p { font-size: 15.5px; }
   .offer-detail span,
   .footer-column a,
-  .footer-column > span { font-size: 14.5px; }
+  .footer-column > span,
+  .footer-column button { font-size: 14.5px; }
   .outcome-card p,
   .social-heading > p { font-size: 17.5px; }
   .testimonial-card p { font-size: 18.5px; line-height: 1.48; }
@@ -527,6 +539,7 @@ footer { padding: 58px 22px 25px; background: #182126; color: white; }
   .back-to-top { right: 23px; bottom: 94px; padding: 9px; font-size: 0; }
   .back-to-top > svg { width: 14px; height: 14px; }
   .whatsapp-float { right: 22px; bottom: 24px; width: 50px; height: 50px; padding: 0; }
+  .analytics-consent { right: auto; bottom: 24px; left: 24px; width: min(520px, calc(100vw - 48px)); padding: 26px; }
   footer { padding: 70px 6vw 28px; }
   .footer-main { grid-template-columns: repeat(3, 1fr); gap: 55px; min-height: 230px; }
   .footer-intro { grid-column: 1 / -1; max-width: 520px; }

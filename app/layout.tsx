@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Lora } from "next/font/google";
+import { AnalyticsConsent } from "./analytics-consent";
 import "./globals.css";
 
 const siteUrl = "https://mentoria.kuaraceramicas.com.br";
@@ -50,7 +51,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${display.variable} ${sans.variable}`}>{children}</body>
+      <body className={`${display.variable} ${sans.variable}`}>
+        {children}
+        <AnalyticsConsent />
+      </body>
     </html>
   );
 }
