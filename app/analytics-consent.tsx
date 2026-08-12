@@ -113,8 +113,8 @@ export function AnalyticsConsent() {
         </p>
       </div>
       <div className="analytics-consent-actions">
-        <button type="button" className="analytics-reject" onClick={() => saveChoice("rejected")}>Agora não</button>
-        <button type="button" className="analytics-accept" onClick={() => saveChoice("accepted")}>Aceitar analytics</button>
+        <button type="button" className="analytics-reject" onClick={() => saveChoice("rejected")}>Recusar</button>
+        <button type="button" className="analytics-accept" onClick={() => saveChoice("accepted")}>Aceitar</button>
       </div>
     </aside>
   );
