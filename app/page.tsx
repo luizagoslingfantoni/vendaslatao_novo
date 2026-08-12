@@ -26,8 +26,8 @@ import {
 } from "lucide-react";
 
 const checkoutUrl = "https://pay.hotmart.com/H103127357T?off=3xgl76hj";
-const whatsappUrl = "https://wa.me/?text=Olá%2C%20quero%20saber%20mais%20sobre%20a%20Mentoria%20Forno%20de%20Latão";
-const discountWhatsappUrl = "https://wa.me/?text=Olá%2C%20sou%20ex-aluno%28a%29%20e%20quero%20receber%20meu%20desconto%20na%20Mentoria%20Forno%20de%20Latão";
+const whatsappUrl = "https://wa.me/5537999662621?text=Olá%2C%20quero%20saber%20mais%20sobre%20a%20Mentoria%20Forno%20de%20Latão";
+const discountWhatsappUrl = "https://wa.me/5537999662621?text=Olá%2C%20sou%20ex-aluno%28a%29%20e%20quero%20receber%20meu%20desconto%20na%20Mentoria%20Forno%20de%20Latão";
 const presencialUrl = "https://www.oficina.cc/event-details/queimas-poeticas-com-kuara-ceramicas-2";
 const socialSpotsUrl = "https://forms.gle/H28ag11q2wUpd4Zr7";
 const freeClassFormOpensAt = Date.parse("2026-08-03T00:00:00-03:00");
