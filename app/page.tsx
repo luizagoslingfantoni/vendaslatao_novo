@@ -599,6 +599,7 @@ export default function Home() {
         <div className="video-story-grid">
           <article className="video-story-column video-story-main" data-reveal aria-labelledby="amanda-video-title">
             <p id="amanda-video-title" className="video-story-copy">Conheça de perto a proposta da mentoria e a relação entre construção, manejo do fogo e autonomia na prática cerâmica.</p>
+            <span className="video-story-caption">Amanda Maciel apresenta a Mentoria Forno de Latão</span>
             <div className="video-story-player video-story-player-landscape">
               <video
                 controls
@@ -613,13 +614,11 @@ export default function Home() {
                 Seu navegador não oferece suporte à reprodução deste vídeo.
               </video>
             </div>
-            <span className="video-story-caption">Amanda Maciel apresenta a Mentoria Forno de Latão</span>
           </article>
 
           <article className="video-story-column video-story-student" data-reveal aria-labelledby="sara-video-title">
             <div className="video-story-student-copy">
-              <span className="video-story-label">Da turma para a prática</span>
-              <p id="sara-video-title">Este registro é de Sara Soares, aluna de Amanda, colocando em prática seu percurso com a cerâmica.</p>
+              <p id="sara-video-title">Sara Soares, aluna da Kûara, coloca em prática seu percurso com a cerâmica. Veja abaixo:</p>
               <a href="https://www.instagram.com/minhaarteceramica/" target="_blank" rel="noreferrer">Sara Soares · @minhaarteceramica <ArrowUpRight aria-hidden="true" /></a>
             </div>
             <div className="video-story-player video-story-player-portrait">

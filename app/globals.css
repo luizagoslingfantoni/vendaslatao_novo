@@ -83,15 +83,14 @@ body.is-scrolled .nav-progress { opacity: 1; }
 .video-story-heading h2 em { color: #e9b9a7; }
 .video-story-grid { position: relative; z-index: 1; display: grid; gap: 48px; }
 .video-story-column { min-width: 0; }
-.video-story-copy { max-width: 650px; margin: 0 0 22px; color: rgba(255,255,255,.72); font-size: 16.5px; line-height: 1.7; }
+.video-story-copy { max-width: 650px; margin: 0; color: rgba(255,255,255,.72); font-size: 16.5px; line-height: 1.7; }
 .video-story-player { position: relative; z-index: 1; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid rgba(255,255,255,.2); background: #0c1012; box-shadow: 0 28px 75px rgba(0,0,0,.28); }
 .video-story-player video { display: block; width: 100%; height: 100%; object-fit: contain; background: #0c1012; }
-.video-story-caption { display: block; margin-top: 13px; color: rgba(255,255,255,.48); font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: .11em; }
+.video-story-caption { display: block; margin: 13px 0 22px; color: rgba(255,255,255,.48); font-size: 9px; font-weight: 600; line-height: 14px; text-transform: uppercase; letter-spacing: .11em; }
 .video-story-student { padding-top: 32px; border-top: 1px solid rgba(255,255,255,.2); }
-.video-story-student-copy { display: grid; gap: 12px; margin-bottom: 22px; }
-.video-story-label { color: #e9b9a7; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .13em; }
-.video-story-student-copy p { max-width: 520px; margin: 0; color: rgba(255,255,255,.78); font: 400 21px/1.45 var(--font-display); }
-.video-story-student-copy a { display: inline-flex; align-items: center; width: fit-content; gap: 6px; color: #e9b9a7; font-size: 11px; font-weight: 600; letter-spacing: .02em; }
+.video-story-student-copy { display: grid; gap: 13px; margin-bottom: 22px; }
+.video-story-student-copy p { max-width: 520px; margin: 0; color: rgba(255,255,255,.72); font-size: 16.5px; line-height: 1.7; }
+.video-story-student-copy a { display: inline-flex; align-items: center; width: fit-content; gap: 6px; color: #e9b9a7; font-size: 11px; font-weight: 600; line-height: 13px; letter-spacing: .02em; }
 .video-story-student-copy a svg { width: 14px; height: 14px; stroke-width: 1.4; }
 .video-story-player-portrait { width: min(86vw, 310px); aspect-ratio: 9 / 16; margin: 0 auto; }
 .video-story-player-portrait video { object-fit: cover; }
@@ -459,10 +458,10 @@ footer { padding: 58px 22px 25px; background: #182126; color: white; }
   .video-story-heading { margin-bottom: 52px; }
   .video-story-heading h2 { font-size: 58px; line-height: .96; }
   .video-story-grid { grid-template-columns: minmax(0, 1.55fr) minmax(240px, .65fr); align-items: start; gap: 5vw; }
-  .video-story-copy { min-height: 67px; margin-bottom: 24px; font-size: 13px; }
+  .video-story-copy, .video-story-student-copy p { min-height: 67px; font-size: 13px; }
+  .video-story-caption { margin-bottom: 24px; }
   .video-story-student { padding-top: 0; border-top: 0; }
-  .video-story-student-copy { min-height: 91px; margin-bottom: 24px; }
-  .video-story-student-copy p { font-size: 16px; }
+  .video-story-student-copy { margin-bottom: 24px; }
   .video-story-player-portrait { width: min(100%, 330px); margin-right: 0; }
   .promise { gap: 65px; }
   .promise-copy h2, .outcomes-heading h2, .in-person h2 { font-size: 58px; line-height: .94; }
@@ -591,7 +590,6 @@ footer { padding: 58px 22px 25px; background: #182126; color: white; }
   .video-story-heading { max-width: 1180px; margin-right: auto; margin-left: auto; }
   .video-story-heading h2 { font-size: clamp(62px, 5.2vw, 78px); }
   .video-story-grid { max-width: 1180px; margin: 0 auto; }
-  .video-story-student-copy p { font-size: 18px; }
   .problem { grid-template-columns: .85fr 1.15fr; gap: 9vw; align-items: center; padding-right: 7vw; }
   .problem-copy { padding-right: 0; }
   .problem-copy h2, .teacher h2, .audience h2, .faq h2, .promise-copy h2, .outcomes-heading h2, .in-person h2 { font-size: clamp(62px, 5.2vw, 78px); }
