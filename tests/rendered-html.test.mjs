@@ -98,8 +98,9 @@ test("keeps the mobile-first sales interactions and both protected timed forms i
   assert.match(page, /email_address_check/);
   assert.match(page, /formStartedAt/);
   assert.match(page, /turnstileToken/);
-  assert.match(page, /Inscreva-se até 14\/8/);
-  assert.match(page, /Vagas limitadas/);
+  assert.match(page, /className="hero-last-spots"/);
+  assert.match(page, /Últimas vagas/);
+  assert.doesNotMatch(page, /Inscreva-se até 14\/8|Vagas limitadas/);
   assert.match(page, /0x4AAAAAAEFzz82dfHPlJVVM/);
   assert.match(css, /\.final-button[^}]*font-weight:\s*700/);
   assert.match(page, /logo-kuara-white\.png/);
@@ -153,7 +154,9 @@ test("keeps the mobile-first sales interactions and both protected timed forms i
   assert.match(netlify, /connect-src[^\n]*https:\/\/challenges\.cloudflare\.com/);
   assert.match(netlify, /Permissions-Policy/);
   assert.match(netlify, /X-Frame-Options = "DENY"/);
-  assert.doesNotMatch(netlify, /google\.com|gstatic\.com|recaptcha|\/__forms\.html/);
+  assert.match(netlify, /NEXT_PUBLIC_GA_ID = "G-324PBG4P1Q"/);
+  assert.match(netlify, /https:\/\/www\.googletagmanager\.com/);
+  assert.doesNotMatch(netlify, /gstatic\.com|recaptcha|\/__forms\.html/);
   assert.doesNotMatch(privacy, /fonts\.(googleapis|gstatic)\.com/);
   assert.match(privacy, /contato@kuaraceramicas\.com\.br/);
   assert.match(privacy, /Prazo de armazenamento/);
