@@ -51,6 +51,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR">
+      <head>
+        <link rel="dns-prefetch" href="//challenges.cloudflare.com" />
+        <link rel="preconnect" href="https://challenges.cloudflare.com" crossOrigin="anonymous" />
+      </head>
       <body className={`${display.variable} ${sans.variable}`}>
         {children}
         <AnalyticsConsent />

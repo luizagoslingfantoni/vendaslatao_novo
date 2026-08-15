@@ -316,15 +316,40 @@ function WaitlistSignup({ variant = "section" }: { variant?: "hero" | "section" 
   const idPrefix = variant === "hero" ? "hero-waitlist" : "waitlist";
   const sectionId = variant === "hero" ? "hero-lista-espera" : "proxima-turma";
   const titleId = `${idPrefix}-title`;
+  const sectionRef = useRef<HTMLElement>(null);
   const startedAtRef = useRef<HTMLInputElement>(null);
   const tokenRef = useRef<HTMLInputElement>(null);
   const turnstileContainerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
+  const [shouldLoadTurnstile, setShouldLoadTurnstile] = useState(variant === "hero");
   const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("Revise os campos e tente novamente em instantes.");
 
   useEffect(() => {
+    if (variant === "hero" || shouldLoadTurnstile) return;
+
+    const section = sectionRef.current;
+    if (!section || !("IntersectionObserver" in window)) {
+      setShouldLoadTurnstile(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setShouldLoadTurnstile(true);
+        observer.disconnect();
+      },
+      { rootMargin: "600px 0px" },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, [shouldLoadTurnstile, variant]);
+
+  useEffect(() => {
     if (startedAtRef.current) startedAtRef.current.value = String(Date.now());
+    if (!shouldLoadTurnstile) return;
 
     let attempts = 0;
     const renderTurnstile = () => {
@@ -354,7 +379,7 @@ function WaitlistSignup({ variant = "section" }: { variant?: "hero" | "section" 
     }, 300);
 
     return () => window.clearInterval(timer);
-  }, []);
+  }, [shouldLoadTurnstile]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -395,8 +420,8 @@ function WaitlistSignup({ variant = "section" }: { variant?: "hero" | "section" 
   }
 
   return (
-    <section className={`waitlist section-pad${variant === "hero" ? " waitlist-hero" : ""}`} id={sectionId} aria-labelledby={titleId}>
-      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" />
+    <section ref={sectionRef} className={`waitlist section-pad${variant === "hero" ? " waitlist-hero" : ""}`} id={sectionId} aria-labelledby={titleId}>
+      {shouldLoadTurnstile && <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" />}
       <div className="waitlist-copy">
         <h2 id={titleId}>Saiba quando uma nova turma <em>abrir</em></h2>
         <p>Preencha com seus dados para receber o aviso em primeira mão.</p>
@@ -439,7 +464,7 @@ function WaitlistSignup({ variant = "section" }: { variant?: "hero" | "section" 
             <input className="hp-field" type="text" name="email_address_check" defaultValue="" tabIndex={-1} autoComplete="off" aria-hidden="true" />
             <input ref={startedAtRef} type="hidden" name="formStartedAt" />
             <input ref={tokenRef} type="hidden" name="turnstileToken" />
-            <div ref={turnstileContainerRef} className="turnstile-box" data-sitekey={turnstileSiteKey} aria-label="Verificação anti-bot" />
+            {shouldLoadTurnstile && <div ref={turnstileContainerRef} className="turnstile-box" data-sitekey={turnstileSiteKey} aria-label="Verificação anti-bot" />}
             <div className="waitlist-security"><ShieldCheck aria-hidden="true" /><span>Dados protegidos, validação antispam e descadastro a qualquer momento.</span></div>
             <button className="waitlist-submit" type="submit" disabled={formStatus === "sending"}>
               {formStatus === "sending" ? "Enviando…" : "Quero receber o aviso"}
