@@ -40,6 +40,7 @@ type TurnstileApi = {
   render: (target: HTMLElement, options: {
     sitekey: string;
     theme: "light";
+    appearance: "interaction-only";
     callback: (token: string) => void;
     "expired-callback": () => void;
     "error-callback": () => void;
@@ -201,6 +202,7 @@ function FreeClassSignup({ previewOnly = false }: { previewOnly?: boolean }) {
       widgetIdRef.current = turnstile.render(container, {
         sitekey: turnstileSiteKey,
         theme: "light",
+        appearance: "interaction-only",
         callback: (token) => {
           if (tokenRef.current) tokenRef.current.value = token;
         },
@@ -359,6 +361,7 @@ function WaitlistSignup({ variant = "section" }: { variant?: "hero" | "section" 
       widgetIdRef.current = turnstile.render(container, {
         sitekey: turnstileSiteKey,
         theme: "light",
+        appearance: "interaction-only",
         callback: (token) => {
           if (tokenRef.current) tokenRef.current.value = token;
         },
