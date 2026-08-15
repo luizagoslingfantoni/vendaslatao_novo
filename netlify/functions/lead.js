@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 
 const FORM_OPENINGS = {
   "free-class": Date.parse(process.env.FREE_CLASS_FORM_OPENS_AT || "2026-08-03T00:00:00-03:00"),
-  waitlist: Date.parse(process.env.WAITLIST_FORM_OPENS_AT || "2026-08-15T00:00:00-03:00"),
+  waitlist: Date.parse(process.env.WAITLIST_FORM_OPENS_AT || "2026-08-14T00:00:00-03:00"),
 };
 const IP_RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const IP_RATE_LIMIT_MAX = 8;
