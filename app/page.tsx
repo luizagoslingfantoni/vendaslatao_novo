@@ -47,14 +47,6 @@ type TurnstileApi = {
   reset: (widgetId: string) => void;
 };
 
-const quickHighlights = [
-  { icon: Clock3, text: "27h de aulas ao vivo" },
-  { icon: PlayCircle, text: "Aulas gravadas disponíveis por 1 ano" },
-  { icon: Flame, text: "Queimas de biscoito e esmalte ao vivo" },
-  { icon: MessagesSquare, text: "Suporte via WhatsApp" },
-  { icon: Wrench, text: "Projeto técnico, fornecedores e curvas de queima" },
-];
-
 const socialSlides = [
   { image: "/assets/galeria-alta-temperatura.jpg", caption: "Alta temperatura" },
   { image: "/assets/galeria-obvara.jpg", caption: "Obvara" },
@@ -320,7 +312,10 @@ function FreeClassSignup({ previewOnly = false }: { previewOnly?: boolean }) {
   );
 }
 
-function WaitlistSignup() {
+function WaitlistSignup({ variant = "section" }: { variant?: "hero" | "section" }) {
+  const idPrefix = variant === "hero" ? "hero-waitlist" : "waitlist";
+  const sectionId = variant === "hero" ? "hero-lista-espera" : "proxima-turma";
+  const titleId = `${idPrefix}-title`;
   const startedAtRef = useRef<HTMLInputElement>(null);
   const tokenRef = useRef<HTMLInputElement>(null);
   const turnstileContainerRef = useRef<HTMLDivElement>(null);
@@ -400,11 +395,10 @@ function WaitlistSignup() {
   }
 
   return (
-    <section className="waitlist section-pad" id="proxima-turma" aria-labelledby="waitlist-title">
+    <section className={`waitlist section-pad${variant === "hero" ? " waitlist-hero" : ""}`} id={sectionId} aria-labelledby={titleId}>
       <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" />
       <div className="waitlist-copy">
-        <div className="eyebrow"><span /> Próxima turma</div>
-        <h2 id="waitlist-title">Quer saber quando uma nova turma <em>abrir?</em></h2>
+        <h2 id={titleId}>Saiba quando uma nova turma <em>abrir</em></h2>
         <p>Preencha com seus dados para receber o aviso em primeira mão.</p>
       </div>
       <div className="waitlist-card">
@@ -417,29 +411,29 @@ function WaitlistSignup() {
           <form className="waitlist-form" onSubmit={handleSubmit} noValidate>
             <input type="hidden" name="formType" value="waitlist" />
             <div className="waitlist-fields">
-              <label className="waitlist-field" htmlFor="waitlist-name">
+              <label className="waitlist-field" htmlFor={`${idPrefix}-name`}>
                 <UserRound aria-hidden="true" />
                 <span>Nome</span>
-                <input id="waitlist-name" name="name" type="text" autoComplete="given-name" placeholder="Seu nome" maxLength={80} required />
+                <input id={`${idPrefix}-name`} name="name" type="text" autoComplete="given-name" placeholder="Seu nome" maxLength={80} required />
               </label>
-              <label className="waitlist-field" htmlFor="waitlist-surname">
+              <label className="waitlist-field" htmlFor={`${idPrefix}-surname`}>
                 <UserRound aria-hidden="true" />
                 <span>Sobrenome</span>
-                <input id="waitlist-surname" name="surname" type="text" autoComplete="family-name" placeholder="Seu sobrenome" maxLength={80} required />
+                <input id={`${idPrefix}-surname`} name="surname" type="text" autoComplete="family-name" placeholder="Seu sobrenome" maxLength={80} required />
               </label>
-              <label className="waitlist-field" htmlFor="waitlist-email">
+              <label className="waitlist-field" htmlFor={`${idPrefix}-email`}>
                 <Mail aria-hidden="true" />
                 <span>E-mail</span>
-                <input id="waitlist-email" name="email" type="email" inputMode="email" autoComplete="email" placeholder="voce@exemplo.com" maxLength={254} required />
+                <input id={`${idPrefix}-email`} name="email" type="email" inputMode="email" autoComplete="email" placeholder="voce@exemplo.com" maxLength={254} required />
               </label>
-              <label className="waitlist-field" htmlFor="waitlist-whatsapp">
+              <label className="waitlist-field" htmlFor={`${idPrefix}-whatsapp`}>
                 <Phone aria-hidden="true" />
                 <span>WhatsApp</span>
-                <input id="waitlist-whatsapp" name="whatsapp" type="tel" inputMode="tel" autoComplete="tel" placeholder="(31) 99999-9999" maxLength={20} pattern="[\d\s()+.-]{8,20}" required />
+                <input id={`${idPrefix}-whatsapp`} name="whatsapp" type="tel" inputMode="tel" autoComplete="tel" placeholder="(31) 99999-9999" maxLength={20} pattern="[\d\s()+.-]{8,20}" required />
               </label>
             </div>
-            <label className="waitlist-consent" htmlFor="waitlist-privacy-consent">
-              <input id="waitlist-privacy-consent" name="privacyConsent" type="checkbox" value="yes" required />
+            <label className="waitlist-consent" htmlFor={`${idPrefix}-privacy-consent`}>
+              <input id={`${idPrefix}-privacy-consent`} name="privacyConsent" type="checkbox" value="yes" required />
               <span>Concordo em receber comunicações sobre a próxima turma e li a <a href="/privacidade-termos.html#privacidade" target="_blank" rel="noreferrer">Política de Privacidade</a>.</span>
             </label>
             <input className="hp-field" type="text" name="email_address_check" defaultValue="" tabIndex={-1} autoComplete="off" aria-hidden="true" />
@@ -461,9 +455,7 @@ function WaitlistSignup() {
 
 export default function Home() {
   const testimonialTrackRef = useRef<HTMLDivElement>(null);
-  const [freeClassFormOpen, setFreeClassFormOpen] = useState(false);
-  const [freeClassPreview, setFreeClassPreview] = useState(false);
-  const [waitlistOpen, setWaitlistOpen] = useState(false);
+  const waitlistOpen = true;
 
   function moveTestimonials(direction: -1 | 1) {
     const track = testimonialTrackRef.current;
@@ -504,50 +496,9 @@ export default function Home() {
     };
   }, []);
 
-  useEffect(() => {
-    let timer: number | undefined;
-    const updateAvailability = () => {
-      const remaining = waitlistFormOpensAt - Date.now();
-      if (remaining <= 0) {
-        setWaitlistOpen(true);
-        return;
-      }
-      setWaitlistOpen(false);
-      timer = window.setTimeout(updateAvailability, Math.min(remaining, 60 * 60 * 1000));
-    };
-    updateAvailability();
-    return () => {
-      if (timer) window.clearTimeout(timer);
-    };
-  }, []);
-
-  const conversionHref = waitlistOpen ? "#proxima-turma" : checkoutUrl;
-  const conversionTarget = waitlistOpen ? undefined : "_blank";
-  const conversionRel = waitlistOpen ? undefined : "noreferrer";
-
-  useEffect(() => {
-    let timer: number | undefined;
-    const updateAvailability = () => {
-      const preview = new URLSearchParams(window.location.search).get("preview") === "aula-gratuita";
-      setFreeClassPreview(preview);
-      if (preview) {
-        setFreeClassFormOpen(true);
-        window.setTimeout(() => document.getElementById("aula-gratuita")?.scrollIntoView({ behavior: "smooth" }), 120);
-        return;
-      }
-      const remaining = freeClassFormOpensAt - Date.now();
-      if (remaining <= 0) {
-        setFreeClassFormOpen(true);
-        return;
-      }
-      setFreeClassFormOpen(false);
-      timer = window.setTimeout(updateAvailability, Math.min(remaining, 60 * 60 * 1000));
-    };
-    updateAvailability();
-    return () => {
-      if (timer) window.clearTimeout(timer);
-    };
-  }, []);
+  const conversionHref = "#proxima-turma";
+  const conversionTarget = undefined;
+  const conversionRel = undefined;
 
   return (
     <main>
@@ -573,78 +524,14 @@ export default function Home() {
             <div className="eyebrow light" data-reveal><span /> Mentoria online · agosto a novembro de 2026</div>
             <h1 data-reveal>Construa seu próprio<br /><em>Forno de Latão.</em></h1>
             <div className="hero-bottom" data-reveal>
-              <div>
-                <p>Aprenda com Amanda Maciel a construir e manejar um forno de latão a gás para queima de cerâmica: acessível, versátil e capaz de atingir até 1245 °C.</p>
-                <div className="hero-cta-row">
-                  {waitlistOpen ? (
-                    <a className="text-cta light-cta" href={conversionHref} target={conversionTarget} rel={conversionRel}>Entrar na lista <ArrowRight aria-hidden="true" /></a>
-                  ) : (
-                    <a className="hero-last-spots" href={conversionHref} target={conversionTarget} rel={conversionRel}>Últimas vagas</a>
-                  )}
-                </div>
-              </div>
+              <p>Aprenda com Amanda Maciel a construir e manejar um forno de latão a gás para queima de cerâmica: acessível, versátil e capaz de atingir até 1245 °C.</p>
             </div>
           </div>
-          <div className="hero-highlights" data-reveal aria-label="Destaques da mentoria">
-            {quickHighlights.map(({ icon: Icon, text }) => (
-              <article className="hero-highlight" key={text}><Icon aria-hidden="true" /><strong>{text}</strong></article>
-            ))}
-          </div>
-        </div>
-        <div className="hero-index">{waitlistOpen ? <>PRÓXIMA <span>/</span> TURMA</> : <>03 <span>/</span> 14 AGO</>}</div>
-      </section>
-
-      <section className="video-story section-pad" aria-labelledby="video-story-title">
-        <div className="video-story-heading" data-reveal>
-          <div className="eyebrow light"><span /> Conheça a mentoria</div>
-          <h2 id="video-story-title">Veja o Forno de Latão <em>em ação.</em></h2>
-        </div>
-        <div className="video-story-grid">
-          <article className="video-story-column video-story-main" data-reveal aria-labelledby="amanda-video-title">
-            <p id="amanda-video-title" className="video-story-copy">Conheça de perto a proposta da mentoria e a relação entre construção, manejo do fogo e autonomia na prática cerâmica.</p>
-            <span className="video-story-caption">Amanda Maciel apresenta a Mentoria Forno de Latão</span>
-            <div className="video-story-player video-story-player-landscape">
-              <video
-                controls
-                playsInline
-                preload="none"
-                poster="/assets/forno-latao-mentoria-poster.jpg"
-                aria-label="Mentoria Forno de Latão com Amanda Maciel"
-                width="1280"
-                height="720"
-              >
-                <source src="/assets/forno-latao-mentoria.mp4" type="video/mp4" />
-                Seu navegador não oferece suporte à reprodução deste vídeo.
-              </video>
-            </div>
-          </article>
-
-          <article className="video-story-column video-story-student" data-reveal aria-labelledby="sara-video-title">
-            <div className="video-story-student-copy">
-              <p id="sara-video-title">Sara Soares, aluna da Kûara, coloca em prática seu percurso com a cerâmica. Veja abaixo:</p>
-              <a href="https://www.instagram.com/minhaarteceramica/" target="_blank" rel="noreferrer">Sara Soares · @minhaarteceramica <ArrowUpRight aria-hidden="true" /></a>
-            </div>
-            <div className="video-story-player video-story-player-portrait">
-              <video
-                controls
-                playsInline
-                preload="none"
-                poster="/assets/sara-soares-forno-latao-poster.jpg"
-                aria-label="Registro de Sara Soares, aluna de Amanda Maciel"
-                width="576"
-                height="1024"
-              >
-                <source src="/assets/sara-soares-forno-latao.mp4" type="video/mp4" />
-                Seu navegador não oferece suporte à reprodução deste vídeo.
-              </video>
-            </div>
-          </article>
+          {waitlistOpen && <WaitlistSignup variant="hero" />}
         </div>
       </section>
 
-      {freeClassFormOpen && <FreeClassSignup previewOnly={freeClassPreview} />}
-
-      <section className="problem section-pad">
+      <section className="problem section-pad" id="metodo">
         <div className="problem-copy" data-reveal>
           <div className="eyebrow"><span /> O problema</div>
           <h2>E se a queima não dependesse de <em>fornos inacessíveis?</em></h2>
@@ -660,46 +547,6 @@ export default function Home() {
           <div className="arch-image parallax-slow" role="img" aria-label="Mãos trabalhando com argila em um ateliê" />
           <span className="orbit-note">técnica · fogo · autonomia ·</span>
         </div>
-      </section>
-
-      <section className="pillars section-pad" id="metodo">
-        <div className="section-heading" data-reveal>
-          <div>
-            <div className="eyebrow light"><span /> Mais do que um curso</div>
-            <h2>Mais do que um curso, <em>uma mentoria.</em></h2>
-          </div>
-          <div className="section-heading-copy">
-            <p>O que torna esta formação diferente é o tipo de acompanhamento que ela oferece.</p>
-            <p>Construir um forno artesanal envolve decisões técnicas, adaptações regionais, cuidados de segurança e leitura de processos. Por isso, a mentoria combina aulas ao vivo, e-book técnico, materiais de apoio, grupo da turma e suporte direto com Amanda.</p>
-            <p>Você vai ter acesso ao projeto do forno usado na Kûara, desenvolvido e aprimorado na prática, e também ao acompanhamento para entender como esse projeto se comporta nas queimas.</p>
-          </div>
-        </div>
-        <p className="journey-label" data-reveal>Durante 3 meses, a turma caminha junta:</p>
-        <div className="pillar-grid">
-          {pillars.map(([number, title]) => (
-            <article className="pillar-card" data-reveal key={number}>
-              <span className="pillar-number">{number}</span>
-              <h3>{title}</h3>
-            </article>
-          ))}
-        </div>
-        <div className="pillars-close" data-reveal>
-          <a className="outline-cta pillars-cta" href={conversionHref} target={conversionTarget} rel={conversionRel}>{waitlistOpen ? "Quero saber da próxima turma" : "Quero construir meu forno"} <ArrowRight aria-hidden="true" /></a>
-          <p>Ao longo da mentoria, vamos orientar você em cada etapa para que desenvolva autonomia, segurança e repertório para seguir construindo, pesquisando e experimentando.</p>
-        </div>
-      </section>
-
-      <section className="promise section-pad">
-        <div className="promise-copy" data-reveal>
-          <h2>Da construção do forno às primeiras queimas <em>com segurança.</em></h2>
-          <p>Na mentoria Forno de Latão para cerâmica: da construção às queimas, a gente te acompanha durante todo o processo: do projeto técnico do forno ao manejo dos equipamentos, da compra dos materiais ao manejo durante as queimas, das curvas de biscoito e esmalte às queimas poéticas.</p>
-          <p className="promise-lead">Ao final da mentoria, a proposta é que você tenha:</p>
-        </div>
-        <ul className="promise-results" data-reveal>
-          <li><Flame aria-hidden="true" /><span>Um Forno de Latão a gás funcional e versátil, construído por você, pronto para diferentes tipos de queima cerâmica.</span></li>
-          <li><CircleGauge aria-hidden="true" /><span>Conhecimento sobre manejo e condução das queimas de biscoito, esmalte, monoqueima e várias queimas poéticas.</span></li>
-          <li><BookOpenText aria-hidden="true" /><span>E-book ilustrado, aulas gravadas e outros materiais de estudo personalizados, reunindo conteúdo técnico, referências e registros do processo.</span></li>
-        </ul>
       </section>
 
       <section className="teacher section-pad" id="sobre">
@@ -726,52 +573,18 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="audience section-pad">
-        <div className="audience-title" data-reveal>
-          <div className="eyebrow"><span /> Para quem é</div>
-          <h2>Veja se esta jornada<br /><em>combina com você.</em></h2>
-        </div>
-        <span className="audience-hint">Deslize para comparar <ArrowRight aria-hidden="true" /></span>
-        <div className="audience-track">
-          <article className="audience-card fit" data-reveal>
-            <div className="audience-card-head"><h3>É para você se...</h3></div>
-            <ul>{fitItems.map((item) => <li key={item}><ArrowUpRight aria-hidden="true" /><span>{item}</span></li>)}</ul>
-          </article>
-          <article className="audience-card not-fit" data-reveal>
-            <div className="audience-card-head"><h3>Talvez não seja para você se...</h3></div>
-            <ul>{notFitItems.map((item) => <li key={item}><X aria-hidden="true" /><span>{item}</span></li>)}</ul>
-          </article>
-        </div>
-      </section>
-
       <section className="curriculum section-pad" id="conteudo">
         <div className="curriculum-intro" data-reveal>
           <div className="eyebrow light"><span /> Cronograma</div>
           <h2>Projeto, construção,<br />queimas e <em>análise.</em></h2>
-          <p>Seis encontros ao vivo entre agosto e novembro, incluindo duas queimas coletivas acompanhadas em tempo real.</p>
         </div>
-        <div className="module-list" data-reveal>
+        <div className="module-grid" data-reveal>
           {modules.map((module) => (
-            <details className="module-row" key={module.number}>
-              <summary>
-                <div className="module-meta">
-                  <span>{module.number}</span>
-                  {!waitlistOpen && <small>
-                    <b>{module.meta.split(" · ")[0]}</b>
-                    <b>{module.meta.split(" · ")[1]}</b>
-                  </small>}
-                </div>
-                <h3>{module.title}</h3>
-                <ChevronDown aria-hidden="true" />
-              </summary>
-              <div className="module-detail">
-                <p>{module.intro}</p>
-                <ul>{module.items.map((item) => <li key={item}>{item}</li>)}</ul>
-                <p className="module-objective"><strong>Objetivo:</strong> {module.objective}</p>
-              </div>
-            </details>
+            <article className="module-card" key={module.number}>
+              <span>{module.number}</span>
+              <h3>{module.title}</h3>
+            </article>
           ))}
-          <a className="curriculum-cta curriculum-end-cta" href={conversionHref} target={conversionTarget} rel={conversionRel}>{waitlistOpen ? "Quero saber da próxima turma" : "Ver detalhes e inscrever-se"} <ArrowRight aria-hidden="true" /></a>
         </div>
       </section>
 
@@ -886,17 +699,6 @@ export default function Home() {
         </div>
       </section>}
 
-      <section className="in-person section-pad" id="presencial">
-        <div className="in-person-image" role="img" aria-label="Peças de cerâmica reunidas após uma queima" />
-        <div className="in-person-copy" data-reveal>
-          <div className="eyebrow light"><span /> Condição especial</div>
-          <h2>Uma <em className="in-person-emphasis">experiência presencial</em> para ampliar seu repertório na prática.</h2>
-          <p>Ao se matricular na Mentoria Forno de Latão, você recebe uma condição especial para participar do curso presencial Queimas Poéticas, em Belo Horizonte.</p>
-          <p className="in-person-highlight">Após a confirmação da matrícula, você receberá por e-mail um cupom exclusivo de 20% de desconto.</p>
-          <a className="outline-cta dark-outline" href={presencialUrl} target="_blank" rel="noreferrer">Conhecer o curso presencial <ArrowUpRight aria-hidden="true" /></a>
-        </div>
-      </section>
-
       <section className="faq section-pad" id="faq">
         <div className="faq-heading" data-reveal>
           <div className="eyebrow"><span /> Perguntas frequentes</div>
@@ -911,14 +713,6 @@ export default function Home() {
             </details>
           ))}
         </div>
-      </section>
-
-      <section className="final-cta section-pad">
-        <div className="eyebrow light" data-reveal><span /> Sua próxima queima</div>
-        <h2 data-reveal>Construa seu forno, aprenda a ler o fogo e conduza suas queimas com <strong className="keep-together">mais autonomia.</strong></h2>
-        <p data-reveal>Se você quer aprofundar sua pesquisa cerâmica, deixar de depender exclusivamente de estruturas externas e construir uma relação mais próxima com o fogo, esta mentoria foi pensada para acompanhar você nesse caminho, desenvolvendo técnica, segurança e autonomia para conduzir suas próprias queimas.</p>
-        {!waitlistOpen && <p className="final-dates" data-reveal>As inscrições ficam abertas de 3 a 14 de agosto de 2026, ou enquanto houver lugares disponíveis na turma.</p>}
-        <a href={conversionHref} target={conversionTarget} rel={conversionRel} className="primary-button final-button" data-reveal>{waitlistOpen ? "Quero saber da próxima turma" : "Quero construir meu forno"} <ArrowUpRight aria-hidden="true" /></a>
       </section>
 
       {waitlistOpen && <WaitlistSignup />}
