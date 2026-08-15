@@ -304,7 +304,7 @@ body.is-scrolled .nav-progress { opacity: 1; }
 .free-class-consent input { width: 16px; height: 16px; margin: 2px 0 0; accent-color: var(--clay); }
 .free-class-consent a { color: var(--clay-dark); text-decoration: underline; text-underline-offset: 2px; }
 .hp-field { position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important; }
-.turnstile-box { display: flex; min-height: 65px; margin: 16px 0 2px; align-items: center; justify-content: center; }
+.turnstile-box { display: flex; min-height: 0; margin: 0; align-items: center; justify-content: center; }
 .turnstile-box:empty { display: none; }
 .free-class-form button { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 17px; padding: 17px 19px; border: 0; background: var(--clay); color: white; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; cursor: pointer; transition: background .25s ease, transform .25s ease; }
 .free-class-form button:hover { background: var(--clay-dark); transform: translateY(-2px); }
